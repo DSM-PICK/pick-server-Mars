@@ -1,24 +1,93 @@
 openapi: 3.0.0
 info:
-  title: Sample API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.9
+  title: PICK Mars Api
+  description: PICK backend api 중 mars 부분
+  version: 0.0.1
+
 servers:
-  - url: http://api.example.com/v1
-    description: Optional server description, e.g. Main (production) server
-  - url: http://staging-api.example.com
-    description: Optional server description, e.g. Internal staging server for testing
+  - url: Undecided
+    description: Undecied url that is api server
+
 paths:
-  /users:
+  /NightTime-Activity/dates/{date}/schedule:
     get:
-      summary: Returns a list of users.
-      description: Optional extended description in CommonMark or HTML.
+      summary: 주어진 날짜의 스케줄을 리턴합니다.
+      description: 주어진 날짜의 스케줄을 리턴합니다.
+      parameters:
+        - in: path
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))
+          description: 얻고자하는 스케줄의 날짜
       responses:
         '200':    # status code
-          description: A JSON array of user names
+          description: 스케줄을 위한 JSON 객체
           content:
             application/json:
               schema: 
+                type: object
+                properties:
+                  schedule:
+                    type: string
+
+  /NgihtTime-Activity/dates/{date}/teachers:
+    get:
+      summary: 주어진 날짜에 대한 선생님들을 리턴합니다.
+      description: 주어진 날짜에 대한 선생님들을 리턴합니다.
+      parameters:
+        - in: path
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))
+          description: 얻고자하는 스케줄의 날짜
+      responses:
+        '200':
+          description: 선생님들을 위한 JSON 객체
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  floor2:
+                    type: string
+                  floor3:
+                    type: string
+                  floor4:
+                    type: string
+
+  /NightTime-Activity/months/{month}:
+    get:
+      summary: 주어진 달에 대한 모든 활동을 리턴합니다.
+      description: 주어진 달에 대한 모든 활동을 리턴합니다.
+      parameters:
+        - in: path
+          name: month
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+      responses:
+        '200':
+          description: 활동에 대한 JSON 배열
+          content:
+            application/json:
+              schema:
                 type: array
-                items: 
-                  type: string
+                items:
+                  type: object
+                  properties:
+                    schedule:
+                      type: string
+                    floor2:
+                        type: string
+                    floor3:
+                      type: string
+                    floor4:
+                      type: string
