@@ -9,8 +9,10 @@ servers:
     description: Undecied url that is api server
 
 paths:
-  /NightTime-Activity/dates/{date}/schedule:
+  /activity/dates/{date}/schedule:
     get:
+      tags:
+        - teacher
       summary: 주어진 날짜의 스케줄을 리턴합니다.
       description: 주어진 날짜의 스케줄을 리턴합니다.
       parameters:
@@ -33,8 +35,10 @@ paths:
                   schedule:
                     type: string
 
-  /NgihtTime-Activity/dates/{date}/teachers:
+  /activity/dates/{date}/teachers:
     get:
+      tags:
+        - teacher      
       summary: 주어진 날짜에 대한 선생님들을 리턴합니다.
       description: 주어진 날짜에 대한 선생님들을 리턴합니다.
       parameters:
@@ -61,8 +65,10 @@ paths:
                   floor4:
                     type: string
 
-  /NightTime-Activity/months/{month}:
+  /activity/months/{month}:
     get:
+      tags:
+        - teacher      
       summary: 주어진 달에 대한 모든 활동을 리턴합니다.
       description: 주어진 달에 대한 모든 활동을 리턴합니다.
       parameters:
