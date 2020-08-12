@@ -4,18 +4,18 @@
   "description": "backend part of pick\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[Cserver part of pick",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env PORT=8080 DB_PASSWORD=woo5157367~!@ mocha",
     "start": "node index.js"
   },
   "author": "손정우",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "mocha": "^8.1.1"
   }
 }
