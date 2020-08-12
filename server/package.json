@@ -4,7 +4,7 @@
   "description": "backend part of pick\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[Cserver part of pick",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env PORT=8080 DB_PASSWORD=woo5157367~!@ mocha",
+    "test": "mocha",
     "start": "node index.js"
   },
   "author": "손정우",
