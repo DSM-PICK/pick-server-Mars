@@ -16,3 +16,6 @@ Cargo.lock
 
 # This files is critical setting file
 **/.env
+
+# local launch file
+**/*.bat
