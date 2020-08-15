@@ -1,11 +1,10 @@
 const express = require('express');
 const app = express();
 
-const PORT = process.env.PORT;
+const configs = require('./configs');
 
 
 
-
-app.listen(PORT, ()=> {
-    console.log(`server starting at ${PORT}...`)
+app.listen(configs.PORT, ()=> {
+    console.log(`server starting at ${configs.PORT}...`)
 });
