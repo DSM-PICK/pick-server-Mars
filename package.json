@@ -7,7 +7,8 @@
     "test": "mocha src/tests/**/*.test.js",
     "test-dev": "cross-env NODE_ENV=dev mocha src/tests/**/*.test.js",
     "start": "node src/index.js",
-    "cover": "nyc npm run test"
+    "cover": "nyc npm run test",
+    "cover-dev": "nyc npm run test-dev"
   },
   "author": "손정우",
   "license": "ISC",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "mocha": "^8.1.1"
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0"
   }
 }
