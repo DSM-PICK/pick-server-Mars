@@ -12,7 +12,7 @@ on:
 jobs:
   CI:
     env:
-      SERVER_PORT: ${{ secrets.PORT }}
+      PORT: ${{ secrets.SERVER_PORT }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     runs-on: ubuntu-latest
 
