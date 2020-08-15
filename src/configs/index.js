@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == 'dev') {
+if (process.env.NODE_ENV != 'not_dev') {
     require('dotenv').config();
 }
 
