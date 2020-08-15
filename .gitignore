@@ -19,3 +19,6 @@ Cargo.lock
 
 # local launch file
 **/*.bat
+
+# code coverage report
+.nyc_output/
