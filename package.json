@@ -4,8 +4,8 @@
   "description": "backend part of pick server part of pick",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "node index.js",
+    "test": "mocha src/tests/**/*.test.js",
+    "start": "node src/index.js",
     "cover": "nyc npm run test"
   },
   "author": "손정우",
