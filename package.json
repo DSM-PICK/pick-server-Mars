@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "mocha": "^8.1.1"
   }
 }
