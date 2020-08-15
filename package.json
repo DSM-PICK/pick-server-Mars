@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/tests/**/*.test.js",
+    "test-dev": "cross-env NODE_ENV=dev mocha src/tests/**/*.test.js",
     "start": "node src/index.js",
     "cover": "nyc npm run test"
   },
