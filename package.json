@@ -1,8 +1,8 @@
 {
   "name": "pick-mars",
   "version": "0.0.1",
-  "description": "backend part of pick\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[Cserver part of pick",
-  "main": "index.js",
+  "description": "backend part of pick server part of pick",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha",
     "start": "node index.js",
