@@ -4,6 +4,11 @@ const logger = require('./logger');
 
 
 const sequelize = new Sequelize('pick', 'root', DB_PASSWORD, {
+    define: {
+        freezeTableName: true,
+        timestamps: false,
+
+    },
     host: 'localhost',
     dialect: 'mysql'
 });
