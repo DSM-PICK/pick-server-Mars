@@ -4,11 +4,11 @@ const { data } = require('../../loaders/logger');
 class club extends Model {}
 
 
-//todo setup the primary key. plz, do that next me.
 club.init({
     name: {
         type: DataTypes.STRING(20),
         allowNull: false,
+        primaryKey: true,
     },
     floor: {
         type: DataTypes.INTEGER,
@@ -22,4 +22,6 @@ club.init({
         type: DataTypes.INTEGER,
         allowNull: false
     }
-})
+});
+
+module.exports = club;
