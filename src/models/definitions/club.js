@@ -1,10 +1,9 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const { data } = require('../../loaders/logger');
 
-class club extends Model {}
+class Club extends Model {}
 
 
-club.init({
+Club.init({
     name: {
         type: DataTypes.STRING(20),
         allowNull: false,
@@ -22,6 +21,7 @@ club.init({
         type: DataTypes.INTEGER,
         allowNull: false
     }
-});
+},
+{ tableName: 'club' });
 
-module.exports = club;
+module.exports = Club;
