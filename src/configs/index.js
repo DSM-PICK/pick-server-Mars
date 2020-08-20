@@ -4,5 +4,6 @@ if (process.env.NODE_ENV != 'not_dev') {
 
 module.exports = {
     PORT: process.env.PORT,
-    DB_PASSWORD: process.env.DB_PASSWORD
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    TOKEN_SECRET: process.env.TOKEN_SECRET
 }
