@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const { json } = require('express');
+const { ExpiredToken, InvaildToken } = require('../../errors');
 
 const { TOKEN_SECRET } = require('../../configs');
 
@@ -9,11 +10,11 @@ module.exports = (token) => {
     token = separateToken(token);
 
     if(isExpired(token)) {
-        return false;
+        throw ExpiredToken;
     }
 
     if(isSelfContained(token) == false) {
-        return false;
+        throw InvaildToken;
     }
 
     return true;
