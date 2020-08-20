@@ -5,8 +5,32 @@ const { json } = require('express');
 const { TOKEN_SECRET } = require('../../configs');
 
 
-function isExpired(payload) {
-    const token_exp_time = getExpTimeByPayload(payload);
+module.exports = (token) => {
+    token = separateToken(token);
+
+    if(isExpired(token)) {
+        return false;
+    }
+
+    if(isSelfContained(token) == false) {
+        return false;
+    }
+
+    return true;
+};
+
+function separateToken(token) {
+    const splited_token = token.split('.');  
+
+    return {
+        header: splited_token[0],
+        payload: splited_token[1],
+        signature: splited_token[2]
+    }
+}
+
+function isExpired(token) {
+    const token_exp_time = getExpTimeByPayload(token.payload);
     const today_time =  new Date().getTime() / 1000;
     if(token_exp_time < today_time ) {
         return true;
@@ -33,20 +57,3 @@ function signToken(header, payload, secret) {
         .replace(/\+/gi, '-')
         .replace(/\//gi, '_');
 }
-
-module.exports = (token) => {
-    const splited_token = token.split('.');  
-    const header = splited_token[0];
-    const payload = splited_token[1];
-    const signature = splited_token[2];
-
-    if(isExpired(payload)) {
-        return false;
-    }
-
-    if(isSelfContained({header, payload, signature}) == false) {
-        return false;
-    }
-
-    return true;
-};
