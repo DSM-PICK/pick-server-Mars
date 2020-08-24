@@ -1,6 +1,6 @@
 const assert = require('assert');
 const verify_token = require('../../services/tokenVerification');
-
+const { ExpiredToken, InvaildToken } = require('../../errors');
 
 describe('jwt test', () => {
 
@@ -15,9 +15,9 @@ describe('jwt test', () => {
         assert.equal(verify_token(valid_token), true);
     });
     it("broken self-validation", () => {
-        assert.equal(verify_token(broken_token), false);
+        assert.throws(() => {verify_token(broken_token)}, InvaildToken);
     });
     it("expired", () => {
-        assert.equal(verify_token(expired_token), false);
+        assert.throws(() => {verify_token(expired_token)}, ExpiredToken);
     });
 });
