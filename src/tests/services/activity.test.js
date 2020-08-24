@@ -2,6 +2,7 @@ const assert = require('assert');
 
 const { ActivityService, Exceptions} = require('../../services/activityService');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
+const TeacherRepository = require('../fakes/fakeTeacherRepository');
 
 const { loadDatabase } = require('../../loaders/database');
 
@@ -11,15 +12,15 @@ const { loadDatabase } = require('../../loaders/database');
 
 
 describe('Activity Service Test', () => {
-    const activity_service = new ActivityService(new AcvitiyRepository);
+    const activity_service = new ActivityService(AcvitiyRepository, TeacherRepository);
 
     describe('Get Activity per Date', () => {
         const correct_result = {
-            date: "2020-08-13",
+            date: "2020-08-24",
             schedule: "club",
             floor2: "김정은",
-            floor3: "좌차익",
-            floor4: "안소희"
+            floor3: "안소희",
+            floor4: "좌찬익"
         };
         
         it('Given valid date', async () => {
