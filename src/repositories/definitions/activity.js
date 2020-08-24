@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const { sequelize } = require('../../loaders/database');
 
 class Activity extends Model {}
-
 
 Activity.init({
     date: {
@@ -23,6 +23,8 @@ Activity.init({
         type: DataTypes.STRING(16)
     },
 },
-{ tableName: 'activity' });
+{ 
+    sequelize,
+    tableName: 'activity' });
 
 module.exports = Activity;

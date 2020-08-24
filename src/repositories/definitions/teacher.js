@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const { sequelize } = require('../../loaders/database');
 
 class Teacher extends Model {}
 
@@ -21,6 +22,8 @@ Teacher.init({
         type: DataTypes.STRING(200)
     },
 },
-{ tableName: 'teacher' });
+{ 
+    sequelize,
+    tableName: 'teacher' });
 
 module.exports = Teacher;

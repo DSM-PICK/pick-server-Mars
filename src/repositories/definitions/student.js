@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const { sequelize } = require('../../loaders/database');
 
 class Student extends Model {}
 
@@ -21,6 +22,8 @@ Student.init({
         allowNull: false,
     },
 },
-{ tableName: 'student' });
+{ 
+    sequelize,
+    tableName: 'student' });
 
 module.exports = Student;
