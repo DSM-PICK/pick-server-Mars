@@ -6,7 +6,7 @@ class ActivityService {
     }
 
     async getThisDateActivity(str_date) {
-        if(this.isValidDate(str_date) == false) {
+        if(isValidDate(str_date) == false) {
             throw new InvalidDateException;
         }
 
@@ -42,22 +42,22 @@ class ActivityService {
 
         return activity;
     }
-    isValidDate(str) {
-        if  ( !/([0-9]{4})-([0-9]{2})-([0-9]{2})/.test(str) )  {
-            return false;
-        }
-        
-        var splited_date = str.split('-');
-        var max_day = new Date(new Date(splited_date[0], splited_date[1], 1) - 86400000).getDate();
-        
-        if  ( splited_date[1] < 1 || splited_date[1] > 12  )  {
-            return false;
-        }
-        if  ( splited_date[2] > max_day )  {
-            return false;
-        }
-        return true;
+}
+function isValidDate(str) {
+    if  ( !/([0-9]{4})-([0-9]{2})-([0-9]{2})/.test(str) )  {
+        return false;
     }
+    
+    var splited_date = str.split('-');
+    var max_day = new Date(new Date(splited_date[0], splited_date[1], 1) - 86400000).getDate();
+    
+    if  ( splited_date[1] < 1 || splited_date[1] > 12  )  {
+        return false;
+    }
+    if  ( splited_date[2] > max_day )  {
+        return false;
+    }
+    return true;
 }
 
 class InvalidDateException extends Error {
