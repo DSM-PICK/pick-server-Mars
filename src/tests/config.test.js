@@ -1,10 +1,11 @@
 const configs = require('../configs');
 const assert = require('assert');
 
-
-describe('configs', () => {
-    it('DB_PASSWORD', () => {
-        assert.equal(configs.DB_PASSWORD, '1111');     
+if(process.env.NODE_ENV == 'dev') {
+    describe('configs', () => {
+        it('DB_PASSWORD', () => {
+            assert.equal(configs.DB_PASSWORD, '1111');     
+        });
     });
-});
+}
 
