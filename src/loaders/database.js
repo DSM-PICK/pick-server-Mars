@@ -14,10 +14,15 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
 });
 
 
-module.exports = async () => {
+async function loadDatabase() {
     try {
         await sequelize.authenticate();    
     } catch (error) {
         throw error;
     }
+}
+
+module.exports = { 
+    loadDatabase, 
+    sequelize
 }
