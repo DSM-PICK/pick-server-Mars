@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const ActivityService = require('../../services/activityService');
+const { ActivityService, Exceptions} = require('../../services/activityService');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 
 
@@ -26,21 +26,14 @@ describe('Activity Service Test', () => {
         });
 
         it('Given invalid date', () => {
-            try{
-                const result = await activity_service.getThisDateActivity('2020-08-24');
-                assert.fail('this function didn\'t throw exception');
-            } catch(e) {
-                assert.deepEqual(e, ActivityService.InvalidDateException);
-            }
+
+            assert.rejects(activity_service.getThisDateActivity('2020-02-30'), 
+                            Exceptions.InvalidDateException);
         });
 
         it('Not found data in given date', () => {
-            try{
-                const result = await activity_service.getThisDateActivity('2020-08-24');
-                assert.fail('this function didn\'t throw exception');
-            } catch(e) {
-                assert.deepEqual(e, ActivityService.NotFoundDateException);
-            }
+            assert.rejects(activity_service.getThisDateActivity('2000-08-24'), 
+                            Exceptions.NotFoundDateException);
         });
 
     });
