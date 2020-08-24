@@ -3,6 +3,12 @@ const assert = require('assert');
 const { ActivityService, Exceptions} = require('../../services/activityService');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 
+const { loadDatabase } = require('../../loaders/database');
+
+(async() => {
+    await loadDatabase();
+})();
+
 
 describe('Activity Service Test', () => {
     const activity_service = new ActivityService(new AcvitiyRepository);
