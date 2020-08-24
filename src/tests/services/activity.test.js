@@ -33,7 +33,7 @@ describe('Activity Service Test', () => {
 
         it('Not found data in given date', () => {
             assert.rejects(activity_service.getThisDateActivity('2000-08-24'), 
-                            Exceptions.NotFoundDateException);
+                            Exceptions.NotFoundDataException);
         });
 
     });
