@@ -1,9 +1,9 @@
 const { Sequelize } = require('sequelize');
-const { DB_PASSWORD } = require('../configs');
+const { DB_PASSWORD, DB_DATABASE, DB_USERNAME } = require('../configs');
 const logger = require('./logger');
 
 
-const sequelize = new Sequelize('pick', 'root', DB_PASSWORD, {
+const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
     define: {
         freezeTableName: true,
         timestamps: false,
