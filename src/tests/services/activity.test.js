@@ -1,11 +1,11 @@
 const assert = require('assert');
 
 const { ActivityService, Exceptions} = require('../../services/activityService');
-//const AcvitiyRepository = require('../fakes/fakeActivityRepository');
+const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 
 
 describe('Activity Service Test', () => {
-    const activity_service = new ActivityService();
+    const activity_service = new ActivityService(new AcvitiyRepository);
 
     describe('Get Activity per Date', () => {
         const correct_result = {
