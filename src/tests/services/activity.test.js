@@ -100,7 +100,7 @@ describe('Activity Service Test', () => {
                 },
             ]
         };
-        it('Given valid Month (December last year)', () => {
+        it('Given valid Month (December last year)', async () => {
             try {
                 const result = await activity_service.getThisMonthActivity(0);
                 assert.deepEqual(result, correct_result_last_year);
@@ -109,7 +109,7 @@ describe('Activity Service Test', () => {
                 assert.fail(e.message);
             }
         });
-        it('Given valid Month (This year)', () => {
+        it('Given valid Month (This year)', async () => {
             try {
                 const result = await activity_service.getThisMonthActivity(8);
                 assert.deepEqual(result, correct_result_this_year);
@@ -118,7 +118,7 @@ describe('Activity Service Test', () => {
                 assert.fail(e.message);
             }
         });
-        it('Given valid Month (Next January)', () => {
+        it('Given valid Month (Next January)', async () => {
             try {
                 const result = await activity_service.getThisMonthActivity(13);
                 assert.deepEqual(result, correct_result_next_year);
@@ -129,12 +129,12 @@ describe('Activity Service Test', () => {
         });
         
         describe('Given invalid date', () => {
-            it('Not specified month, under 0', () => {
-                await assert.rejects(activity_service.getThisDateActivity(-1),
+            it('Not specified month, under 0', async () => {
+                await assert.rejects(activity_service.getThisMonthActivity(-1),
                                 Exceptions.InvalidDateException);
             });
-            it('Not specified month, over 13', () => {
-                await assert.rejects(activity_service.getThisDateActivity(14),
+            it('Not specified month, over 13', async () => {
+                await assert.rejects(activity_service.getThisMonthActivity(14),
                                 Exceptions.InvalidDateException);
             });
         });
