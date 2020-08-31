@@ -57,4 +57,88 @@ describe('Activity Service Test', () => {
 
     });
 
+    describe('Get Activity per Month', () => {
+        const correct_result_last_year = {
+            month: 0,
+            prev_month: null,
+            next_month: "https://dsm-pick/activity/months/1",
+            data: [
+                {
+                    date: "2019-12-24",
+                    schedule: "club",
+                    floor2: "김정은",
+                    floor3: "안소희",
+                    floor4: "안소희"
+                },
+            ]
+        };
+        const correct_result_this_year = {
+            month: 8,
+            prev_month: "https://dsm-pick/activity/months/7",
+            next_month: "https://dsm-pick/activity/months/9",
+            data: [
+                {
+                    date: "2020-08-24",
+                    schedule: "club",
+                    floor2: "김정은",
+                    floor3: "안소희",
+                    floor4: "안소희"
+                },
+            ]
+        };
+        const correct_result_next_year = {
+            month: 13,
+            prev_month: "https://dsm-pick/activity/months/12",
+            next_month: null,
+            data: [
+                {
+                    date: "2021-01-24",
+                    schedule: "club",
+                    floor2: "김정은",
+                    floor3: "안소희",
+                    floor4: "안소희"
+                },
+            ]
+        };
+        it('Given valid Month (December last year)', () => {
+            try {
+                const result = await activity_service.getThisMonthActivity(0);
+                assert.deepEqual(result, correct_result_last_year);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+        it('Given valid Month (This year)', () => {
+            try {
+                const result = await activity_service.getThisMonthActivity(8);
+                assert.deepEqual(result, correct_result_this_year);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+        it('Given valid Month (Next January)', () => {
+            try {
+                const result = await activity_service.getThisMonthActivity(13);
+                assert.deepEqual(result, correct_result_next_year);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+        
+        describe('Given invalid date', () => {
+            it('Not specified month, under 0', () => {
+                await assert.rejects(activity_service.getThisDateActivity(-1),
+                                Exceptions.InvalidDateException);
+            });
+            it('Not specified month, over 13', () => {
+                await assert.rejects(activity_service.getThisDateActivity(14),
+                                Exceptions.InvalidDateException);
+            });
+        });
+
+    });
+
 });
