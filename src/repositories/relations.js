@@ -34,11 +34,14 @@ Student.belongsTo(Club, {foreignKey: "club_name", sourceKey: "name"});
 Class.hasMany(Student, {foreignKey: "class_name", sourceKey: "name"});
 Student.belongsTo(Class, {foreignKey: "class_name", sourceKey: "name"});
 
+const { Op } = require("sequelize");
+
 module.exports = {
     Activity,
     Attendence,
     Class,
     Club,
     Student,
-    Teacher
+    Teacher,
+    Op
 }
