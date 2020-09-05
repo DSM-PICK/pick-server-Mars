@@ -1,6 +1,7 @@
 const assert = require('assert');
 
-const { ActivityService, Exceptions} = require('../../services/activityService');
+const ActivityService = require('../../services/activityService');
+const Exceptions = require('../../errors/servicesExceptions');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 const TeacherRepository = require('../fakes/fakeTeacherRepository');
 
