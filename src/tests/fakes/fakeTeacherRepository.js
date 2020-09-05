@@ -1,38 +1,33 @@
 const { Teacher } = require('../../repositories');
+const Exceptions = require('../../errors/repositoriesExceptions');
 
 class FakeTeacherRepository extends Teacher {
-    static async findOne(option) {
-        if(option.where.id == 'Kim') {
+    static async findById(id) {
+        if(id == 'Kim') {
             return {
-                dataValues: {
-                  id: 'Kim',
-                  pw: 1,
-                  name: '김정은',
-                  token: 1,
-                }
+                id: 'Kim',
+                pw: 1,
+                name: '김정은',
+                token: 1,
             };
         }
-        else if(option.where.id == 'Ahn') {
+        else if(id == 'Ahn') {
             return {
-                dataValues: {
-                  id: 'Ahn',
-                  pw: 2,
-                  name: '안소희',
-                  token: 2,
-                }
+                id: 'Ahn',
+                pw: 2,
+                name: '안소희',
+                token: 2,
             };
         }
-        else if(option.where.id == 'Jwa') {
+        else if(id == 'Jwa') {
             return {
-                dataValues: {
-                  id: 'Jwa',
-                  pw: 3,
-                  name: '좌찬익',
-                  token: 3,
-                }
+                id: 'Jwa',
+                pw: 3,
+                name: '좌찬익',
+                token: 3,
             };
         }
-        return null;
+        throw new Exceptions.NotFoundDataException;
     }
 }
 

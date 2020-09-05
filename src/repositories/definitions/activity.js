@@ -1,7 +1,30 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
+const Errors = require('../../errors/repositoriesExceptions');
 
-class Activity extends Model {}
+class Activity extends Model {
+    static async findByDate(date) {
+        const activity_entity = await this.activity_repository.findOne({where: {date: date}});
+        if(activity_entity == null) {
+            throw new Errors.NotFoundDataException;
+        }
+        return activity_entity.dataValues;
+    }
+
+    static async findByYearAndMonth(year, month) {
+        const activity_entities = await this.activity_repository.findAll({where: {
+            date: {
+                [Op.lte]: new Date(year, month),
+                [Op.gte]: new Date(new Date(year, month, 1) - 86400000),
+            }
+        }});
+        if(activity_entities == null) {
+            throw new Errors.NotFoundDataException;
+        }
+        return activity_entities.map((entity) => { return entity.dataValues;});
+    }
+
+}
 
 Activity.init({
     date: {

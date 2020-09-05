@@ -1,7 +1,16 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
+const Errors = require('../../errors/repositoriesExceptions');
 
-class Teacher extends Model {}
+class Teacher extends Model {
+    static async findById(id) {
+        const teacher_entity = await Teacher.findOne({where: {id: id}});
+        if(activity_entity == null) {
+            throw new Errors.NotFoundDataException;
+        }
+        return teacher_entity.dataValues;
+    }
+}
 
 
 Teacher.init({
