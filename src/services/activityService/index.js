@@ -1,3 +1,10 @@
+const { sequelize } = require("../../loaders/database");
+const { Op } = require('sequelize');
+
+const RepoError = require('../../errors/repositoriesExceptions');
+const Exceptions = require('../../errors/servicesExceptions');
+const { afterValidate } = require("../../repositories/definitions/club");
+
 class ActivityService {
 
     constructor(activity_repository, teacher_repository) {
@@ -7,40 +14,89 @@ class ActivityService {
 
     async getThisDateActivity(str_date) {
         if(isValidDate(str_date) == false) {
-            throw new InvalidDateException;
+            throw new Exceptions.InvalidDateException;
         }
 
         const date = new Date(str_date);
-        let activity_entity = await this.activity_repository.findOne({where: {date: date}});
-
-        if(activity_entity == null) {
-            throw new NotFoundDataException;
+        let activity;
+        try{
+            activity = await this.activity_repository.findByDate(date);
+        }
+        catch(e) {
+            if(e instanceof RepoError.NotFoundDataException) {
+                throw new Exceptions.NotFoundDataException;
+            }
         }
 
+        let floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
+        let floor3_teacher = await this.teacher_repository.findById(activity.third_floor_teacher_id);
+        let floor4_teacher = await this.teacher_repository.findById(activity.forth_floor_teacher_id);
 
-        activity_entity = activity_entity.dataValues;
-
-
-        let floor2_teacher_entity = await this.teacher_repository.findOne({where: {id: activity_entity.second_floor_teacher_id}});
-        let floor3_teacher_entity = await this.teacher_repository.findOne({where: {id: activity_entity.third_floor_teacher_id}});
-        let floor4_teacher_entity = await this.teacher_repository.findOne({where: {id: activity_entity.forth_floor_teacher_id}});
-
-
-        floor2_teacher_entity = floor2_teacher_entity.dataValues;
-        floor3_teacher_entity = floor3_teacher_entity.dataValues;
-        floor4_teacher_entity = floor4_teacher_entity.dataValues;
-        
-
-        const activity = {
-            date: activity_entity.date,
-            floor2: floor2_teacher_entity.name,
-            floor3: floor3_teacher_entity.name,
-            floor4: floor4_teacher_entity.name,
-            schedule: activity_entity.schedule
+        const result = {
+            date: activity.date,
+            schedule: activity.schedule,
+            floor3: floor3_teacher.name,
+            floor2: floor2_teacher.name,
+            floor4: floor4_teacher.name
         }
         
+        return result;
+    }
 
-        return activity;
+    async getThisMonthActivity(month) {
+        if(month < 0) {
+            throw new Exceptions.InvalidDateException;
+        }
+        if(month > 13) {
+            throw new Exceptions.InvalidDateException;
+        }
+
+        const this_year = new Date().getFullYear();
+        const year_to_search = month == 0 ? this_year - 1
+                             : month == 13 ? this_year + 1
+                             : this_year;
+        const month_to_search = month == 0 ? 12
+                              : month == 13 ? 1
+                              : month;
+
+        let activities;
+        try {
+            activities = await this.activity_repository.findByYearAndMonth(year_to_search, month_to_search);   
+        } catch (e) {
+            if(e instanceof RepoError.NotFoundDataException){
+                throw new Exceptions.NotFoundDataException;
+            }
+        }
+
+        activities = activities.map(async (activity) => {
+            const floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
+            const floor3_teacher = await this.teacher_repository.findById(activity.third_floor_teacher_id);
+            const floor4_teacher = await this.teacher_repository.findById(activity.forth_floor_teacher_id);
+
+
+
+            return {
+                date: activity.date,
+                schedule: activity.schedule,
+                floor3: floor3_teacher.name,
+                floor2: floor2_teacher.name,
+                floor4: floor4_teacher.name
+            }
+        });
+        activities = await Promise.all(activities);
+
+        const url = 'https://dsm-pick/activity/months/';
+        const prev_month_url = month > 0? url + (month - 1) : null;
+        const next_month_url = month < 13? url + (month + 1) : null;
+        
+        const result = {
+            month: month,
+            prev_month: prev_month_url,
+            next_month: next_month_url,
+            data: activities
+        }
+
+        return result;
     }
 }
 function isValidDate(str) {
@@ -60,21 +116,5 @@ function isValidDate(str) {
     return true;
 }
 
-class InvalidDateException extends Error {
-    constructor() {
-        super('Given date is not valid');
-    }
-}
 
-class NotFoundDataException extends Error{
-    constructor() {
-        super('Couldn\'t found data in given date');
-    }
-}
-module.exports = {
-    ActivityService,
-    Exceptions: {
-        InvalidDateException,
-        NotFoundDataException
-    }
-};
+module.exports = ActivityService;
