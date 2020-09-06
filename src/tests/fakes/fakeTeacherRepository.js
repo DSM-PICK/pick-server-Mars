@@ -1,7 +1,7 @@
 const { Teacher } = require('../../repositories');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
-class FakeTeacherRepository extends Teacher {
+class FakeTeacherRepository {
     static async findById(id) {
         if(id == 'Kim') {
             return {

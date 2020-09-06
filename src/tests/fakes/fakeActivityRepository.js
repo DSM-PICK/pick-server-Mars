@@ -1,7 +1,7 @@
 const { Activity } = require('../../repositories');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
-class FakeActivityRepository extends Activity {
+class FakeActivityRepository {
     static async findByDate(date) {
         if(date.getTime() == new Date('2020-08-24').getTime()) {
             return {
