@@ -1,4 +1,3 @@
-const { Activity } = require('../../repositories');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
 class FakeActivityRepository {

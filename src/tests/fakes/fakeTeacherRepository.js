@@ -1,4 +1,3 @@
-const { Teacher } = require('../../repositories');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
 class FakeTeacherRepository {

@@ -5,12 +5,6 @@ const Exceptions = require('../../errors/servicesExceptions');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 const TeacherRepository = require('../fakes/fakeTeacherRepository');
 
-const { loadDatabase } = require('../../loaders/database');
-
-(async() => {
-    await loadDatabase();
-})();
-
 
 describe('Activity Service Test', () => {
     const activity_service = new ActivityService(AcvitiyRepository, TeacherRepository);

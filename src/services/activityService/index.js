@@ -1,9 +1,5 @@
-const { sequelize } = require("../../loaders/database");
-const { Op } = require('sequelize');
-
 const RepoError = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
-const { afterValidate } = require("../../repositories/definitions/club");
 
 class ActivityService {
 
