@@ -20,33 +20,15 @@ describe('Activity Service Test', () => {
         
         it('Given valid date', async () => {
             try{
-                const result = await activity_service.getThisDateActivity('2020-08-24');
+                const result = await activity_service.getThisDateActivity(new Date('2020-08-24'));
                 assert.deepEqual(result, correct_result);
             } catch(e) {
                 assert.fail(e.message);
             }
         });
-        
-        describe('Given invalid date', () => {
-            it('Not exist date, too big day', async () => {
-                await assert.rejects(activity_service.getThisDateActivity('2020-02-30'), 
-                                Exceptions.InvalidDateException);
-            });
-
-            it('Not exist date, too big month', async () => {
-                await assert.rejects(activity_service.getThisDateActivity('2020-13-15'), 
-                                Exceptions.InvalidDateException);
-            });
-            
-            it('Not Specified format date', async () => {
-                await assert.rejects(activity_service.getThisDateActivity('20200825'), 
-                                Exceptions.InvalidDateException);
-            });
-
-        });
 
         it('Not found data in given date', async () => {
-            await assert.rejects(activity_service.getThisDateActivity('2000-08-24'), 
+            await assert.rejects(activity_service.getThisDateActivity(new Date('2000-08-24')), 
                             Exceptions.NotFoundDataException);
         });
 
