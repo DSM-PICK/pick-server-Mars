@@ -8,12 +8,7 @@ class ActivityService {
         this.teacher_repository = teacher_repository;
     }
 
-    async getThisDateActivity(str_date) {
-        if(isValidDate(str_date) == false) {
-            throw new Exceptions.InvalidDateException;
-        }
-
-        const date = new Date(str_date);
+    async getThisDateActivity(date) {
         let activity;
         try{
             activity = await this.activity_repository.findByDate(date);
