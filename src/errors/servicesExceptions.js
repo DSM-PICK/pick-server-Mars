@@ -10,7 +10,14 @@ class NotFoundDataException extends Error{
     }
 }
 
+class InvalidFloorException extends Error {
+    constructor() {
+        super('Given floor is not valid');
+    }
+}
+
 module.exports = {
     InvalidDateException,
-    NotFoundDataException
+    NotFoundDataException,
+    InvalidFloorException
 };
