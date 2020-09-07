@@ -12,8 +12,11 @@ on:
 jobs:
   CI:
     env:
-      PORT: ${{ secrets.SERVER_PORT }}
+      PORT: ${{ secrets.PORT }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
     runs-on: ubuntu-latest
 
     strategy:
