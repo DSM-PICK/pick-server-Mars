@@ -35,7 +35,7 @@ describe('Working Teacher Service Test', () => {
                     assert.fail(e.message);
                 }
             });
-            it('floor 3', () => {
+            it('floor 3', async () => {
                 try {
                     const result = await working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 3);
                     assert.deepEqual(result, correct_f3_result);
@@ -44,7 +44,7 @@ describe('Working Teacher Service Test', () => {
                     assert.fail(e.message);
                 }
             });
-            it('floor 4', () => {
+            it('floor 4', async () => {
                 try {
                     const result = await working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 4);
                     assert.deepEqual(result, correct_f4_result);
