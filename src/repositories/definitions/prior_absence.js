@@ -1,7 +1,29 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
+const Exceptions = require('../../errors/repositoriesExceptions');
 
-class PriorAbsence extends Model {}
+class PriorAbsence extends Model {
+
+    async findPriorAbsenceByDate(date) {
+        const absence_entities = await PriorAbsence.findAll({
+            where: {
+                start_period: {
+                    [Op.gte]: date,
+                },
+                end_period: {
+                    [Op.lte]: date,
+                },
+            }
+        });
+        if(absence_entities == null) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        return absence_entities.map((entity) => { return entity.dataValues; });
+    }
+
+
+}
 
 
 PriorAbsence.init({
