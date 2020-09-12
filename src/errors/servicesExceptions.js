@@ -16,8 +16,15 @@ class InvalidFloorException extends Error {
     }
 }
 
+class MismatchToRelationDatas extends Error {
+    constructor() {
+        super('Mismatch to relation datas');
+    }
+}
+
 module.exports = {
     InvalidDateException,
     NotFoundDataException,
-    InvalidFloorException
+    InvalidFloorException,
+    MismatchToRelationDatas
 };
