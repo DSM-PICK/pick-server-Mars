@@ -63,6 +63,10 @@ class FakeActivityRepository {
 
         throw new Exceptions.NotFoundDataException;
     }
+
+    static async updateAutoDetect(activity) {
+        return activity;
+    }
 }
 
 module.exports = FakeActivityRepository;
