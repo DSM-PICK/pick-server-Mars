@@ -4,7 +4,7 @@ const Errors = require('../../errors/repositoriesExceptions');
 
 class Activity extends Model {
     static async findByDate(date) {
-        const activity_entity = await this.activity_repository.findOne({where: {date: date}});
+        const activity_entity = await Activity.findOne({where: {date: date}});
         if(activity_entity == null) {
             throw new Errors.NotFoundDataException;
         }
@@ -12,7 +12,7 @@ class Activity extends Model {
     }
 
     static async findByYearAndMonth(year, month) {
-        const activity_entities = await this.activity_repository.findAll({where: {
+        const activity_entities = await Activity.findAll({where: {
             date: {
                 [Op.lte]: new Date(year, month),
                 [Op.gte]: new Date(new Date(year, month, 1) - 86400000),
@@ -22,6 +22,14 @@ class Activity extends Model {
             throw new Errors.NotFoundDataException;
         }
         return activity_entities.map((entity) => { return entity.dataValues;});
+    }
+
+    static async updateAutoDetect(activity) {
+        return await Activity.update(activity, {
+            where: {
+                id: activity.id
+            }
+        });
     }
 
 }
