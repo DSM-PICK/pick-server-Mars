@@ -26,6 +26,30 @@ class FakeTeacherRepository {
                 token: 3,
             };
         }
+        else if(id == 'Son') {
+            return {
+                id: 'Son',
+                pw: 4,
+                name: '손정우',
+                token: 4,
+            };
+        }
+        else if(id == 'Lee') {
+            return {
+                id: 'Lee',
+                pw: 5,
+                name: '이진혁',
+                token: 5,
+            };
+        }
+        else if(id == 'Yoo') {
+            return {
+                id: 'Yoo',
+                pw: 6,
+                name: '유시온',
+                token: 6,
+            };
+        }
         throw new Exceptions.NotFoundDataException;
     }
 }
