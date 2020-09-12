@@ -141,7 +141,7 @@ describe('Working Teacher Service Test', () => {
             });
 
             it('mismatch teacher\'s name', async () => {
-                await assert.rejects(working_teacher_service(mismatch_teacher_input, mismatch_teacher_input,
+                await assert.rejects(working_teacher_service.exchangeTeacher(mismatch_teacher_input, mismatch_teacher_input,
                             Exceptions.MismatchToRelationDatas));
             });
         });
