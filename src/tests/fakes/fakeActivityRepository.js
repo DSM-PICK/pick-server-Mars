@@ -11,6 +11,15 @@ class FakeActivityRepository {
                 forth_floor_teacher_id: 'Jwa'
               };
         }
+        else if(date.getTime() == new Date('2020-09-12').getTime()) {
+            return {
+                date: '2020-09-12',
+                schedule: 'club',
+                second_floor_teacher_id: 'Son',
+                third_floor_teacher_id: 'Lee',
+                forth_floor_teacher_id: 'Yoo'
+              };
+        }
         throw new Exceptions.NotFoundDataException;
     }
 
