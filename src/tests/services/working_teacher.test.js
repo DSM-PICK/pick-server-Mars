@@ -86,21 +86,6 @@ describe('Working Teacher Service Test', () => {
             teacher_name: '이진혁'
         };
 
-        const correct_result_date1 = {
-            date: '2020-08-24',
-            schedule: 'club',
-            second_floor_teacher_id: 'Lee',
-            third_floor_teacher_id: 'Ahn',
-            forth_floor_teacher_id: 'Jwa'
-        };
-        const correct_result_date2 = {
-            date: '2020-09-12',
-            schedule: 'club',
-            second_floor_teacher_id: 'Son',
-            third_floor_teacher_id: 'Kim',
-            forth_floor_teacher_id: 'Yoo'
-        };
-
         const ivalid_date_input = {
             date: new Date('2020-01-22'),
             floor: 3,
@@ -113,16 +98,15 @@ describe('Working Teacher Service Test', () => {
         };
         const mismatch_teacher_input = {
             date: new Date('2020-08-24'),
-            floor: 5,
+            floor: 3,
             teacher_name: '김정은'
         };
 
         it('success exchange', async () => {
             try {
-                const updated_activities = await working_teacher_service.exchangeTeacher(exist_input1, exist_input2);
+                const result = await working_teacher_service.exchangeTeacher(exist_input1, exist_input2);
 
-                assert.deepEqual(updated_activities[0], correct_result_date1);
-                assert.deepEqual(updated_activities[1], correct_result_date2);
+                assert.deepEqual(result, true);
             }
             catch(e) {
                 assert.fail(e.message);
