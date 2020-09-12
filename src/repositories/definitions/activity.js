@@ -41,7 +41,7 @@ Activity.init({
         primaryKey: true
     },
     schedule: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(28),
         allowNull: false
     },
     second_floor_teacher_id: {

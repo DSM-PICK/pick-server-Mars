@@ -4,6 +4,8 @@ const Class = require("./class");
 const Club = require("./club");
 const Student = require("./student");
 const Teacher = require("./teacher");
+const ChangedTeacher = require('./changed_teacher');
+const PriorAbsence = require('./prior_absence');
 
 module.exports = {
     Activity,
@@ -11,5 +13,7 @@ module.exports = {
     Class,
     Club,
     Student,
-    Teacher
+    Teacher,
+    ChangedTeacher,
+    PriorAbsence
 }

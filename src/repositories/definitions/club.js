@@ -14,14 +14,14 @@ Club.init({
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    location: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-    },
-    priority: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    }
+    // location: {
+    //     type: DataTypes.STRING(20),
+    //     allowNull: false,
+    // },
+    // priority: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false
+    // }
 },
 { 
     sequelize,
