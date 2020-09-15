@@ -19,6 +19,20 @@ class FakePriorAbsenceRepository {
         }
         throw new Exceptions.NotFoundDataException;
     }
+
+    static async createPriorAbsence(teacher_id, student_num, term) {
+        const teachers = require('./fakeTeacherRepository');
+        if(student_num != 1111) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        try {
+            teachers.findById(teacher_id);
+        }
+        catch(e) {
+            throw new Exceptions.NotFoundDataException;
+        }
+    }
 }
 
 

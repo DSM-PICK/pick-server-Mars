@@ -4,7 +4,7 @@ const Exceptions = require('../../errors/repositoriesExceptions');
 
 class PriorAbsence extends Model {
 
-    async findPriorAbsenceByDate(date) {
+    static async findPriorAbsenceByDate(date) {
         const absence_entities = await PriorAbsence.findAll({
             where: {
                 start_period: {
@@ -15,11 +15,29 @@ class PriorAbsence extends Model {
                 },
             }
         });
-        if(absence_entities == null) {
+        if (absence_entities == null) {
             throw new Exceptions.NotFoundDataException;
         }
 
         return absence_entities.map((entity) => { return entity.dataValues; });
+    }
+
+    static async createPriorAbsence(teacher_id, student_num, term) {
+        try{
+            await PriorAbsence.create({
+                teacher_id: teacher_id,
+                start_date: term.start_date,
+                end_date: term.end_date,
+                student_num: student_num,
+                start_period: term.start_period,
+                end_period: term.end_period,
+            });
+        }
+        catch(e) {
+            if(e instanceof ForeignKeyConstraintError) {
+                throw new Exceptions.NotFoundRelatedDataException;
+            }
+        }
     }
 
 
@@ -57,8 +75,9 @@ PriorAbsence.init({
         allowNull: false,
     }
 },
-{ 
-    sequelize,
-    tableName: 'prior_absence' });
+    {
+        sequelize,
+        tableName: 'prior_absence'
+    });
 
 module.exports = PriorAbsence;
