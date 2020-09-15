@@ -22,9 +22,16 @@ class MismatchToRelationDatas extends Error {
     }
 }
 
+class InvalidTermException extends Error {
+    constructor() {
+        super('Term is not invalid');
+    }
+}
+
 module.exports = {
     InvalidDateException,
     NotFoundDataException,
     InvalidFloorException,
-    MismatchToRelationDatas
+    MismatchToRelationDatas,
+    InvalidTermException
 };
