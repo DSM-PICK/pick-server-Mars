@@ -60,7 +60,7 @@ describe('prior absence test', () => {
 
         const invalid_teacher = 'Abc';
         const invalid_student = 4213;
-        const term = {
+        const invalid_term = {
             start_date: new Date('2020-08-25'),
             start_period: 7,
             end_date: new Date('2020-08-24'),
@@ -78,7 +78,7 @@ describe('prior absence test', () => {
             });
 
             it('invalid term', async () => {
-                assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, term),
+                assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, invalid_term),
                     Exceptions.InvalidTermException);
             });
         });
