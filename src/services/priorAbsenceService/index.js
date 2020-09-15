@@ -1,4 +1,5 @@
 const RepoExceptions = require('../../errors/repositoriesExceptions');
+const Exceptions = require('../../errors/servicesExceptions');
 
 class PriorAbsenceService {
     constructor(prior_absence_repo) {
@@ -36,6 +37,21 @@ class PriorAbsenceService {
         return absences;
     }
 
+    async createPriorAbsence(teacher_id, student_num, term) {
+
+        if(term.start_date.getTime() > term.end_date.getTime()) {
+            throw new Exceptions.InvalidTermException;
+        }
+
+        try {
+            await this.prior_absence_repo.createPriorAbsence(teacher_id, student_num, term);
+        }
+        catch(e) {
+            if (e instanceof RepoExceptions.NotFoundRelatedDataException) {
+                throw new Exceptions.NotFoundDataException;
+            }
+        }
+    }
 
 
 }
