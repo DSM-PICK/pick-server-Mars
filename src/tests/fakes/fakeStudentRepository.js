@@ -48,6 +48,14 @@ class FakeStudentRepository {
 
         return finded_students;
     }
+
+    async findAllByNumberAndName(num, name) {
+        const finded_students = this.students.map( (student) => {
+            if(student.name.indexOf(name) != -1 && String(student.num).indexOf(num) != -1) {
+                return true;
+            }
+        });
+    }
 }
 
 
