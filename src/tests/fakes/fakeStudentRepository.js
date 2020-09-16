@@ -30,12 +30,9 @@ class FakeStudentRepository {
     }
 
     async findAllByNum(num) {
-        const finded_students = this.students.map( (student) => {
+        const finded_students = this.students.filter( (student) => {
             if(String(student.num).indexOf(num) != -1) {
-                return {
-                    num: student.num,
-                    name: student.name
-                };
+                return true;
             }
         });
 
@@ -45,10 +42,7 @@ class FakeStudentRepository {
     async findAllByName(name) {
         const finded_students = this.students.map( (student) => {
             if(student.name.indexOf(name) != -1) {
-                return {
-                    num: student.num,
-                    name: student.name
-                };
+                return true;
             }
         });
 
