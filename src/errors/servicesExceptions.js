@@ -28,10 +28,14 @@ class InvalidTermException extends Error {
     }
 }
 
+class InvalidGivenDataException extends Error {
+}
+
 module.exports = {
     InvalidDateException,
     NotFoundDataException,
     InvalidFloorException,
     MismatchToRelationDatas,
-    InvalidTermException
+    InvalidTermException,
+    InvalidGivenDataException
 };
