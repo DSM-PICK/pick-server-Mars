@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Errors = require('../../errors/repositoriesExceptions');
 
