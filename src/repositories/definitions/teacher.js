@@ -5,7 +5,7 @@ const Errors = require('../../errors/repositoriesExceptions');
 class Teacher extends Model {
     static async findById(id) {
         const teacher_entity = await Teacher.findOne({where: {id: id}});
-        if(activity_entity == null) {
+        if(!teacher_entity) {
             throw new Errors.NotFoundDataException;
         }
         return teacher_entity.dataValues;
