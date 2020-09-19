@@ -27,7 +27,7 @@ class Activity extends Model {
     static async updateAutoDetect(activity) {
         return await Activity.update(activity, {
             where: {
-                id: activity.id
+                date: new Date(activity.date)
             }
         });
     }
