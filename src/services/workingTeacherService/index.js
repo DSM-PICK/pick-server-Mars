@@ -86,20 +86,20 @@ class WorkingTeacherService {
             activity1.second_floor_teacher_id = stored_teacher2_id;
         }
         else if(input_floor_teacher1 == 3) {
-            activity1.second_floor_teacher_id = stored_teacher2_id;
+            activity1.third_floor_teacher_id = stored_teacher2_id;
         }
-        else if(input_floor_teacher1 == 3) {
-            activity1.second_floor_teacher_id = stored_teacher2_id;
+        else if(input_floor_teacher1 == 4) {
+            activity1.forth_floor_teacher_id = stored_teacher2_id;
         }
 
         if(input_floor_teacher2 == 2) {
             activity2.second_floor_teacher_id = stored_teacher1_id;
         }
         else if(input_floor_teacher2 == 3) {
-            activity2.second_floor_teacher_id = stored_teacher1_id;
+            activity2.third_floor_teacher_id = stored_teacher1_id;
         }
         else if(input_floor_teacher2 == 4) {
-            activity2.second_floor_teacher_id = stored_teacher1_id;
+            activity2.forth_floor_teacher_id = stored_teacher1_id;
         }
 
         await this.activity_repository.updateAutoDetect(activity1);
