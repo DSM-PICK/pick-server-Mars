@@ -1,6 +1,6 @@
 class HttpError extends Error {
     constructor(status) {
-        // super(message);
+        super('');
         this.status = status;
     }
 }
@@ -17,6 +17,9 @@ const InvalidFloor = new HttpError(400);
 const NotFoundDataInThisFloor = new HttpError(404);
 const NotFoundTeacher = new HttpError(404);
 
+const BadRequest = new HttpError(400);
+const NotFound = new HttpError(404);
+
 module.exports = {
     NoneToken,
     ExpiredToken,
@@ -27,8 +30,11 @@ module.exports = {
 
     InvalidFloor,
     NotFoundDataInThisFloor,
-    NotFoundTeacher
-}
+    NotFoundTeacher,
+
+    BadRequest,
+    NotFound
+};
 
 
 
