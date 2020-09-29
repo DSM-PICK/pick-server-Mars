@@ -6,30 +6,33 @@ const Teacher = require('../../repositories').Teacher;
 const ActivityService = require('../../services/activityService');
 const Exceptions = require('../../errors/servicesExceptions');
 
-const { InvalidDate, NotFoundDataInThisDate } = require('../../errors');
+const { NotFound, BadRequest } = require('../../errors');
 
 
 const service = new ActivityService(ActivityRepository, Teacher);  
 
-route.get('/dates/:date', async (req, res, next) => {
+const controllers = {};
+
+controllers.getActivityByDate = async (req, res, next) => {
     try {
         const result = await service.getThisDateActivity(new Date(req.params.date));    
         res.send(result);
     } catch (e) {
         if(e instanceof Exceptions.InvalidDateException) {
-            next(InvalidDate);
+            next(BadRequest);
         }
         else if(e instanceof Exceptions.NotFoundDataException) {
-            next(NotFoundDataInThisDate);
+            next(NotFound);
         }
         else {
             next(e);
         }
     }
 
-});
+};
 
-route.get('/months/:month', async (req, res, next) => {
+
+controllers.getActivityByMonth = async (req, res, next) => {
     try {
         const result = await service.getThisMonthActivity(Number.parseInt(req.params.month));
         res.send(result);
@@ -37,18 +40,16 @@ route.get('/months/:month', async (req, res, next) => {
     catch(e) {
         console.log(e);
         if(e instanceof Exceptions.InvalidDateException) {
-            next(InvalidDate);
+            next(BadRequest);
         }
         else if(e instanceof Exceptions.NotFoundDataException) {
-            next(NotFoundDataInThisDate);
+            next(NotFound);
         }
         else {
             next(e);
         }
     }
-});
+};
 
 
-
-
-module.exports = route;
+module.exports = controllers;
