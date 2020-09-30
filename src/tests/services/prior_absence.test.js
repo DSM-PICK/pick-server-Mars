@@ -9,6 +9,7 @@ describe('prior absence test', () => {
     describe('get prior absence by date test', () => {
         const correct_result = [
             {
+                id: 1,
                 stdnum: 2411,
                 start_date: new Date("2020-08-24"),
                 start_period: 7,
