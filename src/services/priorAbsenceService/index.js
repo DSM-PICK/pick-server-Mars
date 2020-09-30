@@ -47,9 +47,10 @@ class PriorAbsenceService {
             await this.prior_absence_repo.createPriorAbsence(teacher_id, student_num, term);
         }
         catch(e) {
-            if (e instanceof RepoExceptions.NotFoundRelatedDataException) {
+            if (e instanceof RepoExceptions.NotFoundDataException) {
                 throw new Exceptions.NotFoundDataException;
             }
+            throw e;
         }
     }
 
