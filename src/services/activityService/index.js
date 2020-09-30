@@ -90,22 +90,6 @@ class ActivityService {
         return result;
     }
 }
-function isValidDate(str) {
-    if  ( !/([0-9]{4})-([0-9]{2})-([0-9]{2})/.test(str) )  {
-        return false;
-    }
-    
-    var splited_date = str.split('-');
-    var max_day = new Date(new Date(splited_date[0], splited_date[1], 1) - 86400000).getDate();
-    
-    if  ( splited_date[1] < 1 || splited_date[1] > 12  )  {
-        return false;
-    }
-    if  ( splited_date[2] > max_day )  {
-        return false;
-    }
-    return true;
-}
 
 
 module.exports = ActivityService;
