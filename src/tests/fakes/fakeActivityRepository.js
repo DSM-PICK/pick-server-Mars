@@ -1,26 +1,50 @@
 const Exceptions = require('../../errors/repositoriesExceptions');
 
+
+
+const entities = [
+    {
+        date: "2019-12-24",
+        schedule: "club",
+        second_floor_teacher_id: 'Kim',
+        third_floor_teacher_id: 'Ahn',
+        forth_floor_teacher_id: 'Ahn'
+    },
+    {
+        date: '2020-08-24',
+        schedule: 'club',
+        second_floor_teacher_id: 'Kim',
+        third_floor_teacher_id: 'Ahn',
+        forth_floor_teacher_id: 'Jwa'
+    },
+    {
+        date: '2020-09-12',
+        schedule: 'club',
+        second_floor_teacher_id: 'Son',
+        third_floor_teacher_id: 'Lee',
+        forth_floor_teacher_id: 'Yoo'
+    },
+    {
+        date: "2021-01-24",
+        schedule: "club",
+        second_floor_teacher_id: 'Kim',
+        third_floor_teacher_id: 'Ahn',
+        forth_floor_teacher_id: 'Ahn'
+    }
+];
+
+
+
 class FakeActivityRepository {
     static async findByDate(date) {
-        if(date.getTime() == new Date('2020-08-24').getTime()) {
-            return {
-                date: '2020-08-24',
-                schedule: 'club',
-                second_floor_teacher_id: 'Kim',
-                third_floor_teacher_id: 'Ahn',
-                forth_floor_teacher_id: 'Jwa'
-              };
+
+        const results = entities.filter((activity) => {
+            return new Date(activity.date).getTime() == date.getTime();
+        });
+        if(results.length <= 0) {
+            throw new Exceptions.NotFoundDataException;
         }
-        else if(date.getTime() == new Date('2020-09-12').getTime()) {
-            return {
-                date: '2020-09-12',
-                schedule: 'club',
-                second_floor_teacher_id: 'Son',
-                third_floor_teacher_id: 'Lee',
-                forth_floor_teacher_id: 'Yoo'
-              };
-        }
-        throw new Exceptions.NotFoundDataException;
+        return results[0];
     }
 
     static async findByYearAndMonth(year, month) {
