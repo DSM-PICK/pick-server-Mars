@@ -38,7 +38,6 @@ class StudentService {
             return student.num + ' ' + student.name;
         });
 
-        console.log(result);
         return result;
     }
 
