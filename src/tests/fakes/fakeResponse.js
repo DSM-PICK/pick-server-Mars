@@ -1,7 +1,7 @@
 
 class FakeResponse {
-    constructor() {
-        
+    constructor(result) {
+        this.result = result;
     }
 
     send(result) {
