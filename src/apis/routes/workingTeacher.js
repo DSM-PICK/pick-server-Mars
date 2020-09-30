@@ -10,8 +10,9 @@ const HttpErrors = require('../../errors');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 
+const controllers = {};
 
-route.get('/today/:floor', async (req, res, next) => {
+controllers.getTodayWorkingTeacher = async (req, res, next) => {
     const today = setUTCDateLikeGMT(new Date());
 
     try {
@@ -27,9 +28,9 @@ route.get('/today/:floor', async (req, res, next) => {
         }
         next(e);
     }
-});
+};
 
-route.patch('/exchange', async (req, res, next) => {
+controllers.exchangeTeacher = async (req, res, next) => {
 
     const teacher1 = {
         floor: req.body.floor1,
@@ -61,11 +62,11 @@ route.patch('/exchange', async (req, res, next) => {
             next(e);
         }
     }
-});
+};
 
 
 function setUTCDateLikeGMT(date) {
     return new Date(new Date(new Date().setUTCDate(date.getDate())).setUTCHours(0, 0, 0, 0));
 }
 
-module.exports = route;
+module.exports = controllers;

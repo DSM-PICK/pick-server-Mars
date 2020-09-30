@@ -4,10 +4,12 @@ const working_teacher =  require('./workingTeacher');
 
 const router = Router();
 
-// router.use('/activity', activity);
+
 router.get('/activity/months/:month', activity.getActivityByMonth);
 router.get('/activity/dates/:date', activity.getActivityByDate);
-router.use('/working-teacher', working_teacher);
+
+router.get('/working-teacher/today/:floor', working_teacher.getTodayWorkingTeacher);
+router.patch('/working-teacher/exchange', working_teacher.exchangeTeacher);
 
 
 module.exports = router;
