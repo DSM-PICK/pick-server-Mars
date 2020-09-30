@@ -27,7 +27,7 @@ class FakePriorAbsenceRepository {
         }
 
         try {
-            teachers.findById(teacher_id);
+            await teachers.findById(teacher_id);
         }
         catch(e) {
             throw new Exceptions.NotFoundDataException;
