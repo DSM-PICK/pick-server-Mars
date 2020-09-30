@@ -4,11 +4,9 @@ class NotFoundDataException extends Error {
     }
 }
 
-class NotFoundRelatedDataException extends Error {
 
-}
 
 module.exports = {
     NotFoundDataException,
-    NotFoundRelatedDataException
+
 }
