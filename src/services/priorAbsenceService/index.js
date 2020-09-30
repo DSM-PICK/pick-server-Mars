@@ -25,6 +25,7 @@ class PriorAbsenceService {
 
         absences = absences.map((absence) => {
             return {
+                id: absence.id,
                 stdnum: absence.student_num,
                 start_date: absence.start_date,
                 start_period: absence.start_period,
