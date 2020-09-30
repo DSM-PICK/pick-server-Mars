@@ -68,17 +68,17 @@ describe('prior absence test', () => {
         };
         describe('fail', () => {
             it('not found teacher', async () => {
-                assert.rejects(prior_absence_service.createPriorAbsence(invalid_teacher, student, term),
+                await assert.rejects(prior_absence_service.createPriorAbsence(invalid_teacher, student, term),
                     Exceptions.NotFoundDataException);
             });
 
             it('not found student', async () => {
-                assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, term),
+                await assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, term),
                     Exceptions.NotFoundDataException);
             });
 
             it('invalid term', async () => {
-                assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, invalid_term),
+                await assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, invalid_term),
                     Exceptions.InvalidTermException);
             });
         });

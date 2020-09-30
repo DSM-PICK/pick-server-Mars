@@ -38,7 +38,7 @@ describe('test to get expected student by input text', () => {
     });
     describe('fail', () => {
         it('invalid input', async () => {
-            assert.rejects(student_service.expect_by_input(''),
+            await assert.rejects(student_service.expect_by_input(''),
                 Exceptions.InvalidGivenDataException);
         });
     });
