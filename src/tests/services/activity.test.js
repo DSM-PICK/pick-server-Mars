@@ -59,7 +59,7 @@ describe('Activity Service Test', () => {
                     schedule: "club",
                     floor2: "김정은",
                     floor3: "안소희",
-                    floor4: "안소희"
+                    floor4: "좌찬익"
                 },
             ]
         };

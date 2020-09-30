@@ -49,4 +49,16 @@ describe('Activity Repository test', () => {
             await assert.rejects(repo.findByDate(new Date('2025-08-24')), NotFoundDataException);
         });
     });
+
+    describe('findByYearAndMonth', () => {
+        it('success', async () => {
+            try{
+                const result = await repo.findByYearAndMonth(2020, 8);
+                assert.deepStrictEqual(result, [entities[1]]);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+    });
 });
