@@ -17,7 +17,7 @@ describe('pre_absence api test', () => {
         describe('success', () => {
             it('find data', async () => {
 
-                const req = new Request({ body: { date: '2020-08-24' } });
+                const req = new Request({ params: { date: '2020-08-24' } });
                 const expected_res = new Response({
                     result:
                         [
@@ -39,32 +39,29 @@ describe('pre_absence api test', () => {
                     assert.fail(e);
                 }
             });
-        });
-        describe('fail', () => {
+
             it('not found', async () => {
-                const req = new Request({ body: { date: '2020-08-25' } });
-                
+                const req = new Request({ params: { date: '2020-08-26' } });
+                const expected_res = new Response({ result: [] });
+                const res = new Response();
                 try {
-                    await getPreAbsenceByDate(req, new Response, exceptionThrower);   
-                    assert.fail('it shouldn\'t have do well');
+                    await getPreAbsenceByDate(req, res, exceptionThrower);
+                    assert.deepStrictEqual(expected_res, res);
                 } catch (e) {
-                    if(e == Exceptins.NotFound) {
-                        assert.ok();
-                    }
-                    else {
-                        assert.fail(e);
-                    }
+                    assert.fail(e);
                 }
             });
+        });
+        describe('fail', () => {
             it('bad request', async () => {
-                const req = new Request({ body: { date: '2020-8-25' } });
-                
+                const req = new Request({ params: { date: '2020-8-25' } });
+
                 try {
-                    await getPreAbsenceByDate(req, new Response, exceptionThrower);   
+                    await getPreAbsenceByDate(req, new Response, exceptionThrower);
                     assert.fail('it shouldn\'t have do well');
                 } catch (e) {
-                    if(e == Exceptins.BadRequest) {
-                        assert.ok();
+                    if (e == Exceptins.BadRequest) {
+                        assert.ok(true);
                     }
                     else {
                         assert.fail(e);
