@@ -17,6 +17,7 @@ class ActivityService {
             if(e instanceof RepoError.NotFoundDataException) {
                 throw new Exceptions.NotFoundDataException;
             }
+            throw e;
         }
 
         let floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
@@ -57,6 +58,7 @@ class ActivityService {
             if(e instanceof RepoError.NotFoundDataException){
                 throw new Exceptions.NotFoundDataException;
             }
+            throw e;
         }
 
         activities = activities.map(async (activity) => {
