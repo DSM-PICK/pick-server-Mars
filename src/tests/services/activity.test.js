@@ -114,6 +114,11 @@ describe('Activity Service Test', () => {
                 await assert.rejects(activity_service.getThisMonthActivity(14),
                                 Exceptions.InvalidDateException);
             });
+            it('can\'t find activity', async () => {
+                //2월달은 방학으로 activity 데이터가 없을 것으로 예상됨
+                await assert.rejects(activity_service.getThisMonthActivity(2),
+                                Exceptions.NotFoundDataException);
+            });
         });
 
     });
