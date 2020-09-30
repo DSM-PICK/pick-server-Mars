@@ -6,7 +6,9 @@ class StudentService {
     }
 
     async expect_by_input(input_data) {
-        const datas = input_data.split(' ');
+        const datas = input_data.split(' ').filter((data) => {
+            return data; // remove disturbed data like ''
+        });
         if(datas.length > 2 || datas.length < 1) {
             throw new Exceptions.InvalidGivenDataException;
         }
