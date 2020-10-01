@@ -22,7 +22,7 @@ class FakePriorAbsenceRepository {
 
     static async createPriorAbsence(teacher_id, student_num, term) {
         const teachers = require('./fakeTeacherRepository');
-        if(student_num != 1111) {
+        if(student_num != 1111 && student_num != 2411) {
             throw new Exceptions.NotFoundDataException;
         }
 
