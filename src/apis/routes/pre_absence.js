@@ -40,7 +40,9 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
     
 };
 
-
+controllers.createPreAbsence = async (req, res, next) => {
+    
+};
 
 
 
