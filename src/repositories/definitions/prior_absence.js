@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes, Model, ForeignKeyConstraintError } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
@@ -34,6 +34,7 @@ class PriorAbsence extends Model {
             });
         }
         catch(e) {
+            console.log(e);
             if(e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
             }
@@ -48,7 +49,8 @@ PriorAbsence.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     teacher_id: {
         type: DataTypes.STRING(16),
