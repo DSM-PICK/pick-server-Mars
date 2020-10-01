@@ -35,7 +35,7 @@ class PriorAbsence extends Model {
         }
         catch(e) {
             if(e instanceof ForeignKeyConstraintError) {
-                throw new Exceptions.NotFoundRelatedDataException;
+                throw new Exceptions.NotFoundDataException;
             }
         }
     }
