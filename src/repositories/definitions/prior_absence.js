@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model, ForeignKeyConstraintError } = require('sequelize');
+const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
@@ -7,19 +7,25 @@ class PriorAbsence extends Model {
     static async findPriorAbsenceByDate(date) {
         const absence_entities = await PriorAbsence.findAll({
             where: {
-                start_period: {
+                start_date: {
                     [Op.gte]: date,
                 },
-                end_period: {
+                end_date: {
                     [Op.lte]: date,
                 },
             }
         });
-        if (absence_entities == null) {
+        if (!absence_entities) {
             throw new Exceptions.NotFoundDataException;
         }
 
-        return absence_entities.map((entity) => { return entity.dataValues; });
+        const result = absence_entities.map((entity) => {
+            const pre_absence = entity.dataValues;
+            pre_absence.start_date = new Date(pre_absence.start_date);
+            pre_absence.end_date = new Date(pre_absence.end_date);
+            return pre_absence; 
+        });
+        return result;
     }
 
     static async createPriorAbsence(teacher_id, student_num, term) {
