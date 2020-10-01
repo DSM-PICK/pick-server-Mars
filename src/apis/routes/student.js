@@ -1,6 +1,6 @@
 const StudentService = require('../../services/studentService');
 
-const Exceptions = require('../../errors');
+const HttpErrors = require('../../errors');
 const ServiceExceptions = require('../../errors/servicesExceptions');
 
 
@@ -15,9 +15,11 @@ controllers.getAutoCompleteStudent = async (req, res, next) => {
         results = await service.expect_by_input(req.params.incomplete);
     } catch (e) {
         if(e instanceof ServiceExceptions.InvalidGivenDataException) {
-            throw Exceptions.BadRequest;
+            next(HttpErrors.BadRequest);
         }
-        next(e);
+        else{
+            next(e);
+        }
         return;
     }
 

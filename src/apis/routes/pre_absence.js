@@ -1,7 +1,7 @@
 const PreAbsenceService = require('../../services/priorAbsenceService');
 const { validDateString, dateToString } = require('./ultils');
 
-const Exceptions = require('../../errors');
+const HttpErrors = require('../../errors');
 const ServiceExceptions = require('../../errors/servicesExceptions');
 
 
@@ -11,7 +11,8 @@ const controllers = {};
 controllers.getPreAbsenceByDate = async (req, res, next) => {
 
     if (validDateString(req.params.date) == false) {
-        throw Exceptions.BadRequest;
+        next(HttpErrors.BadRequest);
+        return;
     }
 
 
@@ -45,7 +46,8 @@ controllers.createPreAbsence = async (req, res, next) => {
 
     if (validDateString(req.body.start_date) == false ||
         validDateString(req.body.end_date) == false) {
-        throw Exceptions.BadRequest;
+        next(HttpErrors.BadRequest);
+        return;
     }
 
     const teacher = req.auth;
@@ -62,7 +64,8 @@ controllers.createPreAbsence = async (req, res, next) => {
         await service.createPriorAbsence(teacher, student, term);
     } catch (e) {
         if (e instanceof ServiceExceptions.NotFoundDataException) {
-            throw Exceptions.NotFound;
+            next(HttpErrors.NotFound);
+            return;
         }
         next(e);
         return;
