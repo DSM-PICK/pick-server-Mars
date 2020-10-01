@@ -76,14 +76,15 @@ controllers.createPreAbsence = async (req, res, next) => {
 
 
 controllers.deletePreAbsence = async (req, res, next) => {
-    const id = req.params.id;
+    const id = req.params.id * 1;
 
     if(Number.isInteger(id) == false) {
-        throw HttpErrors.BadRequest;
+        next(HttpErrors.BadRequest);
     }
 
     try {
         await service.deletePreAbsenceById(id);
+        res.send();
     } catch (e) {
         if (e instanceof ServiceExceptions.NotFoundDataException) {
             next(HttpErrors.NotFound);
