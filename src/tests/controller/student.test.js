@@ -23,7 +23,7 @@ describe('student api test', () => {
                     [
                         '2401 김대웅',
                         '2411 손정우',
-                        '2401 이진혁',
+                        '2417 이진혁',
                     ]);
                 const res = new Response();
                 try {
@@ -38,7 +38,7 @@ describe('student api test', () => {
         
         describe('fail', () => {
             it('give invalid request', async () => {
-                const req = new Request({ params: { date: '' } });
+                const req = new Request({ params: { incomplete: '' } });
 
                 try {
                     await getAutoCompleteStudent(req, new Response, exceptionThrower);
