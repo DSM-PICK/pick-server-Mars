@@ -6,8 +6,7 @@ let students = undefined;
 
 class Student extends Model {
     static async findAllByNum(num) {
-        const students = Student.findAllStudent();
-
+        const students = await Student.findAllStudent();
         const finded_students = students.filter( (student) => {
             if(String(student.num).indexOf(num) != -1) {
                 return true;
@@ -18,7 +17,7 @@ class Student extends Model {
     }
 
     static async findAllByName(name) {
-        const students = Student.findAllStudent();
+        const students = await Student.findAllStudent();
 
         const finded_students = students.filter( (student) => {
             if(student.name.indexOf(name) != -1) {
@@ -30,7 +29,7 @@ class Student extends Model {
     }
 
     static async findAllByNumberAndName(num, name) {
-        const students = Student.findAllStudent();
+        const students = await Student.findAllStudent();
 
         const finded_students = students.filter( (student) => {
             if(student.name.indexOf(name) != -1 && String(student.num).indexOf(num) != -1) {
@@ -44,7 +43,7 @@ class Student extends Model {
         if(students == undefined) {
             const student_entities = await Student.findAll();
             students = student_entities.map((entity) => {
-                return entity.dataValue;
+                return entity.dataValues;
             });
         }
         return students;
