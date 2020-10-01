@@ -69,6 +69,80 @@ describe('pre_absence api test', () => {
             });
         });
     });
+
+    describe('createPreAbsence', () => {
+        describe('success', () => {
+            it('create new pre-absence', async () => {
+                const req = new Request({ body: {
+                    stdnum: 2411,
+                    start_date: '2020-10-01',
+                    start_period: 7,
+                    end_date: '2020-10-02',
+                    end_period: 10
+                },
+                auth: 'Jwa'
+            });
+                
+                try {
+                    await createPreAbsence(req, new Response, exceptionThrower);
+                    assert.ok(true);
+                } catch (e) {
+                    assert.fail(e);
+                }
+            });
+        });
+
+        describe('fail', () => {
+            it('couldn\'t find student', async () => {
+                const req = new Request({ body: {
+                    stdnum: 2511,
+                    start_date: '2020-10-01',
+                    start_period: 7,
+                    end_date: '2020-10-02',
+                    end_period: 10
+                },
+                auth: 'Jwa'});
+
+                try {
+                    await createPreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                }
+                catch(e) {
+                    if(e == Exceptins.BadRequest) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+
+            it('couldn\'t find teacher', async () => {
+                const req = new Request({ body: {
+                    stdnum: 2411,
+                    start_date: '2020-10-01',
+                    start_period: 7,
+                    end_date: '2020-10-02',
+                    end_period: 10
+                },
+                auth: 'Unkown'});
+                
+                try {
+                    await createPreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                }
+                catch(e) {
+                    if(e == Exceptins.BadRequest) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+        });
+    });
+
 });
 
 
