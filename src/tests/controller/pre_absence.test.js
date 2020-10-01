@@ -32,7 +32,7 @@ describe('pre_absence api test', () => {
                 const res = new Response();
                 try {
                     await getPreAbsenceByDate(req, res, exceptionThrower);
-                    console.log(expected_res, res);
+                    
                     assert.deepStrictEqual(expected_res, res);
                 } catch (e) {
                     assert.fail(e);
@@ -108,7 +108,7 @@ describe('pre_absence api test', () => {
                     assert.fail('it shouldn\'t have do well');
                 }
                 catch(e) {
-                    if(e == Exceptins.BadRequest) {
+                    if(e == Exceptins.NotFound) {
                         assert.ok(true);
                     }
                     else {
@@ -132,7 +132,7 @@ describe('pre_absence api test', () => {
                     assert.fail('it shouldn\'t have do well');
                 }
                 catch(e) {
-                    if(e == Exceptins.BadRequest) {
+                    if(e == Exceptins.NotFound) {
                         assert.ok(true);
                     }
                     else {
