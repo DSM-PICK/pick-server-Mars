@@ -33,6 +33,12 @@ class FakePriorAbsenceRepository {
             throw new Exceptions.NotFoundDataException;
         }
     }
+
+    static async deletePreAbsenceById(id) {
+        if(id != 1) {
+            throw new Exceptions.NotFoundDataException;
+        }
+    }
 }
 
 

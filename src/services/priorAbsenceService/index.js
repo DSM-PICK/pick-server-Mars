@@ -56,6 +56,16 @@ class PriorAbsenceService {
     }
 
 
+    async deletePreAbsenceById(id) {
+        try {
+            await this.prior_absence_repo.deletePreAbsenceById(id);
+        } catch (e) {
+            if (e instanceof RepoExceptions.NotFoundDataException) {
+                throw new Exceptions.NotFoundDataException;
+            }
+            throw e;
+        }
+    }
 }
 
 

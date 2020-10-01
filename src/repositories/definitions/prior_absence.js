@@ -23,13 +23,13 @@ class PriorAbsence extends Model {
             const pre_absence = entity.dataValues;
             pre_absence.start_date = new Date(pre_absence.start_date);
             pre_absence.end_date = new Date(pre_absence.end_date);
-            return pre_absence; 
+            return pre_absence;
         });
         return result;
     }
 
     static async createPriorAbsence(teacher_id, student_num, term) {
-        try{
+        try {
             await PriorAbsence.create({
                 teacher_id: teacher_id,
                 start_date: term.start_date,
@@ -39,11 +39,27 @@ class PriorAbsence extends Model {
                 end_period: term.end_period,
             });
         }
-        catch(e) {
+        catch (e) {
             console.log(e);
-            if(e instanceof ForeignKeyConstraintError) {
+            if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
             }
+        }
+    }
+
+    static async deletePreAbsenceById(id) {
+        let num_of_destroyed;
+        try {
+            num_of_destroyed = await PriorAbsence.destroy({
+                where: {
+                    id: id
+                }
+            });   
+        } catch (e) {
+            throw e;
+        }
+        if(num_of_destroyed <= 0) {
+            throw new Exceptions.NotFoundDataException;
         }
     }
 

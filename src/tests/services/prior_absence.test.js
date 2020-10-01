@@ -86,4 +86,21 @@ describe('prior absence test', () => {
 
     });
 
+    describe('delete pre-absence', () => {
+        describe('success', () => {
+            it('do well', async () => {
+                try {
+                    await prior_absence_service.deletePreAbsenceById(1)
+                    assert.ok(true);
+                } catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+        });
+        describe('fail', () => {
+            it('couldn\'t found tht pre-absence that have the id', async () => {
+                await assert.rejects(prior_absence_service.deletePreAbsenceById(-1), Exceptions.NotFoundDataException);
+            });
+        });
+    });
 });
