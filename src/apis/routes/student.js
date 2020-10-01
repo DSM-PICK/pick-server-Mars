@@ -18,6 +18,7 @@ controllers.getAutoCompleteStudent = async (req, res, next) => {
             throw Exceptions.BadRequest;
         }
         next(e);
+        return;
     }
 
     res.send(results);

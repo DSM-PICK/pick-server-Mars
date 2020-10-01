@@ -26,7 +26,9 @@ controllers.getTodayWorkingTeacher = async (req, res, next) => {
         else if (e instanceof Exceptions.InvalidFloorException) {
             next(HttpErrors.InvalidFloor);
         }
-        next(e);
+        else {
+            next(e);
+        }
     }
 };
 

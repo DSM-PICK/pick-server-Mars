@@ -22,6 +22,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
         results = await service.getPriorAbsenceByDate(date);
     } catch (e) {
         next(e);
+        return;
     }
 
 
