@@ -3,7 +3,7 @@ const assert = require('assert');
 const Request = require('../fakes/fakeRequest');
 const Response = require('../fakes/fakeResponse');
 const Repository = require('../fakes/fakePriorAbsenceRepository');
-const { getPreAbsenceByDate, createPreAbsence } = require('../../apis/routes/pre_absence')(Repository);
+const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence } = require('../../apis/routes/pre_absence')(Repository);
 
 const Exceptins = require('../../errors');
 
@@ -143,6 +143,54 @@ describe('pre_absence api test', () => {
         });
     });
 
+    describe('deletePreAbsence', () => {
+        describe('success', () => {
+            it('do well', async () => {
+                const req = new Request({ params: {id: 1} });
+
+                try {
+                    await deletePreAbsence(req, new Response, exceptionThrower);
+                    assert.ok(true);
+                } catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+        });
+        describe('fail', () => {
+            it('couldn\'t find the pre-absence', async () => {
+                const req = new Request({ params: {id: -1} });
+
+                try {
+                    await deletePreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                } catch (e) {
+                    if(e == Exceptins.NotFound) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+
+            it('invalid id', async () => {
+                const req = new Request({ params: {id: undefined} });
+
+                try {
+                    await deletePreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                } catch (e) {
+                    if(e == Exceptins.BadRequest) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+
+        });
+    });
 });
 
 
