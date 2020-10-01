@@ -2,6 +2,7 @@ class FakeRequest {
     constructor(data) {
         this.body = data.body;
         this.params = data.params;
+        this.auth = data.auth;
     }
 
     static compare(req1, req2) {
