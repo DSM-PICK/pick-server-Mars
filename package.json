@@ -12,13 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "mocha": "^8.1.1",
     "nyc": "^15.1.0"
