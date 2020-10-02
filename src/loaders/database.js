@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { DB_PASSWORD, DB_DATABASE, DB_USERNAME } = require('../configs');
+const { DB_PASSWORD, DB_DATABASE, DB_USERNAME, DB_HOST } = require('../configs');
 const logger = require('./logger');
 
 
@@ -9,7 +9,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
         timestamps: false,
 
     },
-    host: 'localhost',
+    host: DB_HOST,
     dialect: 'mysql'
 });
 
