@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/tests/**/*.test.js",
-    "start": "node src/index.js",
+    "start": "cross-env NODE_ENV=not_dev node src/index.js",
+    "start-dev": "node src/index.js",
     "cover": "nyc npm run test"
   },
   "author": "손정우",
