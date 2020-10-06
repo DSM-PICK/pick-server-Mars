@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     app.use(middlewares);
 
-    app.use('/', routes);
+    app.use('/mars/', routes);
 
     app.use((err, req, res, next) => {
         const status = err.status || 500;
