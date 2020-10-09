@@ -3,16 +3,17 @@ const cors = require('cors');
 const middlewares = require('../apis/middlewares');
 const logger = require('./logger');
 
-const routes = require('../apis/routes');
+const { router, router_passed_middleware }  = require('../apis/routes');
 
 
 module.exports = (app) => {
     app.use(cors());
     app.use(express.json());
 
+    app.use('/mars/', router);
+    
     app.use(middlewares);
-
-    app.use('/mars/', routes);
+    app.use('/mars/', router_passed_middleware);
 
     app.use((err, req, res, next) => {
         const status = err.status || 500;
