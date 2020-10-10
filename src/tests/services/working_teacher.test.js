@@ -85,6 +85,11 @@ describe('Working Teacher Service Test', () => {
             floor: 3,
             teacher_name: '이진혁'
         };
+        const exist_input3 = {
+            date: new Date('2020-09-12'),
+            floor: 4,
+            teacher_name: '유시온'
+        };
 
         const ivalid_date_input = {
             date: new Date('2020-01-22'),
@@ -102,9 +107,29 @@ describe('Working Teacher Service Test', () => {
             teacher_name: '김정은'
         };
 
-        it('success exchange', async () => {
+        it('success exchange (2f - 3f)', async () => {
             try {
                 const result = await working_teacher_service.exchangeTeacher(exist_input1, exist_input2);
+
+                assert.deepEqual(result, true);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+        it('success exchange (3f - 4f)', async () => {
+            try {
+                const result = await working_teacher_service.exchangeTeacher(exist_input2, exist_input3);
+
+                assert.deepEqual(result, true);
+            }
+            catch(e) {
+                assert.fail(e.message);
+            }
+        });
+        it('success exchange (4f - 2f)', async () => {
+            try {
+                const result = await working_teacher_service.exchangeTeacher(exist_input3, exist_input1);
 
                 assert.deepEqual(result, true);
             }
