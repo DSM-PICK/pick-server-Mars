@@ -1,6 +1,6 @@
 const assert = require('assert');
 const verify_token = require('../../services/tokenVerification');
-const { ExpiredToken, InvaildToken } = require('../../errors');
+const { ExpiredToken, InvaildToken, NoneToken } = require('../../errors');
 
 describe('jwt test', () => {
 
@@ -19,5 +19,8 @@ describe('jwt test', () => {
     });
     it("expired", () => {
         assert.throws(() => {verify_token(expired_token)}, ExpiredToken);
+    });
+    it("none token", () => {
+        assert.throws(() => {verify_token()}, NoneToken);
     });
 });
