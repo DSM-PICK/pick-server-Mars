@@ -22,9 +22,7 @@ class WorkingTeacherService {
             activity_by_date = await this.activity_service.getThisDateActivity(date);
         }
         catch(e) {
-            if(e instanceof Exceptions.NotFoundDataException){
-                throw e;
-            }
+            throw e;
         }
 
 
@@ -57,9 +55,8 @@ class WorkingTeacherService {
             activity2_repo_read = await this.activity_repository.findByDate(working_teacher_identifier2.date);
         }
         catch(e) {
-            if(e instanceof RepoError.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
+            
+            throw new Exceptions.NotFoundDataException;
             
             // throw e;
         }
@@ -75,8 +72,7 @@ class WorkingTeacherService {
 
         const stored_teacher1_name = await getTeacherNameById(this.teacher_repository, stored_teacher1_id);
         const stored_teacher2_name = await getTeacherNameById(this.teacher_repository, stored_teacher2_id);
-
-
+        
         if(input_teacher1_name != stored_teacher1_name || input_teacher2_name != stored_teacher2_name) {
             throw new Exceptions.MismatchToRelationDatas;
         }
@@ -88,7 +84,7 @@ class WorkingTeacherService {
         else if(input_floor_teacher1 == 3) {
             activity1.third_floor_teacher_id = stored_teacher2_id;
         }
-        else if(input_floor_teacher1 == 4) {
+        else {
             activity1.forth_floor_teacher_id = stored_teacher2_id;
         }
 
@@ -98,13 +94,13 @@ class WorkingTeacherService {
         else if(input_floor_teacher2 == 3) {
             activity2.third_floor_teacher_id = stored_teacher1_id;
         }
-        else if(input_floor_teacher2 == 4) {
+        else {
             activity2.forth_floor_teacher_id = stored_teacher1_id;
         }
-
+       
         await this.activity_repository.updateAutoDetect(activity1);
         await this.activity_repository.updateAutoDetect(activity2);
-        
+     
         return true;
         
     }
@@ -119,11 +115,8 @@ function getTeacherByFloorInActivity(activity, floor) {
     else if(floor == 3) {
         teacher_id = activity.third_floor_teacher_id;
     }
-    else if(floor == 4) {
-        teacher_id = activity.forth_floor_teacher_id;
-    }
     else {
-        throw new Exceptions.InvalidFloorException;
+        teacher_id = activity.forth_floor_teacher_id;
     }
 
     //const teacher_name = repository.findById(teacher_id);

@@ -14,12 +14,8 @@ controllers.getAutoCompleteStudent = async (req, res, next) => {
     try {
         results = await service.expect_by_input(req.params.incomplete);
     } catch (e) {
-        if(e instanceof ServiceExceptions.InvalidGivenDataException) {
-            next(HttpErrors.BadRequest);
-        }
-        else{
-            next(e);
-        }
+        next(HttpErrors.BadRequest);
+        
         return;
     }
 

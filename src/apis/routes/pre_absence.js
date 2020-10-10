@@ -18,13 +18,8 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
 
     const date = new Date(req.params.date);
 
-    let results;
-    try {
-        results = await service.getPriorAbsenceByDate(date);
-    } catch (e) {
-        next(e);
-        return;
-    }
+    let results = await service.getPriorAbsenceByDate(date);
+  
 
 
     results = results.map((result) => {
@@ -63,11 +58,7 @@ controllers.createPreAbsence = async (req, res, next) => {
     try {
         await service.createPriorAbsence(teacher, student, term);
     } catch (e) {
-        if (e instanceof ServiceExceptions.NotFoundDataException) {
-            next(HttpErrors.NotFound);
-            return;
-        }
-        next(e);
+        next(HttpErrors.NotFound);
         return;
     }
 
@@ -86,12 +77,7 @@ controllers.deletePreAbsence = async (req, res, next) => {
         await service.deletePreAbsenceById(id);
         res.send();
     } catch (e) {
-        if (e instanceof ServiceExceptions.NotFoundDataException) {
-            next(HttpErrors.NotFound);
-            return;
-        }
-        next(e);
-        return;
+        next(HttpErrors.NotFound);
     }
 };
 
