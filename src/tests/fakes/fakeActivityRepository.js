@@ -44,7 +44,7 @@ class FakeActivityRepository {
         if(results.length <= 0) {
             throw new Exceptions.NotFoundDataException;
         }
-        return results[0];
+        return JSON.parse(JSON.stringify(results[0]));
     }
 
     static async findByYearAndMonth(year, month) {
@@ -58,7 +58,7 @@ class FakeActivityRepository {
         if(results.length <= 0) {
             throw new Exceptions.NotFoundDataException;
         }
-        return results;
+        return JSON.parse(JSON.stringify(results));
     }
 
     static async updateAutoDetect(activity) {
