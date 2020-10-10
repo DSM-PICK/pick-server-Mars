@@ -14,12 +14,8 @@ class PriorAbsenceService {
             absences = await this.prior_absence_repo.findPriorAbsenceByDate(date);
         }
         catch(e) {
-            if(e instanceof RepoExceptions.NotFoundDataException) {
-                absences = [];
-            }
-            else {
-                throw e;
-            }
+            absences = [];
+
         }
 
 
@@ -48,10 +44,7 @@ class PriorAbsenceService {
             await this.prior_absence_repo.createPriorAbsence(teacher_id, student_num, term);
         }
         catch(e) {
-            if (e instanceof RepoExceptions.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
-            throw e;
+            throw new Exceptions.NotFoundDataException;
         }
     }
 
@@ -60,10 +53,7 @@ class PriorAbsenceService {
         try {
             await this.prior_absence_repo.deletePreAbsenceById(id);
         } catch (e) {
-            if (e instanceof RepoExceptions.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
-            throw e;
+            throw new Exceptions.NotFoundDataException;
         }
     }
 }

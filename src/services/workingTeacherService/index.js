@@ -61,7 +61,7 @@ class WorkingTeacherService {
                 throw new Exceptions.NotFoundDataException;
             }
             
-            throw e;
+            // throw e;
         }
         const activity1 = activity1_repo_read;
         const activity2 = activity2_repo_read;

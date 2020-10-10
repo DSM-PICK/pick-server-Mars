@@ -14,10 +14,8 @@ class ActivityService {
             activity = await this.activity_repository.findByDate(date);
         }
         catch(e) {
-            if(e instanceof RepoError.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
-            throw e;
+            throw new Exceptions.NotFoundDataException;
+            //throw e;
         }
 
         let floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
@@ -55,10 +53,8 @@ class ActivityService {
         try {
             activities = await this.activity_repository.findByYearAndMonth(year_to_search, month_to_search);   
         } catch (e) {
-            if(e instanceof RepoError.NotFoundDataException){
-                throw new Exceptions.NotFoundDataException;
-            }
-            throw e;
+            throw new Exceptions.NotFoundDataException;
+            //throw e;
         }
 
         activities = activities.map(async (activity) => {
