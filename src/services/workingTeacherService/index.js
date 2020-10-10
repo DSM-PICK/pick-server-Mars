@@ -12,6 +12,12 @@ class WorkingTeacherService {
     
     async getWorkingTeacherByDateAndFloor(date, floor) {
         let activity_by_date;
+        if(floor < 2) {
+            throw new Exceptions.InvalidFloorException;
+        }
+        if(floor > 4) {
+            throw new Exceptions.InvalidFloorException;
+        }
         try {
             activity_by_date = await this.activity_service.getThisDateActivity(date);
         }
@@ -21,12 +27,6 @@ class WorkingTeacherService {
             }
         }
 
-        if(floor < 2) {
-            throw new Exceptions.InvalidFloorException;
-        }
-        if(floor > 4) {
-            throw new Exceptions.InvalidFloorException;
-        }
 
         const working_teacher = floor == 2? activity_by_date.floor2
                                :floor == 3? activity_by_date.floor3
