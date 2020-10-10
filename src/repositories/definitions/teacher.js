@@ -27,9 +27,6 @@ Teacher.init({
         type: DataTypes.STRING(12),
         allowNull: false
     },
-    token: {
-        type: DataTypes.STRING(200)
-    },
 },
 { 
     sequelize,
