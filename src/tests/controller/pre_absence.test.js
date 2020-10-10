@@ -80,8 +80,8 @@ describe('pre_absence api test', () => {
                     end_date: '2020-10-02',
                     end_period: 10
                 },
-                auth: 'Jwa'
-            });
+                    auth: 'Jwa'
+                });
                 
                 try {
                     await createPreAbsence(req, new Response, exceptionThrower);
@@ -140,6 +140,55 @@ describe('pre_absence api test', () => {
                     }
                 }
             });
+        
+            it('invalid start date', async () => {
+                const req = new Request({ body: {
+                    stdnum: 2411,
+                    start_date: '2020-10-00',
+                    start_period: 7,
+                    end_date: '2020-10-02',
+                    end_period: 10
+                },
+                    auth: 'Jwa'});
+                
+                try {
+                    await createPreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                }
+                catch(e) {
+                    if(e == Exceptins.BadRequest) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+    
+            it('invalid end date', async () => {
+                const req = new Request({ body: {
+                    stdnum: 2411,
+                    start_date: '2020-10-01',
+                    start_period: 7,
+                    end_date: '2020-10-50',
+                    end_period: 10
+                },
+                    auth: 'Jwa'});
+                
+                try {
+                    await createPreAbsence(req, new Response, exceptionThrower);
+                    assert.fail('it shouldn\'t have do well');
+                }
+                catch(e) {
+                    if(e == Exceptins.BadRequest) {
+                        assert.ok(true);
+                    }
+                    else {
+                        assert.fail(e);
+                    }
+                }
+            });
+        
         });
     });
 
