@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
-class PriorAbsence extends Model {
+class PreAbsence extends Model {
 
     static async findPriorAbsenceByDate(date) {
         const absence_entities = await PriorAbsence.findAll({
@@ -67,7 +67,7 @@ class PriorAbsence extends Model {
 }
 
 
-PriorAbsence.init({
+PreAbsence.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -101,7 +101,7 @@ PriorAbsence.init({
 },
     {
         sequelize,
-        tableName: 'prior_absence'
+        tableName: 'pre_absence'
     });
 
-module.exports = PriorAbsence;
+module.exports = PreAbsence;

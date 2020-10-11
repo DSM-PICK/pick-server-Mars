@@ -1,17 +1,17 @@
 const RepoExceptions = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 
-class PriorAbsenceService {
-    constructor(prior_absence_repo) {
-        this.prior_absence_repo = prior_absence_repo;
+class PreAbsenceService {
+    constructor(pre_absence_repo) {
+        this.pre_absence_repo = pre_absence_repo;
     }
 
     
-    async getPriorAbsenceByDate(date) {
+    async getPreAbsenceByDate(date) {
         let absences;
         
         try {
-            absences = await this.prior_absence_repo.findPriorAbsenceByDate(date);
+            absences = await this.pre_absence_repo.findPreAbsenceByDate(date);
         }
         catch(e) {
             absences = [];
@@ -34,14 +34,14 @@ class PriorAbsenceService {
         return absences;
     }
 
-    async createPriorAbsence(teacher_id, student_num, term) {
+    async createPreAbsence(teacher_id, student_num, term) {
 
         if(term.start_date.getTime() > term.end_date.getTime()) {
             throw new Exceptions.InvalidTermException;
         }
 
         try {
-            await this.prior_absence_repo.createPriorAbsence(teacher_id, student_num, term);
+            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term);
         }
         catch(e) {
             throw new Exceptions.NotFoundDataException;
@@ -51,7 +51,7 @@ class PriorAbsenceService {
 
     async deletePreAbsenceById(id) {
         try {
-            await this.prior_absence_repo.deletePreAbsenceById(id);
+            await this.pre_absence_repo.deletePreAbsenceById(id);
         } catch (e) {
             throw new Exceptions.NotFoundDataException;
         }
@@ -60,4 +60,4 @@ class PriorAbsenceService {
 
 
 
-module.exports = PriorAbsenceService;
+module.exports = PreAbsenceService;

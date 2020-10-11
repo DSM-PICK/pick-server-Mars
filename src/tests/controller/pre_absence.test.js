@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const Request = require('../fakes/fakeRequest');
 const Response = require('../fakes/fakeResponse');
-const Repository = require('../fakes/fakePriorAbsenceRepository');
+const Repository = require('../fakes/fakePreAbsenceRepository');
 const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence } = require('../../apis/routes/pre_absence')(Repository);
 
 const Exceptins = require('../../errors');

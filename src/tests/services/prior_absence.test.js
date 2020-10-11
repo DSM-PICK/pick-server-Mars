@@ -1,12 +1,12 @@
 const assert = require('assert');
 
-const PriorAbsenceService = require('../../services/priorAbsenceService');
+const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
-const PriorAbsenceRepository = require('../fakes/fakePriorAbsenceRepository');
+const PreAbsenceRepository = require('../fakes/fakePreAbsenceRepository');
 
-describe('prior absence test', () => {
-    const prior_absence_service = new PriorAbsenceService(PriorAbsenceRepository);
-    describe('get prior absence by date test', () => {
+describe('pre absence test', () => {
+    const pre_absence_service = new PreAbsenceService(PreAbsenceRepository);
+    describe('get pre absence by date test', () => {
         const correct_result = [
             {
                 id: 1,
@@ -19,7 +19,7 @@ describe('prior absence test', () => {
         ];
         it('valid result', async () => {
             try {
-                const result = await prior_absence_service.getPriorAbsenceByDate(new Date('2020-08-24'));
+                const result = await pre_absence_service.getPreAbsenceByDate(new Date('2020-08-24'));
                 assert.deepEqual(result, correct_result);
             }
             catch (e) {
@@ -28,7 +28,7 @@ describe('prior absence test', () => {
         });
         it('valid result, no datas', async () => {
             try {
-                const result = await prior_absence_service.getPriorAbsenceByDate(new Date('2020-08-25'));
+                const result = await pre_absence_service.getPreAbsenceByDate(new Date('2020-08-25'));
                 assert.deepEqual(result, []);
             }
             catch (e) {
@@ -37,7 +37,7 @@ describe('prior absence test', () => {
         });
     });
 
-    describe('create new prior absence test', () => {
+    describe('create new pre absence test', () => {
         const teacher = 'Kim';
         const student = 1111;
         const term = {
@@ -50,7 +50,7 @@ describe('prior absence test', () => {
         describe('success', () => {
             it('success to create absence test', async () => {
                 try {
-                    await prior_absence_service.createPriorAbsence(teacher, student, term);
+                    await pre_absence_service.createPreAbsence(teacher, student, term);
                 }
                 catch (e) {
                     assert.fail(e.message);
@@ -69,17 +69,17 @@ describe('prior absence test', () => {
         };
         describe('fail', () => {
             it('not found teacher', async () => {
-                await assert.rejects(prior_absence_service.createPriorAbsence(invalid_teacher, student, term),
+                await assert.rejects(pre_absence_service.createPreAbsence(invalid_teacher, student, term),
                     Exceptions.NotFoundDataException);
             });
 
             it('not found student', async () => {
-                await assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, term),
+                await assert.rejects(pre_absence_service.createPreAbsence(teacher, invalid_student, term),
                     Exceptions.NotFoundDataException);
             });
 
             it('invalid term', async () => {
-                await assert.rejects(prior_absence_service.createPriorAbsence(teacher, invalid_student, invalid_term),
+                await assert.rejects(pre_absence_service.createPreAbsence(teacher, invalid_student, invalid_term),
                     Exceptions.InvalidTermException);
             });
         });
@@ -90,7 +90,7 @@ describe('prior absence test', () => {
         describe('success', () => {
             it('do well', async () => {
                 try {
-                    await prior_absence_service.deletePreAbsenceById(1)
+                    await pre_absence_service.deletePreAbsenceById(1)
                     assert.ok(true);
                 } catch (e) {
                     assert.fail(e.message);
@@ -99,7 +99,7 @@ describe('prior absence test', () => {
         });
         describe('fail', () => {
             it('couldn\'t found tht pre-absence that have the id', async () => {
-                await assert.rejects(prior_absence_service.deletePreAbsenceById(-1), Exceptions.NotFoundDataException);
+                await assert.rejects(pre_absence_service.deletePreAbsenceById(-1), Exceptions.NotFoundDataException);
             });
         });
     });

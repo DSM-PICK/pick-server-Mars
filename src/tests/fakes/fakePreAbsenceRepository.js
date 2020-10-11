@@ -2,8 +2,8 @@ const Exceptions = require('../../errors/repositoriesExceptions');
 
 
 
-class FakePriorAbsenceRepository {
-    static async findPriorAbsenceByDate(date) {
+class FakePreAbsenceRepository {
+    static async findPreAbsenceByDate(date) {
         if(date.getTime() == new Date('2020-08-24').getTime()) {
             return [
                 {
@@ -20,7 +20,7 @@ class FakePriorAbsenceRepository {
         throw new Exceptions.NotFoundDataException;
     }
 
-    static async createPriorAbsence(teacher_id, student_num, term) {
+    static async createPreAbsence(teacher_id, student_num, term) {
         const teachers = require('./fakeTeacherRepository');
         if(student_num != 1111 && student_num != 2411) {
             throw new Exceptions.NotFoundDataException;
@@ -43,4 +43,4 @@ class FakePriorAbsenceRepository {
 
 
 
-module.exports = FakePriorAbsenceRepository;
+module.exports = FakePreAbsenceRepository;
