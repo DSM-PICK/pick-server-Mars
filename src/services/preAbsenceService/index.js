@@ -1,9 +1,11 @@
 const RepoExceptions = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
+const { isBetweenDate, dateToString, newToday } = require('../../utils');
 
 class PreAbsenceService {
-    constructor(pre_absence_repo) {
+    constructor(pre_absence_repo, attendance_repo) {
         this.pre_absence_repo = pre_absence_repo;
+        this.attendance_repo = attendance_repo;
     }
 
     
@@ -47,6 +49,28 @@ class PreAbsenceService {
         catch(e) {
             throw new Exceptions.NotFoundDataException;
         }
+
+        const today = newToday();
+        if(isBetweenDate(term.start_date, term.end_date, today)) {
+            let start_period = 7;
+            if(dateToString(term.start_date) == dateToString(today)) {
+                start_period = term.start_period;
+            }
+
+            let end_period = 10;
+            if(dateToString(term.end_date) == dateToString(today)) {
+                end_period = term.end_period;
+            }
+            for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
+                try {
+                    await this.attendance_repo.updateAttendance(today, student_num, period, state);
+                } catch (e) {
+                    console.log(this.attendance_repo);
+                    console.log(e);
+                }
+            }
+        }
+
     }
 
 
