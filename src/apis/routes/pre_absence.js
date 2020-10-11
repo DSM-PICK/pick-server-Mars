@@ -1,5 +1,5 @@
 const PreAbsenceService = require('../../services/preAbsenceService');
-const { validDateString, dateToString } = require('./ultils');
+const { validDateString, dateToString } = require('../../utils');
 
 const HttpErrors = require('../../errors');
 const ServiceExceptions = require('../../errors/servicesExceptions');
