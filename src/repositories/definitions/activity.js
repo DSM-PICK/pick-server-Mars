@@ -6,7 +6,6 @@ class Activity extends Model {
     static async findByDate(date) {
         const activity_entity = await Activity.findOne({where: {date: date}});
         if(!activity_entity) {
-            console.log("none - data");
             throw new Errors.NotFoundDataException;
         }
         return activity_entity.dataValues;
