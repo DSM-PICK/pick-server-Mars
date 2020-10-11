@@ -27,6 +27,7 @@ class PreAbsenceService {
                 start_period: absence.start_period,
                 end_date: absence.end_date,
                 end_period: absence.end_period,
+                state: absence.state,
             }
         });
 
@@ -34,14 +35,14 @@ class PreAbsenceService {
         return absences;
     }
 
-    async createPreAbsence(teacher_id, student_num, term) {
+    async createPreAbsence(teacher_id, student_num, term, state) {
 
         if(term.start_date.getTime() > term.end_date.getTime()) {
             throw new Exceptions.InvalidTermException;
         }
 
         try {
-            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term);
+            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state);
         }
         catch(e) {
             throw new Exceptions.NotFoundDataException;
