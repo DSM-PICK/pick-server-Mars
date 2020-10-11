@@ -30,6 +30,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             start_period: result.start_period,
             end_date: dateToString(result.end_date),
             end_period: result.end_period,
+            state: result.state,
         };
     });
 
@@ -40,7 +41,8 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
 controllers.createPreAbsence = async (req, res, next) => {
 
     if (validDateString(req.body.start_date) == false ||
-        validDateString(req.body.end_date) == false) {
+        validDateString(req.body.end_date) == false ||
+        req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출') {
         next(HttpErrors.BadRequest);
         return;
     }
@@ -52,11 +54,11 @@ controllers.createPreAbsence = async (req, res, next) => {
         start_period: req.body.start_period,
         end_date: new Date(req.body.end_date),
         end_period: req.body.end_period,
-
     };
+    const state = req.body.state;
 
     try {
-        await service.createPreAbsence(teacher, student, term);
+        await service.createPreAbsence(teacher, student, term, state);
     } catch (e) {
         next(HttpErrors.NotFound);
         return;
