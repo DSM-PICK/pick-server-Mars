@@ -97,6 +97,10 @@ PreAbsence.init({
     end_period: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
+    },
+    state: {
+        type: DataTypes.CHAR(4),
+        allowNull: false,
     }
 },
     {
