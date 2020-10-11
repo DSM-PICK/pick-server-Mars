@@ -28,7 +28,7 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPriorAbsence(teacher_id, student_num, term) {
+    static async createPriorAbsence(teacher_id, student_num, term, state) {
         try {
             await PriorAbsence.create({
                 teacher_id: teacher_id,
@@ -37,6 +37,7 @@ class PreAbsence extends Model {
                 student_num: student_num,
                 start_period: term.start_period,
                 end_period: term.end_period,
+                state: state,
             });
         }
         catch (e) {
