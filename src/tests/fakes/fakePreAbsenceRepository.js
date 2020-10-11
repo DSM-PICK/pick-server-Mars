@@ -14,13 +14,14 @@ class FakePreAbsenceRepository {
                     student_num: 2411,
                     start_period: 7,
                     end_period: 10,
+                    state: "현체"
                 }
             ];
         }
         throw new Exceptions.NotFoundDataException;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term) {
+    static async createPreAbsence(teacher_id, student_num, term, state) {
         const teachers = require('./fakeTeacherRepository');
         if(student_num != 1111 && student_num != 2411) {
             throw new Exceptions.NotFoundDataException;
