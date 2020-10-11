@@ -4,8 +4,8 @@ const Exceptions = require('../../errors/repositoriesExceptions');
 
 class PreAbsence extends Model {
 
-    static async findPriorAbsenceByDate(date) {
-        const absence_entities = await PriorAbsence.findAll({
+    static async findPreAbsenceByDate(date) {
+        const absence_entities = await PreAbsence.findAll({
             where: {
                 start_date: {
                     [Op.gte]: date,
@@ -28,9 +28,9 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPriorAbsence(teacher_id, student_num, term, state) {
+    static async createPreAbsence(teacher_id, student_num, term, state) {
         try {
-            await PriorAbsence.create({
+            await PreAbsence.create({
                 teacher_id: teacher_id,
                 start_date: term.start_date,
                 end_date: term.end_date,
@@ -51,7 +51,7 @@ class PreAbsence extends Model {
     static async deletePreAbsenceById(id) {
         let num_of_destroyed;
         try {
-            num_of_destroyed = await PriorAbsence.destroy({
+            num_of_destroyed = await PreAbsence.destroy({
                 where: {
                     id: id
                 }

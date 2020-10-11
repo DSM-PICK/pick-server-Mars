@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const activity = require('./activity');
 const working_teacher =  require('./workingTeacher');
-const pre_absence = require('./pre_absence')(require('../../repositories').PriorAbsence);
+const pre_absence = require('./pre_absence')(require('../../repositories').PreAbsence);
 const student = require('./student')(require('../../repositories').Student);
 
 const router = Router();
