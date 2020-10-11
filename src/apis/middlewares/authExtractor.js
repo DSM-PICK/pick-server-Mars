@@ -15,7 +15,7 @@ function getIdByPayload(payload) {
 
 
 module.exports = (req, res, next) => {
-    const payload = separateToken(req.get('Authentication')).payload;
+    const payload = separateToken(req.get('Authorization')).payload;
     req.auth = getIdByPayload(payload);
     next();
 };
