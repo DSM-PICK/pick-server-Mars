@@ -1,5 +1,6 @@
 const Exceptions = require('../../errors/repositoriesExceptions');
-
+const { findById } = require('./fakeTeacherRepository');
+const FakeTeacherRepo = require('./fakeTeacherRepository');
 
 
 const entities = [
@@ -62,6 +63,16 @@ class FakeActivityRepository {
     }
 
     static async updateAutoDetect(activity) {
+        return activity;
+    }
+
+    static async findBtweenTermWithTeacher(term) {
+        let activity = entities[3];
+
+        activity.floor2 = findById(activity.second_floor_teacher_id);
+        activity.floor3 = findById(activity.third_floor_teacher_id);
+        activity.floor4 = findById(activity.forth_floor_teacher_id);
+        
         return activity;
     }
 }
