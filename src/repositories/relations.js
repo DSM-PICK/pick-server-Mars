@@ -2,12 +2,12 @@ const { Activity, Teacher, Student, ChangedTeacher, PreAbsence, Attendance } = r
 
 
 // Activity - Teacher
-Teacher.hasMany(Activity, {foreignKey: "second_floor_teacher_id", sourceKey: "id"});
-Teacher.hasMany(Activity, {foreignKey: "third_floor_teacher_id", sourceKey: "id"});
-Teacher.hasMany(Activity, {foreignKey: "forth_floor_teacher_id", sourceKey: "id"});
-Activity.belongsTo(Teacher, {foreignKey: "second_floor_teacher_id", sourceKey: "id"});
-Activity.belongsTo(Teacher, {foreignKey: "third_floor_teacher_id", sourceKey: "id"});
-Activity.belongsTo(Teacher, {foreignKey: "forth_floor_teacher_id", sourceKey: "id"});
+Teacher.hasMany(Activity, {as: 'floor2', foreignKey: "second_floor_teacher_id", sourceKey: "id"});
+Teacher.hasMany(Activity, {as: 'floor3', foreignKey: "third_floor_teacher_id", sourceKey: "id"});
+Teacher.hasMany(Activity, {as: 'floor4', foreignKey: "forth_floor_teacher_id", sourceKey: "id"});
+Activity.belongsTo(Teacher, {as: 'floor2', foreignKey: "second_floor_teacher_id", sourceKey: "id"});
+Activity.belongsTo(Teacher, {as: 'floor3', foreignKey: "third_floor_teacher_id", sourceKey: "id"});
+Activity.belongsTo(Teacher, {as: 'floor4', foreignKey: "forth_floor_teacher_id", sourceKey: "id"});
 
 
 //Attendance - Activity
