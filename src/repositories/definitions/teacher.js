@@ -27,6 +27,10 @@ Teacher.init({
         type: DataTypes.STRING(12),
         allowNull: false
     },
+    office: {
+        type: DataTypes.STRING(40),
+        allowNull: false
+    }
 },
 { 
     sequelize,
