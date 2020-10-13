@@ -1,4 +1,16 @@
+function newTerm(date1, date2) {
+    const start = date1 < date2 ? date1 : date2;
+    const end = date1 > date2 ? date1 : date2;
 
+    return {
+        start,
+        end
+    }
+}
+
+function isBetweenInTerm(term, date) {
+    return isBetweenDate(term.start, term.end, date);
+}
 
 
 function validDateString(date_string) {
@@ -40,6 +52,8 @@ function newToday() {
 }
 
 module.exports = {
+    newTerm,
+    isBetweenInTerm,
     validDateString,
     dateToString,
     isBetweenDate,
