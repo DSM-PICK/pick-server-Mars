@@ -8,6 +8,7 @@ class FakeTeacherRepository {
                 pw: 1,
                 name: '김정은',
                 token: 1,
+                office: '2층 교무실'
             };
         }
         else if(id == 'Ahn') {
@@ -16,6 +17,7 @@ class FakeTeacherRepository {
                 pw: 2,
                 name: '안소희',
                 token: 2,
+                office: '3층 교무실'
             };
         }
         else if(id == 'Jwa') {
@@ -24,6 +26,7 @@ class FakeTeacherRepository {
                 pw: 3,
                 name: '좌찬익',
                 token: 3,
+                office: '4층 교무실'
             };
         }
         else if(id == 'Son') {
@@ -32,6 +35,7 @@ class FakeTeacherRepository {
                 pw: 4,
                 name: '손정우',
                 token: 4,
+                office: '본부 교무실'
             };
         }
         else if(id == 'Lee') {
@@ -40,6 +44,7 @@ class FakeTeacherRepository {
                 pw: 5,
                 name: '이진혁',
                 token: 5,
+                office: '교장실'
             };
         }
         else if(id == 'Yoo') {
@@ -48,6 +53,7 @@ class FakeTeacherRepository {
                 pw: 6,
                 name: '유시온',
                 token: 6,
+                office: '탁구장'
             };
         }
         throw new Exceptions.NotFoundDataException;
