@@ -152,10 +152,6 @@ describe('Working Teacher Service Test', () => {
                             Exceptions.InvalidFloorException);
             });
 
-            it('mismatch teacher\'s name', async () => {
-                await assert.rejects(working_teacher_service.exchangeTeacher(mismatch_teacher_input, mismatch_teacher_input,
-                            Exceptions.MismatchToRelationDatas));
-            });
         });
 
 
