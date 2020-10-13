@@ -13,17 +13,20 @@ describe('Working Teacher Service Test', () => {
             const correct_f2_result = {
                 "date": "2020-08-24",
                 "working_teacher": "김정은",
-                "floor": 2
+                "floor": 2,
+                "office": '2층 교무실'
             };
             const correct_f3_result = {
                 "date": "2020-08-24",
                 "working_teacher": "안소희",
-                "floor": 3
+                "floor": 3,
+                "office": '3층 교무실'
             };
             const correct_f4_result = {
                 "date": "2020-08-24",
                 "working_teacher": "좌찬익",
-                "floor": 4
+                "floor": 4,
+                "office": '4층 교무실'
             };
 
             it('floor 2', async () => {
