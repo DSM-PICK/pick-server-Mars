@@ -66,7 +66,7 @@ class FakeActivityRepository {
         return activity;
     }
 
-    static async findBtweenTermWithTeacher(term) {
+    static async findBetweenTermWithTeacher(term) {
         let activity = entities[3];
 
         activity.floor2 = findById(activity.second_floor_teacher_id);

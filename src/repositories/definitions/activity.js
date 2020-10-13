@@ -28,7 +28,7 @@ class Activity extends Model {
         return activity_entities.map((entity) => { return entity.dataValues; });
     }
 
-    static async findBtweenTermWithTeacher(term) {
+    static async findBetweenTermWithTeacher(term) {
         const activity_entities = await Activity.findAll({
             include: [{
                 model: Teacher,
