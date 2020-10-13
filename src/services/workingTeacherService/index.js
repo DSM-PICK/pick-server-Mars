@@ -64,18 +64,18 @@ class WorkingTeacherService {
         const activity2 = activity2_repo_read;
         
 
-        const input_teacher1_name = working_teacher_identifier1.teacher_name;
-        const input_teacher2_name = working_teacher_identifier2.teacher_name;
+        // const input_teacher1_name = working_teacher_identifier1.teacher_name;
+        // const input_teacher2_name = working_teacher_identifier2.teacher_name;
         
         const stored_teacher1_id = getTeacherByFloorInActivity(activity1, input_floor_teacher1);
         const stored_teacher2_id = getTeacherByFloorInActivity(activity2, input_floor_teacher2);
 
-        const stored_teacher1_name = await getTeacherNameById(this.teacher_repository, stored_teacher1_id);
-        const stored_teacher2_name = await getTeacherNameById(this.teacher_repository, stored_teacher2_id);
+        // const stored_teacher1_name = await getTeacherNameById(this.teacher_repository, stored_teacher1_id);
+        // const stored_teacher2_name = await getTeacherNameById(this.teacher_repository, stored_teacher2_id);
         
-        if(input_teacher1_name != stored_teacher1_name || input_teacher2_name != stored_teacher2_name) {
-            throw new Exceptions.MismatchToRelationDatas;
-        }
+        // if(input_teacher1_name != stored_teacher1_name || input_teacher2_name != stored_teacher2_name) {
+        //     throw new Exceptions.MismatchToRelationDatas;
+        // }
 
         
         if(input_floor_teacher1 == 2) {
