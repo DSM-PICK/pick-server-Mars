@@ -45,13 +45,13 @@ class Activity extends Model {
             ],
             where: {
                 date: {
-                    [Op.lte]: term.start,
-                    [Op.gte]: term.end,
+                    [Op.gte]: term.start,
+                    [Op.lte]: term.end,
                 }
             }
         });
-
-        if (!activity_entities) {
+        
+        if (activity_entities.length <= 0) {
             throw new Error.NotFoundDataException;
         }
 
