@@ -93,7 +93,6 @@ class FakeActivityRepository {
         let activities = entities.filter((entity) => {
             return isBetweenInTerm(term, new Date(entity.date));
         });
-        console.log(activities.length);
         if(activities.length <= 0) {
             throw new Exceptions.NotFoundDataException;
         }
