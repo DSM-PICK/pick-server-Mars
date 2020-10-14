@@ -191,7 +191,7 @@ describe('Working Teacher Service Test', () => {
             it('success', async () => {
                 try {
                     const result = await working_teacher_service.getWorkingTeacherByWeek(10, 3);
-                    assert.strictEqual(result, correct);
+                    assert.deepStrictEqual(result, correct);
                 }
                 catch (e) {
                     assert.fail(e.message);
