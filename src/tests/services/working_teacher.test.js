@@ -161,30 +161,36 @@ describe('Working Teacher Service Test', () => {
         const correct = [
             {
                 date: '2020-10-12',
-                schedule: 'club',
-                second_floor_teacher_id: 'Son',
-                third_floor_teacher_id: 'Lee',
-                forth_floor_teacher_id: 'Yoo'
+                floor2: '손정우',
+                floor3: '이진혁',
+                floor4: '유시온',
+                floor2_office: '본부 교무실',
+                floor3_office: '교장실',
+                floor4_office: '탁구장'
             },
             {
                 date: '2020-10-14',
-                schedule: 's',
-                second_floor_teacher_id: 'Son',
-                third_floor_teacher_id: 'Ahn',
-                forth_floor_teacher_id: 'Yoo'
+                floor2: '손정우',
+                floor3: '안소희',
+                floor4: '유시온',
+                floor2_office: '본부 교무실',
+                floor3_office: '3층 교무실',
+                floor4_office: '탁구장'
             },
             {
                 date: '2020-10-16',
-                schedule: 'b',
-                second_floor_teacher_id: 'Son',
-                third_floor_teacher_id: 'Lee',
-                forth_floor_teacher_id: 'Jwa'
+                floor2: '손정우',
+                floor3: '이진혁',
+                floor4: '좌찬익',
+                floor2_office: '본부 교무실',
+                floor3_office: '교장실',
+                floor4_office: '4층 교무실'
             },
         ];
         describe('succes', () => {
             it('success', async () => {
                 try {
-                    const result = await working_teacher_service.getWorkingTeacherByWeek(5, 3);
+                    const result = await working_teacher_service.getWorkingTeacherByWeek(10, 3);
                     assert.strictEqual(result, correct);
                 }
                 catch (e) {
@@ -195,7 +201,7 @@ describe('Working Teacher Service Test', () => {
 
         describe('fail', () => {
             it('not found date exception', async () => {
-                await assert.rejects(working_teacher_service.getWorkingTeacherByWeek(5, 1),
+                await assert.rejects(working_teacher_service.getWorkingTeacherByWeek(10, 1),
                     Exceptions.NotFoundDataException);
 
             });
