@@ -2,6 +2,7 @@ const RepoError = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 
 const ActivityService = require('../activityService');
+const { newTerm } = require('../../utils');
 
 class WorkingTeacherService {
     constructor(activity_repository, teacher_repository) {
@@ -19,12 +20,14 @@ class WorkingTeacherService {
             throw new Exceptions.InvalidFloorException;
         }
         try {
-            activity_by_date = await this.activity_service.getThisDateActivity(date);
+            // activity_by_date = await this.activity_service.getThisDateActivity(date);
+            activity_by_date = await this.activity_repository.findBetweenTermWithTeacher(newTerm(date, date));
+            // console.log(activity_by_date);
+            activity_by_date = activity_by_date[0];
         }
         catch(e) {
-            throw e;
+            throw new Exceptions.NotFoundDataException;
         }
-
 
         const working_teacher = floor == 2? activity_by_date.floor2
                                :floor == 3? activity_by_date.floor3
@@ -33,8 +36,9 @@ class WorkingTeacherService {
 
         const result = {
             date: activity_by_date.date,
-            working_teacher: working_teacher,
-            floor: floor
+            working_teacher: working_teacher.name,
+            floor: floor,
+            office: working_teacher.office
         };
 
         return result;
