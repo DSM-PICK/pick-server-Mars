@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Errors = require('../../errors/repositoriesExceptions');
 
-const Teacher = require('../../repositories').Teacher;
+const Teacher = require('../../repositories/definitions/teacher');
 
 class Activity extends Model {
     static async findByDate(date) {
