@@ -27,6 +27,27 @@ const entities = [
         forth_floor_teacher_id: 'Yoo'
     },
     {
+        date: '2020-10-12',
+        schedule: 'club',
+        second_floor_teacher_id: 'Son',
+        third_floor_teacher_id: 'Lee',
+        forth_floor_teacher_id: 'Yoo'
+    },
+    {
+        date: '2020-10-14',
+        schedule: 's',
+        second_floor_teacher_id: 'Son',
+        third_floor_teacher_id: 'Ahn',
+        forth_floor_teacher_id: 'Yoo'
+    },
+    {
+        date: '2020-10-16',
+        schedule: 'b',
+        second_floor_teacher_id: 'Son',
+        third_floor_teacher_id: 'Lee',
+        forth_floor_teacher_id: 'Jwa'
+    },
+    {
         date: "2021-01-24",
         schedule: "club",
         second_floor_teacher_id: 'Kim',
