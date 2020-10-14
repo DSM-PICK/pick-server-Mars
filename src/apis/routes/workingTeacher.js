@@ -66,6 +66,21 @@ controllers.exchangeTeacher = async (req, res, next) => {
     }
 };
 
+controllers.getWorkingTeacherInTheWeek = async (req, res, next) => {
+    try {
+        const result = await service.getWorkingTeacherByWeek(req.params.month, req.params.week);
+        res.send(result);
+    }
+    catch (e) {
+        if (e instanceof Exceptions.NotFoundDataException) {
+            next(HttpErrors.NotFoundDataInThisFloor);
+        }
+        else {
+            next(e);
+        }
+    }
+};
+
 
 function setUTCDateLikeGMT(date) {
     return new Date(new Date(new Date().setUTCDate(date.getDate())).setUTCHours(0, 0, 0, 0));

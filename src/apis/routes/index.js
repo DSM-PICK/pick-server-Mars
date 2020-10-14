@@ -12,6 +12,7 @@ router.get('/activity/months/:month', activity.getActivityByMonth);
 router.get('/activity/dates/:date', activity.getActivityByDate);
 
 router.get('/working-teacher/today/:floor', working_teacher.getTodayWorkingTeacher);
+router.get('/working-teacher/months/:month/weeks/:week', working_teacher.getWorkingTeacherInTheWeek);
 router_passed_middleware.patch('/working-teacher', working_teacher.exchangeTeacher);
 
 router_passed_middleware.get('/pre-absence/date/:date', pre_absence.getPreAbsenceByDate);
