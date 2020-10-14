@@ -2,6 +2,7 @@ const Exceptions = require('../../errors/repositoriesExceptions');
 const { findById } = require('./fakeTeacherRepository');
 const FakeTeacherRepo = require('./fakeTeacherRepository');
 
+const { isBetweenInTerm } = require('../../utils');
 
 const entities = [
     {
@@ -67,13 +68,17 @@ class FakeActivityRepository {
     }
 
     static async findBetweenTermWithTeacher(term) {
-        let activity = entities[3];
 
-        activity.floor2 = findById(activity.second_floor_teacher_id);
-        activity.floor3 = findById(activity.third_floor_teacher_id);
-        activity.floor4 = findById(activity.forth_floor_teacher_id);
-        
-        return activity;
+        let activities = entities.filter((entity) => {
+            return isBetweenInTerm(term, new Date(entity.date));
+        });
+        const result = await Promise.all(activities.map(async (activity) => {
+            activity.floor2 = await FakeTeacherRepo.findById(activity.second_floor_teacher_id);
+            activity.floor3 = await FakeTeacherRepo.findById(activity.third_floor_teacher_id);
+            activity.floor4 = await FakeTeacherRepo.findById(activity.forth_floor_teacher_id);
+            return activity;
+        }));
+        return result;
     }
 }
 
