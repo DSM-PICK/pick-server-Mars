@@ -2,7 +2,7 @@ const RepoError = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 
 const ActivityService = require('../activityService');
-const { newTerm } = require('../../utils');
+const { newTerm, newToday } = require('../../utils');
 
 class WorkingTeacherService {
     constructor(activity_repository, teacher_repository) {
@@ -42,6 +42,38 @@ class WorkingTeacherService {
         };
 
         return result;
+    }
+
+    async getWorkingTeacherByWeek(month, week) {
+        const one_date_second = 8600000;
+        const today = newToday();
+        const first_day_in_month = new Date(new Date(today.setUTCDate(1)).setUTCMonth(month - 1));
+        
+        const sunday_the_week = first_day_in_month.getTime() + ((week - 1) * 7 * one_date_second) - first_day_in_month.getUTCDay() * one_date_second;
+        const saturday_the_week = sunday_the_week + one_date_second * 6;
+
+        const monday = new Date(sunday_the_week - one_date_second);
+        const firday = new Date(saturday_the_week - one_date_second);
+        console.log(monday);
+        console.log(firday);        
+        const activities = await this.activity_repository.findBetweenTermWithTeacher(newTerm(monday, firday));
+
+        const results = activities.map((activity) => {
+            const result = {
+                date: activity.date,
+                floor2: activity.floor2.name,
+                floor3: activity.floor3.name,
+                floor4: activity.floor4.name,
+                floor2_office: activity.floor2.office,
+                floor3_office: activity.floor3.office,
+                floor4_office: activity.floor4.office
+            };
+
+            return result;
+        });
+
+
+        return results;
     }
 
     async exchangeTeacher(working_teacher_identifier1, working_teacher_identifier2) {   
@@ -108,6 +140,7 @@ class WorkingTeacherService {
         return true;
         
     }
+
 }
 
 
