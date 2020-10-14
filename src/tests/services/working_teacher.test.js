@@ -7,7 +7,7 @@ const TeacherRepository = require('../fakes/fakeTeacherRepository');
 
 describe('Working Teacher Service Test', () => {
     const working_teacher_service = new WorkingTeacherService(AcvitiyRepository, TeacherRepository);
-    
+
     describe('Get Working Teacher by date and floor', () => {
         describe('valid result', () => {
             const correct_f2_result = {
@@ -34,7 +34,7 @@ describe('Working Teacher Service Test', () => {
                     const result = await working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 2);
                     assert.deepEqual(result, correct_f2_result);
                 }
-                catch(e) {
+                catch (e) {
                     assert.fail(e.message);
                 }
             });
@@ -43,7 +43,7 @@ describe('Working Teacher Service Test', () => {
                     const result = await working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 3);
                     assert.deepEqual(result, correct_f3_result);
                 }
-                catch(e) {
+                catch (e) {
                     assert.fail(e.message);
                 }
             });
@@ -52,7 +52,7 @@ describe('Working Teacher Service Test', () => {
                     const result = await working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 4);
                     assert.deepEqual(result, correct_f4_result);
                 }
-                catch(e) {
+                catch (e) {
                     assert.fail(e.message);
                 }
             });
@@ -60,21 +60,21 @@ describe('Working Teacher Service Test', () => {
 
         describe('invalid result', () => {
             it('Couldn\'t found data in the date', async () => {
-                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-25'),2),
-                            Exceptions.NotFoundDataException);
+                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-25'), 2),
+                    Exceptions.NotFoundDataException);
             });
 
             it('floor is too small', async () => {
-                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'),1),
-                            Exceptions.InvalidFloorException);
+                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 1),
+                    Exceptions.InvalidFloorException);
             });
 
             it('floor is too big', async () => {
-                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'),5),
-                            Exceptions.InvalidFloorException);
+                await assert.rejects(working_teacher_service.getWorkingTeacherByDateAndFloor(new Date('2020-08-24'), 5),
+                    Exceptions.InvalidFloorException);
             });
         });
-        
+
     });
 
     describe('Exchange working teacher\'s date', () => {
@@ -116,7 +116,7 @@ describe('Working Teacher Service Test', () => {
 
                 assert.deepEqual(result, true);
             }
-            catch(e) {
+            catch (e) {
                 assert.fail(e.message);
             }
         });
@@ -126,7 +126,7 @@ describe('Working Teacher Service Test', () => {
 
                 assert.deepEqual(result, true);
             }
-            catch(e) {
+            catch (e) {
                 assert.fail(e.message);
             }
         });
@@ -136,7 +136,7 @@ describe('Working Teacher Service Test', () => {
 
                 assert.deepEqual(result, true);
             }
-            catch(e) {
+            catch (e) {
                 assert.fail(e.message);
             }
         });
@@ -144,16 +144,61 @@ describe('Working Teacher Service Test', () => {
         describe('invalid result', () => {
             it('not found activity', async () => {
                 await assert.rejects(working_teacher_service.exchangeTeacher(ivalid_date_input, ivalid_date_input),
-                            Exceptions.NotFoundDataException);
+                    Exceptions.NotFoundDataException);
             });
 
             it('given invalid floor', async () => {
                 await assert.rejects(working_teacher_service.exchangeTeacher(ivalid_floor_input, ivalid_floor_input),
-                            Exceptions.InvalidFloorException);
+                    Exceptions.InvalidFloorException);
             });
 
         });
 
 
+    });
+
+    describe('Get Working Teacher by Week', () => {
+        const correct = [
+            {
+                date: '2020-10-12',
+                schedule: 'club',
+                second_floor_teacher_id: 'Son',
+                third_floor_teacher_id: 'Lee',
+                forth_floor_teacher_id: 'Yoo'
+            },
+            {
+                date: '2020-10-14',
+                schedule: 's',
+                second_floor_teacher_id: 'Son',
+                third_floor_teacher_id: 'Ahn',
+                forth_floor_teacher_id: 'Yoo'
+            },
+            {
+                date: '2020-10-16',
+                schedule: 'b',
+                second_floor_teacher_id: 'Son',
+                third_floor_teacher_id: 'Lee',
+                forth_floor_teacher_id: 'Jwa'
+            },
+        ];
+        describe('succes', () => {
+            it('success', async () => {
+                try {
+                    const result = await working_teacher_service.getWorkingTeacherByWeek(5, 3);
+                    assert.strictEqual(result, correct);
+                }
+                catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+        });
+
+        describe('fail', () => {
+            it('not found date exception', async () => {
+                await assert.rejects(working_teacher_service.getWorkingTeacherByWeek(5, 1),
+                    Exceptions.NotFoundDataException);
+
+            });
+        });
     });
 });
