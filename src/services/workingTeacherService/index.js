@@ -45,19 +45,24 @@ class WorkingTeacherService {
     }
 
     async getWorkingTeacherByWeek(month, week) {
-        const one_date_second = 8600000;
+        const one_date_second = 86400000;
         const today = newToday();
         const first_day_in_month = new Date(new Date(today.setUTCDate(1)).setUTCMonth(month - 1));
         
         const sunday_the_week = first_day_in_month.getTime() + ((week - 1) * 7 * one_date_second) - first_day_in_month.getUTCDay() * one_date_second;
         const saturday_the_week = sunday_the_week + one_date_second * 6;
 
-        const monday = new Date(sunday_the_week - one_date_second);
+        const monday = new Date(sunday_the_week + one_date_second);
         const firday = new Date(saturday_the_week - one_date_second);
-        console.log(monday);
-        console.log(firday);        
-        const activities = await this.activity_repository.findBetweenTermWithTeacher(newTerm(monday, firday));
 
+        let activities;
+        try {
+            activities = await this.activity_repository.findBetweenTermWithTeacher(newTerm(monday, firday));    
+        } catch (e) {
+            throw new Exceptions.NotFoundDataException;    
+        }
+        
+        
         const results = activities.map((activity) => {
             const result = {
                 date: activity.date,
