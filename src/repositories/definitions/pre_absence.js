@@ -35,13 +35,14 @@ class PreAbsence extends Model {
             include: [{model: Student, as: 'student'}],
             where: {
                 start_date: {
-                    [Op.gte]: date,
+                    [Op.lte]: date,
                 },
                 end_date: {
-                    [Op.lte]: date,
+                    [Op.gte]: date,
                 },
             }
         });
+        console.log(absence_entities);
         if (!absence_entities) {
             throw new Exceptions.NotFoundDataException;
         }
