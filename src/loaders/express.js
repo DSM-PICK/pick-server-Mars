@@ -12,7 +12,6 @@ module.exports = (app) => {
 
     app.use((req, res, next) => {
         console.log(`[recieve] ${req.method} ${req.url} ${req.get('Authorization')}`);
-        console.log(req);
         next();
     });
 
