@@ -11,6 +11,7 @@ describe('pre absence test', () => {
             {
                 id: 1,
                 stdnum: 2411,
+                name: '손정우',
                 start_date: new Date("2020-08-24"),
                 start_period: 7,
                 end_date: new Date("2020-08-24"),

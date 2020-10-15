@@ -23,6 +23,7 @@ describe('pre_absence api test', () => {
                         {
                             id: 1,
                             stdnum: 2411,
+                            name: '손정우',
                             start_date: '2020-08-24',
                             start_period: 7,
                             end_date: '2020-08-24',
