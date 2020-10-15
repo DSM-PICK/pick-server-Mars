@@ -8,16 +8,16 @@ const { TOKEN_SECRET } = require('../../configs');
 
 module.exports = (token) => {
     if(!token) {
-        throw new NoneToken;
+        throw new NoneToken(`Token: ${token}`);
     }
-    token = separateToken(token);
+    const separated_token = separateToken(token);
 
-    if(isExpired(token)) {
-        throw new ExpiredToken;
+    if(isExpired(separated_token)) {
+        throw new ExpiredToken(`Token: ${token}`);
     }
 
-    if(isSelfContained(token) == false) {
-        throw new InvalidToken;
+    if(isSelfContained(separated_token) == false) {
+        throw new InvalidToken(`Token: ${token}`);
     }
 
     return true;
