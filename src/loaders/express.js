@@ -11,7 +11,7 @@ module.exports = (app) => {
     app.use(express.json());
 
     app.use((req, res, next) => {
-        console.log(`[recieve] ${req.method} ${req.url}`);
+        console.log(`[recieve] ${req.method} ${req.url} ${req.get('Authorization')}`);
         next();
     });
 
