@@ -42,7 +42,6 @@ class PreAbsence extends Model {
                 },
             }
         });
-        console.log(absence_entities);
         if (!absence_entities) {
             throw new Exceptions.NotFoundDataException;
         }
