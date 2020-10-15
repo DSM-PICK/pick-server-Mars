@@ -15,8 +15,8 @@ Activity.hasMany(Attendance, {foreignKey: 'date', sourceKey: 'date'});
 Attendance.belongsTo(Activity, {foreignKey: 'date', sourceKey: 'date'});
 
 //Attendance - Student
-Student.hasMany(Attendance, {foreignKey: 'student_num', sourceKey: 'num'});
-Attendance.belongsTo(Student, {foreignKey: 'student_num', sourceKey: 'num'});
+Student.hasMany(Attendance, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
+Attendance.belongsTo(Student, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
 
 //Attendance - Teacher
 Teacher.hasMany(Attendance, {foreignKey: 'teacher_id', sourceKey: 'id'});

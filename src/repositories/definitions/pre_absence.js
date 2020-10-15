@@ -2,10 +2,37 @@ const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
 
+const Student = require('./student');
+
 class PreAbsence extends Model {
+
+    // static async findPreAbsenceByDate(date) {
+    //     const absence_entities = await PreAbsence.findAll({
+    //         where: {
+    //             start_date: {
+    //                 [Op.gte]: date,
+    //             },
+    //             end_date: {
+    //                 [Op.lte]: date,
+    //             },
+    //         }
+    //     });
+    //     if (!absence_entities) {
+    //         throw new Exceptions.NotFoundDataException;
+    //     }
+
+    //     const result = absence_entities.map((entity) => {
+    //         const pre_absence = entity.dataValues;
+    //         pre_absence.start_date = new Date(pre_absence.start_date);
+    //         pre_absence.end_date = new Date(pre_absence.end_date);
+    //         return pre_absence;
+    //     });
+    //     return result;
+    // }
 
     static async findPreAbsenceByDate(date) {
         const absence_entities = await PreAbsence.findAll({
+            include: [{model: Student, as: 'student'}],
             where: {
                 start_date: {
                     [Op.gte]: date,
@@ -21,9 +48,16 @@ class PreAbsence extends Model {
 
         const result = absence_entities.map((entity) => {
             const pre_absence = entity.dataValues;
-            pre_absence.start_date = new Date(pre_absence.start_date);
-            pre_absence.end_date = new Date(pre_absence.end_date);
-            return pre_absence;
+            let result = {};
+            result.id = pre_absence.id;
+            result.student_num = pre_absence.student_num;
+            result.start_period = pre_absence.start_period;
+            result.end_period = pre_absence.end_period;
+            result.state = pre_absence.state;
+            result.name = pre_absence.student.name;
+            result.start_date = new Date(pre_absence.start_date);
+            result.end_date = new Date(pre_absence.end_date);
+            return result;
         });
         return result;
     }

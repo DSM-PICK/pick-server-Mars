@@ -25,6 +25,7 @@ class PreAbsenceService {
             return {
                 id: absence.id,
                 stdnum: absence.student_num,
+                name: absence.name,
                 start_date: absence.start_date,
                 start_period: absence.start_period,
                 end_date: absence.end_date,
