@@ -22,7 +22,7 @@ describe('pre_absence api test', () => {
                     [
                         {
                             id: 1,
-                            student_num: 2411,
+                            stdnum: 2411,
                             start_date: '2020-08-24',
                             start_period: 7,
                             end_date: '2020-08-24',
