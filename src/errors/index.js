@@ -1,13 +1,25 @@
 class HttpError extends Error {
-    constructor(status) {
-        super('');
+    constructor(status, message) {
+        super(message);
         this.status = status;
     }
 }
 
-const NoneToken = new HttpError(401);
-const ExpiredToken = new HttpError(410);
-const InvaildToken = new HttpError(403);
+class NoneToken extends HttpError {
+    constructor(message) {
+        super(401, message);
+    }
+}
+class ExpiredToken extends HttpError {
+    constructor(message) {
+        super(410, message);
+    }
+}
+class InvalidToken extends HttpError {
+    constructor(message) {
+        super(403, message);
+    }
+}
 
 const InvalidDate = new HttpError(400);
 const NotFoundDataInThisDate = new HttpError(404);
@@ -23,7 +35,7 @@ const NotFound = new HttpError(404);
 module.exports = {
     NoneToken,
     ExpiredToken,
-    InvaildToken,
+    InvalidToken,
 
     InvalidDate,
     NotFoundDataInThisDate,
