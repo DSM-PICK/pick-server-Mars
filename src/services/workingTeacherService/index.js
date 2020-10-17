@@ -81,6 +81,19 @@ class WorkingTeacherService {
         return results;
     }
 
+    async getRemainingDateForTheTeacehrFromTheDate(teacher_id, date) {
+        let activities;
+        try {
+            activities = await this.activity_repository.findByTeacherAfterTheDateChronologicalOrder(teacher_id, date);
+        } catch (e) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const diff_time = activities[0].date.getTime() - date.getTime();
+        const remaining_date = (diff_time / 86400000);
+        return remaining_date;
+    }
+
     async exchangeTeacher(working_teacher_identifier1, working_teacher_identifier2) {   
         const input_floor_teacher1 = working_teacher_identifier1.floor;
         const input_floor_teacher2 = working_teacher_identifier2.floor;
