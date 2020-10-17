@@ -215,7 +215,7 @@ describe('Working Teacher Service Test', () => {
                 const date = new Date('2020-10-12');
                 assert.deepStrictEqual(
                     await working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
-                    { 'remaining_date': 0 }
+                    0
                 );
             });
             it('tomorrow', async () => {
@@ -223,7 +223,7 @@ describe('Working Teacher Service Test', () => {
                 const date = new Date('2020-10-11');
                 assert.deepStrictEqual(
                     await working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
-                    { 'remaining_date': 0 }
+                    1
                 );
             });
         });
