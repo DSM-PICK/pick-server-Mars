@@ -207,4 +207,35 @@ describe('Working Teacher Service Test', () => {
             });
         });
     });
+
+    describe('Get Remaining Date for User to Work as Working Teacehr', () => {
+        describe('success', () => {
+            it('today', async () => {
+                const teacher_id = 'Son';
+                const date = new Date('2020-10-12');
+                assert.deepStrictEqual(
+                    await working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
+                    { 'remaining_date': 0 }
+                );
+            });
+            it('tomorrow', async () => {
+                const teacher_id = 'Son';
+                const date = new Date('2020-10-11');
+                assert.deepStrictEqual(
+                    await working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
+                    { 'remaining_date': 0 }
+                );
+            });
+        });
+
+        describe('fail', () => {
+            it('not found result', async () => {
+                const teacher_id = 'Son';
+                const date = new Date('2020-10-18');
+                await assert.rejects(working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
+                    Exceptions.NotFoundDataException);
+            });
+        });
+    });
+
 });
