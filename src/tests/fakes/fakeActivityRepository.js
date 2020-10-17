@@ -106,6 +106,34 @@ class FakeActivityRepository {
 
         return results;
     }
+
+    static async findByTeacherAfterTheDateChronologicalOrder(teacher_id, date) {
+        let results = entities.filter((activity) => {
+            const teacher_id_f2 = activity.second_floor_teacher_id;
+            const teacher_id_f3 = activity.third_floor_teacher_id;
+            const teacher_id_f4 = activity.forth_floor_teacher_id;
+            const activity_date = new Date(activity.date);
+            if (teacher_id_f2 == teacher_id || teacher_id_f3 == teacher_id || teacher_id_f4 == teacher_id) {
+                return activity_date.getTime() >= date.getTime();
+            }
+            return false;
+        });
+
+        if(results.length <= 0) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        results = results.map((activity) => {
+            let result = {};
+            result.teacher_id = teacher_id;
+            result.date = new Date(activity.date);
+            result.schedule = activity.schedule;
+
+            return result;
+        });
+
+        return results;
+    }
 }
 
 module.exports = FakeActivityRepository;
