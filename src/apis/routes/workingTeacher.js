@@ -7,6 +7,7 @@ const TeacherRepository = require('../../repositories').Teacher;
 const WorkingTeacherService = require('../../services/workingTeacherService');
 const Exceptions = require('../../errors/servicesExceptions');
 const HttpErrors = require('../../errors');
+const { newToday } = require('../../utils');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 
@@ -81,6 +82,16 @@ controllers.getWorkingTeacherInTheWeek = async (req, res, next) => {
     }
 };
 
+controllers.GetRemainingDateForUser = async (req, res, next) => {
+    const teacher_id = req.auth;
+    let remaining_date;
+    try {
+        remaining_date = await service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, newToday());
+    } catch (e) {
+        next(HttpErrors.NotFound);
+    }
+    res.send({remaining_date});
+};
 
 function setUTCDateLikeGMT(date) {
     return new Date(new Date(new Date().setUTCDate(date.getDate())).setUTCHours(0, 0, 0, 0));
