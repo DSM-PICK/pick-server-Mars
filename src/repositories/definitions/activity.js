@@ -73,6 +73,36 @@ class Activity extends Model {
         });
     }
 
+    static async findByTeacherAfterTheDateChronologicalOrder(teacher_id, date) {
+        const activity_entities = await Activity.findAll({
+            where: Sequelize.and(
+                {date: {
+                    [Op.gte]: date,
+                }},
+                Sequelize.or(
+                    { second_floor_teacher_id: teacher_id },
+                    { third_floor_teacher_id: teacher_id },
+                    { forth_floor_teacher_id: teacher_id }
+                ),
+            )
+        });
+
+        if (activity_entities.length <= 0) {
+            throw new Error.NotFoundDataException;
+        }
+
+        return activity_entities.map((entity) => { 
+            entity = entity.dataValues;
+            let result = {};
+            result.teacher_id = teacher_id;
+            result.date = new Date(entity.date);
+            result.schedule = entity.schedule;
+
+            return result;
+        });
+
+    }
+
 }
 
 Activity.init({
