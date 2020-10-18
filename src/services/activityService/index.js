@@ -20,9 +20,27 @@ class ActivityService {
             throw e;
         }
 
-        let floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
-        let floor3_teacher = await this.teacher_repository.findById(activity.third_floor_teacher_id);
-        let floor4_teacher = await this.teacher_repository.findById(activity.forth_floor_teacher_id);
+        const null_name_teacher = {name: null};
+        let floor2_teacher;
+        try {
+            floor2_teacher = await this.teacher_repository.findById(activity.second_floor_teacher_id);
+        } catch (e) {
+            floor2_teacher = null_name_teacher;
+        }
+        
+        let floor3_teacher;
+        try {
+            floor3_teacher  = await this.teacher_repository.findById(activity.third_floor_teacher_id);
+        } catch (e) {
+            floor3_teacher = null_name_teacher;
+        }
+
+        let floor4_teacher;
+        try {
+            floor4_teacher = await this.teacher_repository.findById(activity.forth_floor_teacher_id);
+        } catch (e) {
+            floor4_teacher = null_name_teacher;
+        }
 
         const result = {
             date: activity.date,
