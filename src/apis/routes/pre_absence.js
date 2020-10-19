@@ -43,6 +43,8 @@ controllers.createPreAbsence = async (req, res, next) => {
 
     if (validDateString(req.body.start_date) == false ||
         validDateString(req.body.end_date) == false ||
+        !req.body.start_period||
+        !req.body.end_period||
         req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출') {
         next(HttpErrors.BadRequest);
         return;
