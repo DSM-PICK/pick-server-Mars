@@ -44,7 +44,7 @@ class PreAbsenceService {
             throw new Exceptions.InvalidTermException;
         }
 
-        if(checkConflict(student_num, term)) {
+        if(await checkConflict(student_num, term)) {
             throw new Exceptions.ConflictData;
         }
 
