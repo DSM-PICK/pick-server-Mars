@@ -124,6 +124,10 @@ class WorkingTeacherService {
         const stored_teacher1_id = getTeacherByFloorInActivity(activity1, input_floor_teacher1);
         const stored_teacher2_id = getTeacherByFloorInActivity(activity2, input_floor_teacher2);
 
+        if(stored_teacher1_id == stored_teacher2_id) {
+            throw new Exceptions.ConflictData;
+        }
+
         // const stored_teacher1_name = await getTeacherNameById(this.teacher_repository, stored_teacher1_id);
         // const stored_teacher2_name = await getTeacherNameById(this.teacher_repository, stored_teacher2_id);
         

@@ -8,6 +8,8 @@ const WorkingTeacherService = require('../../services/workingTeacherService');
 const Exceptions = require('../../errors/servicesExceptions');
 const HttpErrors = require('../../errors');
 const { newToday } = require('../../utils');
+const { http } = require('../../loaders/logger');
+const { Http } = require('winston/lib/winston/transports');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 
@@ -60,6 +62,9 @@ controllers.exchangeTeacher = async (req, res, next) => {
         }
         else if(e instanceof Exceptions.MismatchToRelationDatas) {
             next(HttpErrors.NotFoundTeacher);
+        }
+        else if(e instanceof Exceptions.ConflictData) {
+            next(HttpErrors.Conflict);
         }
         else {
             next(e);
