@@ -44,6 +44,10 @@ class PreAbsenceService {
             throw new Exceptions.InvalidTermException;
         }
 
+        if(checkConflict(student_num, term)) {
+            throw new Exceptions.ConflictData;
+        }
+
         try {
             await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state);
         }
@@ -84,6 +88,16 @@ class PreAbsenceService {
     }
 }
 
+async function checkConflict(student_num, new_term) {
+    let preabsences;
+    try {
+        preabsences= await this.pre_absence_repo.findByTerm(new_term);
+    } catch (e) {
+        return false;
+    }
 
+    const conflicteds = preabsences.filter((preabsence) => preabsence.student_num == student_num);
+    return conflicteds.length > 0;
+}
 
 module.exports = PreAbsenceService;

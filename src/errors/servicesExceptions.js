@@ -31,11 +31,14 @@ class InvalidTermException extends Error {
 class InvalidGivenDataException extends Error {
 }
 
+class ConflictData extends Error { }
+
 module.exports = {
     InvalidDateException,
     NotFoundDataException,
     InvalidFloorException,
     MismatchToRelationDatas,
     InvalidTermException,
-    InvalidGivenDataException
+    InvalidGivenDataException,
+    ConflictData
 };

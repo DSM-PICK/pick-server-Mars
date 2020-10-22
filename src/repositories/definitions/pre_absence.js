@@ -30,6 +30,52 @@ class PreAbsence extends Model {
     //     return result;
     // }
 
+    static async findByTerm(term) {
+        const absence_entities = await PreAbsence.findAll({
+            include: [{model: Student, as: 'student'}],
+            where: Sequelize.or(
+                Sequelize.or(
+                    Sequelize.and(
+                        { start_date: { [Op.lte]: term.end_date } },
+                        { start_date: { [Op.gte]: term.start_period } }
+                    ),
+                    Sequelize.and(
+                        { end_date: { [Op.lte]: term.end_date } },
+                        { end_date: { [Op.gte]: term.start_period } }
+                    ),
+                ),
+                Sequelize.or(
+                    Sequelize.and(
+                        { start_date: { [Op.gte]: term.start_date } },
+                        { end_date: { [Op.lte]: term.start_period } }
+                    ),
+                    Sequelize.and(
+                        { start_date: { [Op.gte]: term.end_date } },
+                        { end_date: { [Op.lte]: term.end_period } }
+                    ),
+                ),
+            )
+        });
+        if (!absence_entities) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const result = absence_entities.map((entity) => {
+            const pre_absence = entity.dataValues;
+            let result = {};
+            result.id = pre_absence.id;
+            result.student_num = pre_absence.student_num;
+            result.start_period = pre_absence.start_period;
+            result.end_period = pre_absence.end_period;
+            result.state = pre_absence.state;
+            result.name = pre_absence.student.name;
+            result.start_date = new Date(pre_absence.start_date);
+            result.end_date = new Date(pre_absence.end_date);
+            return result;
+        });
+        return result;
+    }
+
     static async findPreAbsenceByDate(date) {
         const absence_entities = await PreAbsence.findAll({
             include: [{model: Student, as: 'student'}],

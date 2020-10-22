@@ -63,7 +63,12 @@ controllers.createPreAbsence = async (req, res, next) => {
     try {
         await service.createPreAbsence(teacher, student, term, state);
     } catch (e) {
-        next(HttpErrors.NotFound);
+        if(e instanceof ServiceExceptions.ConflictData) {
+            next(HttpErrors.Conflict);
+        }
+        else {
+            next(HttpErrors.NotFound);
+        }
         return;
     }
 

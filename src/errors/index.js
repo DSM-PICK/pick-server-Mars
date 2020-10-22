@@ -32,6 +32,8 @@ const NotFoundTeacher = new HttpError(404);
 const BadRequest = new HttpError(400);
 const NotFound = new HttpError(404);
 
+const Conflict = new HttpError(409);
+
 module.exports = {
     NoneToken,
     ExpiredToken,
@@ -45,7 +47,9 @@ module.exports = {
     NotFoundTeacher,
 
     BadRequest,
-    NotFound
+    NotFound,
+
+    Conflict
 };
 
 
