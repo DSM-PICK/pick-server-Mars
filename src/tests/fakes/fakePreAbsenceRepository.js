@@ -3,6 +3,10 @@ const Exceptions = require('../../errors/repositoriesExceptions');
 
 
 class FakePreAbsenceRepository {
+    static async findByTerm() {
+        return [];
+    }
+
     static async findPreAbsenceByDate(date) {
         if(date.getTime() == new Date('2020-08-24').getTime()) {
             return [
