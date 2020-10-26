@@ -22,7 +22,13 @@ controllers.getActivityByDate = async (req, res, next) => {
             next(BadRequest);
         }
         else if(e instanceof Exceptions.NotFoundDataException) {
-            res.json(null);
+            res.json({
+                date: req.params.date,
+                schedule: "non-schedule",
+                floor2: null,
+                floor3: null,
+                floor4: null
+            });
             //next(NotFound);
         }
         else {
