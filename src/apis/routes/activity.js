@@ -22,7 +22,8 @@ controllers.getActivityByDate = async (req, res, next) => {
             next(BadRequest);
         }
         else if(e instanceof Exceptions.NotFoundDataException) {
-            next(NotFound);
+            res.json(null);
+            //next(NotFound);
         }
         else {
             next(e);
