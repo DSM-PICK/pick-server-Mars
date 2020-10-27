@@ -48,8 +48,8 @@ jobs:
         run: docker build -t mars .
     
       - name: upload to registry
-        uses: yeoul/mars
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: mars
+          name: yeoul/mars
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
