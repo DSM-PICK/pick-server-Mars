@@ -15,7 +15,7 @@ module.exports = (app) => {
         next();
     });
     app.get('/mars/time', (req, res) => {
-        res.send(new Date().getTime());
+        res.send(String(new Date().getTime()));
     });
     app.use('/mars/', router);
     
