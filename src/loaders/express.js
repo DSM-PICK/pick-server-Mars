@@ -14,7 +14,9 @@ module.exports = (app) => {
         console.log(`[recieve] ${req.method} ${req.url} ${req.get('Authorization')}`);
         next();
     });
-
+    app.get('/mars/time', (req, res) => {
+        res.send(new Date().getTime());
+    });
     app.use('/mars/', router);
     
     app.use(middlewares);
