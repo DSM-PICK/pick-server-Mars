@@ -37,21 +37,21 @@ class PreAbsence extends Model {
                 Sequelize.or(
                     Sequelize.and(
                         { start_date: { [Op.lte]: term.end_date } },
-                        { start_date: { [Op.gte]: term.start_period } }
+                        { start_date: { [Op.gte]: term.start_date } }
                     ),
                     Sequelize.and(
                         { end_date: { [Op.lte]: term.end_date } },
-                        { end_date: { [Op.gte]: term.start_period } }
+                        { end_date: { [Op.gte]: term.start_date } }
                     ),
                 ),
                 Sequelize.or(
                     Sequelize.and(
                         { start_date: { [Op.gte]: term.start_date } },
-                        { end_date: { [Op.lte]: term.start_period } }
+                        { end_date: { [Op.lte]: term.start_date } }
                     ),
                     Sequelize.and(
                         { start_date: { [Op.gte]: term.end_date } },
-                        { end_date: { [Op.lte]: term.end_period } }
+                        { end_date: { [Op.lte]: term.end_date } }
                     ),
                 ),
             )
