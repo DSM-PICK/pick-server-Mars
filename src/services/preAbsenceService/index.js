@@ -99,4 +99,44 @@ async function checkConflict(repo, student_num, new_term) {
     return conflicteds.length > 0;
 }
 
+async function checkTermConflict(repo, student_num, new_term) {
+    let preabsences;
+    try {
+        preabsences= await repo.findByTerm(new_term);
+    } catch (e) {
+        return false;
+    }
+
+    const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num);
+    const range_by_new_term = getRangeByTerm(new_term);
+    const conflicteds = conflicteds_student.filter((preabsence) => {
+        const range_by_preabsence = getRangeByTerm(preabsences);
+        return isConflictRange(range_by_new_term, range_by_preabsence);
+    });
+    return conflicteds.length > 0;
+}
+
+function convertClassInToNumber(date, period) {
+    return Math.floor(date / 1000) * 1000 + period;
+}
+
+function isConflictRange(range1, range2) {
+    return (range1.start <= range2.end && range1.start >= range2.start)
+        || (range1.end <= range2.end && range1.end >= range2.start)
+        || (range1.start >= range2.start && range1.end <= range2.start)
+        || (range1.start >= range2.end && range1.end <= range2.end);
+}
+
+function newRange(start, end) {
+    return {
+        start: start,
+        end: end
+    };
+}
+
+function getRangeByTerm(term) {
+    return newRange(convertClassInToNumber(term.start_date, term.start_period),
+        convertClassInToNumber(term.end_date, term.end_period));
+}
+
 module.exports = PreAbsenceService;
