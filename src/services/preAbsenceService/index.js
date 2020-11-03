@@ -88,6 +88,7 @@ class PreAbsenceService {
             throw new Exceptions.NotFoundDataException;
         }
 
+        pre_absence = pre_absence[0];
         const today = newToday();
         const term = {
             start_date: pre_absence.start_date,
