@@ -80,11 +80,42 @@ class PreAbsenceService {
 
 
     async deletePreAbsenceById(id) {
+        let pre_absence;
         try {
+            pre_absence = await this.pre_absence_repo.findById(id);
             await this.pre_absence_repo.deletePreAbsenceById(id);
         } catch (e) {
             throw new Exceptions.NotFoundDataException;
         }
+
+        const today = newToday();
+        const term = {
+            start_date: pre_absence.start_date,
+            end_date: pre_absence.end_date,
+            start_period: pre_absence.start_period,
+            end_period: pre_absence.end_period,
+        };
+        if(isBetweenDate(term.start_date, term.end_date, today)) {
+            let start_period = 7;
+            if(dateToString(term.start_date) == dateToString(today)) {
+                start_period = term.start_period;
+            }
+
+            let end_period = 10;
+            if(dateToString(term.end_date) == dateToString(today)) {
+                end_period = term.end_period;
+            }
+            for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
+                try {
+                    await this.attendance_repo.updateAttendance(today, student_num, period, '출석');
+                } catch (e) {
+                    console.log(this.attendance_repo);
+                    console.log(e);
+                }
+            }
+        }
+
+
     }
 }
 
