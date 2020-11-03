@@ -6,7 +6,21 @@ class FakePreAbsenceRepository {
     static async findByTerm() {
         return [];
     }
-
+    static async findById(id) {
+        return [
+            {
+                id: 1,
+                teacher_id: 'Kim',
+                start_date: new Date('2020-08-24'),
+                end_date: new Date('2020-08-24'),
+                student_num: 2411,
+                name: '손정우',
+                start_period: 7,
+                end_period: 10,
+                state: "현체"
+            }
+        ];
+    }
     static async findPreAbsenceByDate(date) {
         if(date.getTime() == new Date('2020-08-24').getTime()) {
             return [
