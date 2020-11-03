@@ -144,6 +144,25 @@ class PreAbsence extends Model {
         }
     }
 
+    static async findById(id) {
+        const absence_entities = await PreAbsence.findAll({
+            where: {
+                id: id
+            }
+        });
+        if (!absence_entities) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const result = absence_entities.map((entity) => {
+            const pre_absence = entity.dataValues;
+            pre_absence.start_date = new Date(pre_absence.start_date);
+            pre_absence.end_date = new Date(pre_absence.end_date);
+            return pre_absence;
+        });
+        return result;
+    }
+
 
 }
 
