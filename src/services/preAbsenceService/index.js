@@ -44,7 +44,7 @@ class PreAbsenceService {
             throw new Exceptions.InvalidTermException;
         }
 
-        if(await checkConflict(this.pre_absence_repo, student_num, term)) {
+        if(await checkTermConflict(this.pre_absence_repo, student_num, term)) {
             throw new Exceptions.ConflictData;
         }
 
@@ -106,7 +106,6 @@ async function checkTermConflict(repo, student_num, new_term) {
     } catch (e) {
         return false;
     }
-
     const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num);
     const range_by_new_term = getRangeByTerm(new_term);
     const conflicteds = conflicteds_student.filter((preabsence) => {
