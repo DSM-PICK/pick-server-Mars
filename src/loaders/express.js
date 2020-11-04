@@ -14,6 +14,12 @@ module.exports = (app) => {
         console.log(`[recieve] ${req.method} ${req.url} ${req.get('Authorization')}`);
         next();
     });
+    
+    app.use((req, res, next) => {
+        res.set('Cache-Control', 'no-store')
+        next()
+    });
+
     app.get('/mars/time', (req, res) => {
         res.send(String(new Date().getTime()));
     });
