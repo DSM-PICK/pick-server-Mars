@@ -77,6 +77,14 @@ function newDateNDayAwayFromToday(day) {
     return addDay(newToday(), day);
 }
 
+function getFirstDateOfNextYear() {
+    return new Date(newToday().getUTCFullYear() + 1 + '-01-01');
+}
+
+function getLastDateOfLastYear() {
+    return new Date(newToday().getUTCFullYear() - 1 + '-12-31');
+}
+
 module.exports = {
     newTerm,
     isBetweenInTerm,
@@ -87,5 +95,7 @@ module.exports = {
     isConflictRange,
     newRange,
     addDay,
-    newDateNDayAwayFromToday
+    newDateNDayAwayFromToday,
+    getFirstDateOfNextYear,
+    getLastDateOfLastYear
 }
