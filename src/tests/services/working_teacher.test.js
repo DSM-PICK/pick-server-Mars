@@ -8,6 +8,11 @@ const TeacherRepository = require('../fakes/fakeTeacherRepository');
 describe('Working Teacher Service Test', () => {
     const working_teacher_service = new WorkingTeacherService(AcvitiyRepository, TeacherRepository);
 
+    beforeEach(() => {
+        AcvitiyRepository.init();
+        TeacherRepository.init();
+    });
+
     describe('Get Working Teacher by date and floor', () => {
         describe('valid result', () => {
             const correct_f2_result = {

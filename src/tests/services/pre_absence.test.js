@@ -6,6 +6,11 @@ const PreAbsenceRepository = require('../fakes/fakePreAbsenceRepository');
 
 describe('pre absence test', () => {
     const pre_absence_service = new PreAbsenceService(PreAbsenceRepository);
+    
+    beforeEach(() => {
+        PreAbsenceRepository.init();
+    });
+
     describe('get pre absence by date test', () => {
         const correct_result = [
             {

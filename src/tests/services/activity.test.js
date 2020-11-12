@@ -8,6 +8,10 @@ const TeacherRepository = require('../fakes/fakeTeacherRepository');
 
 describe('Activity Service Test', () => {
     const activity_service = new ActivityService(AcvitiyRepository, TeacherRepository);
+    
+    beforeEach(() => {
+        TeacherRepository.init();
+    });
 
     describe('Get Activity per Date', () => {
         const correct_result = {

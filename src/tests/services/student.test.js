@@ -6,6 +6,11 @@ const Exceptions = require('../../errors/servicesExceptions');
 
 describe('test to get expected student by input text', () => {
     const student_service = new StudentService(StudentRepository);
+
+    beforeEach(() => {
+        StudentRepository.init();
+    });
+
     describe('success', () => {
         it('given complete student number', async () => {
             const results = await student_service.expect_by_input('1111');
