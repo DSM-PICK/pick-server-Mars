@@ -1,9 +1,13 @@
 const Exceptions = require('../../errors/repositoriesExceptions');
 const utils = require('../../utils');
 
-const datas = makeTestPreAbsences();
+let datas = makeTestPreAbsences();
 
 class FakePreAbsenceRepository {
+    static init() {
+        datas = makeTestPreAbsences();
+    }
+
     static async findByTerm() {
         return [];
     }
