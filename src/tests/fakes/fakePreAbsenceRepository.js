@@ -37,7 +37,9 @@ class FakePreAbsenceRepository {
     }
 
     static async deletePreAbsenceById(id) {
-        if(id != 1) {
+        const origin_lenth = datas.length;
+        datas = datas.filter((data) => data.id != id);
+        if(datas.length == origin_lenth) {
             throw new Exceptions.NotFoundDataException;
         }
     }
