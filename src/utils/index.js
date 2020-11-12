@@ -51,11 +51,27 @@ function newToday() {
     return new Date(dateToString(new Date()));
 }
 
+function isConflictRange(range1, range2) {
+    return (range1.start <= range2.end && range1.start >= range2.start)
+        || (range1.end <= range2.end && range1.end >= range2.start)
+        || (range1.start >= range2.start && range1.end <= range2.start)
+        || (range1.start >= range2.end && range1.end <= range2.end);
+}
+
+function newRange(start, end) {
+    return {
+        start: start,
+        end: end
+    };
+}
+
 module.exports = {
     newTerm,
     isBetweenInTerm,
     validDateString,
     dateToString,
     isBetweenDate,
-    newToday
+    newToday,
+    isConflictRange,
+    newRange
 }
