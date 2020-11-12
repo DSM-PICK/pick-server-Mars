@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { newDateNDayAwayFromToday, newToday } = require('../utils');
 const utils = require('../utils');
 
 describe('Utils test', () => {
@@ -19,4 +20,20 @@ describe('Utils test', () => {
                 false);
         });
     });
+
+    describe('newDateNDayAwayFromToday', () => {
+        it('after 2', () => {
+            assert.strictEqual(
+                newDateNDayAwayFromToday(2).getTime(), newToday().getTime() + 86400000 * 2);
+        });
+        it('today', () => {
+            assert.strictEqual(
+                newDateNDayAwayFromToday(0).getTime(), newToday().getTime());
+        });
+        it('before 2', () => {
+            assert.strictEqual(
+                newDateNDayAwayFromToday(-2).getTime(), newToday().getTime() - 86400000 * 2);
+        });
+    });
+
 });

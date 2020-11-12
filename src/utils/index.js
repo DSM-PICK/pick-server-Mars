@@ -65,6 +65,18 @@ function newRange(start, end) {
     };
 }
 
+function convertDaytoTime(day) {
+    return day * 86400000;
+}
+
+function addDay(date, day) {
+    return new Date(date.getTime() + convertDaytoTime(day));
+}
+
+function newDateNDayAwayFromToday(day) {
+    return addDay(newToday(), day);
+}
+
 module.exports = {
     newTerm,
     isBetweenInTerm,
@@ -73,5 +85,7 @@ module.exports = {
     isBetweenDate,
     newToday,
     isConflictRange,
-    newRange
+    newRange,
+    addDay,
+    newDateNDayAwayFromToday
 }
