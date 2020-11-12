@@ -1,4 +1,5 @@
 const Exceptions = require('../../errors/repositoriesExceptions');
+const utils = require('../../utils');
 
 const datas = makeTestPreAbsences();
 
@@ -10,22 +11,11 @@ class FakePreAbsenceRepository {
         return datas.filter((data) => data.id == id);
     }
     static async findPreAbsenceByDate(date) {
-        if(date.getTime() == new Date('2020-08-24').getTime()) {
-            return [
-                {
-                    id: 1,
-                    teacher_id: 'Kim',
-                    start_date: new Date('2020-08-24'),
-                    end_date: new Date('2020-08-24'),
-                    student_num: 2411,
-                    name: '손정우',
-                    start_period: 7,
-                    end_period: 10,
-                    state: "현체"
-                }
-            ];
+        const results = datas.filter((data) => utils.isBetweenDate(data.start_date, data.end_date, date));
+        if (results.length <= 0) {
+            throw new Exceptions.NotFoundDataException;
         }
-        throw new Exceptions.NotFoundDataException;
+        return results;
     }
 
     static async createPreAbsence(teacher_id, student_num, term, state) {
@@ -65,8 +55,8 @@ function makeTestPreAbsences() {
         {
             id: 2,
             teacher_id: 'Kim',
-            start_date: new Date('2020-08-24'),
-            end_date: new Date('2020-08-24'),
+            start_date: new Date('2020-09-24'),
+            end_date: new Date('2020-09-24'),
             student_num: 1111,
             name: '손정우',
             start_period: 7,
