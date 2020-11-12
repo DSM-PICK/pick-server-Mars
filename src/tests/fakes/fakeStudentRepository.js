@@ -1,38 +1,9 @@
-const students = [{
-    num: 1101,
-    name: '김대웅',
-    club_name: '팬텀',
-    class_name: '1-1',
-},
-{
-    num: 1111,
-    name: '손정우',
-    club_name: '모딥',
-    class_name: '1-1',
-},
-{
-    num: 2401,
-    name: '김대웅',
-    club_name: 'DMS',
-    class_name: '2-4',
-},
-{
-    num: 2411,
-    name: '손정우',
-    club_name: 'UP',
-    class_name: '2-4',
-},
-{
-    num: 2417,
-    name: '이진혁',
-    club_name: 'UP',
-    class_name: '2-4',
-}];
+let students = makeTestStudents();
 
 
 class FakeStudentRepository {
-    constructor() {
-        
+    static init() {
+        students = makeTestStudents();
     }
 
     static async findAllByNum(num) {
@@ -65,5 +36,37 @@ class FakeStudentRepository {
     }
 }
 
+function makeTestStudents() {
+    return [{
+        num: 1101,
+        name: '김대웅',
+        club_name: '팬텀',
+        class_name: '1-1',
+    },
+    {
+        num: 1111,
+        name: '손정우',
+        club_name: '모딥',
+        class_name: '1-1',
+    },
+    {
+        num: 2401,
+        name: '김대웅',
+        club_name: 'DMS',
+        class_name: '2-4',
+    },
+    {
+        num: 2411,
+        name: '손정우',
+        club_name: 'UP',
+        class_name: '2-4',
+    },
+    {
+        num: 2417,
+        name: '이진혁',
+        club_name: 'UP',
+        class_name: '2-4',
+    }];
+}
 
 module.exports = FakeStudentRepository;
