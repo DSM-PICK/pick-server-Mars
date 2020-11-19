@@ -4,6 +4,7 @@ const ActivityService = require('../../services/activityService');
 const Exceptions = require('../../errors/servicesExceptions');
 const AcvitiyRepository = require('../fakes/fakeActivityRepository');
 const TeacherRepository = require('../fakes/fakeTeacherRepository');
+const { newDateNDayAwayFromToday, newToday, getLastDateOfLastYear, getFirstDateOfNextYear } = require('../../utils');
 
 
 describe('Activity Service Test', () => {
@@ -15,7 +16,7 @@ describe('Activity Service Test', () => {
 
     describe('Get Activity per Date', () => {
         const correct_result = {
-            date: "2020-08-24",
+            date: new Date(newToday().getUTCFullYear() + '-08-11'),
             schedule: "club",
             floor2: "김정은",
             floor3: "안소희",
@@ -24,7 +25,7 @@ describe('Activity Service Test', () => {
         
         it('Given valid date', async () => {
             try{
-                const result = await activity_service.getThisDateActivity(new Date('2020-08-24'));
+                const result = await activity_service.getThisDateActivity(new Date(newToday().getUTCFullYear() + '-08-11'));
                 assert.deepEqual(result, correct_result);
             } catch(e) {
                 assert.fail(e.message);
@@ -45,7 +46,7 @@ describe('Activity Service Test', () => {
             next_month: "https://dsm-pick/activity/months/1",
             data: [
                 {
-                    date: "2019-12-24",
+                    date: getLastDateOfLastYear(),
                     schedule: "club",
                     floor2: "김정은",
                     floor3: "안소희",
@@ -59,11 +60,25 @@ describe('Activity Service Test', () => {
             next_month: "https://dsm-pick/activity/months/9",
             data: [
                 {
-                    date: "2020-08-24",
+                    date: new Date(newToday().getUTCFullYear() + '-08-11'),
                     schedule: "club",
                     floor2: "김정은",
                     floor3: "안소희",
                     floor4: "좌찬익"
+                },
+                {
+                    date: new Date(newToday().getUTCFullYear() + '-08-12'),
+                    schedule: "club",
+                    floor2: "손정우",
+                    floor3: "유시온",
+                    floor4: "이진혁"
+                },
+                {
+                    date: new Date(newToday().getUTCFullYear() + '-08-13'),
+                    schedule: "club",
+                    floor2: "손정우",
+                    floor3: "유시온",
+                    floor4: "이진혁"
                 },
             ]
         };
@@ -73,7 +88,7 @@ describe('Activity Service Test', () => {
             next_month: null,
             data: [
                 {
-                    date: "2021-01-24",
+                    date: getFirstDateOfNextYear(),
                     schedule: "club",
                     floor2: "김정은",
                     floor3: "안소희",
