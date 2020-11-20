@@ -242,15 +242,6 @@ describe('Working Teacher Service Test', () => {
                 );
             });
         });
-
-        describe('fail', () => {
-            it('not found result', async () => {
-                const teacher_id = 'Jwa';
-                const date = new Date('2020-12-31');
-                await assert.rejects(working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
-                    Exceptions.NotFoundDataException);
-            });
-        });
     });
 
 });
