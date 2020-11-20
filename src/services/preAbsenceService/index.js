@@ -120,16 +120,6 @@ class PreAbsenceService {
     }
 }
 
-async function checkConflict(repo, student_num, new_term) {
-    let preabsences;
-    try {
-        preabsences= await repo.findByTerm(new_term);
-    } catch (e) {
-        return false;
-    }
-    const conflicteds = preabsences.filter((preabsence) => preabsence.student_num == student_num);
-    return conflicteds.length > 0;
-}
 
 async function checkTermConflict(repo, student_num, new_term) {
     let preabsences;
