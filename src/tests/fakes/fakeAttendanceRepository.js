@@ -1,4 +1,5 @@
 const StudentRepo = require('./fakeStudentRepository');
+const Exceptions = require('../../errors/repositoriesExceptions');
 const { newToday } = require('../../utils');
 
 let datas;
@@ -6,7 +7,7 @@ let datas;
 StudentRepo.init();
 class FakeAttendanceRepository{
 
-    init() {
+    static init() {
         datas = makeTestAttendance();
     }
 
@@ -16,9 +17,14 @@ class FakeAttendanceRepository{
         } catch (e) {
             throw e;
         }
-        target_attendance = datas.filter((attendance) => attendance.student_num == student 
-                                    && attendance.date == date
-                                    && attendance.period == period)[0];
+        const target_attendance = datas.filter((attendance) => {
+            return attendance.student_num == student 
+                                    && attendance.date.getTime() == date.getTime()
+                                    && attendance.period == period})[0];
+        
+        if(!target_attendance) {
+            throw new Exceptions.NotFoundDataException;
+        }
 
         target_attendance.state = state;
     }
