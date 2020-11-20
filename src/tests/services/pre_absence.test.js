@@ -3,12 +3,14 @@ const assert = require('assert');
 const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
 const PreAbsenceRepository = require('../fakes/fakePreAbsenceRepository');
+const AttendanceRepostiory = require('../fakes/fakeAttendanceRepository');
 
 describe('pre absence test', () => {
-    const pre_absence_service = new PreAbsenceService(PreAbsenceRepository);
+    const pre_absence_service = new PreAbsenceService(PreAbsenceRepository, AttendanceRepostiory);
     
     beforeEach(() => {
         PreAbsenceRepository.init();
+        AttendanceRepostiory.init();
     });
 
     describe('get pre absence by date test', () => {
