@@ -42,8 +42,6 @@ describe('Activity Service Test', () => {
     describe('Get Activity per Month', () => {
         const correct_result_last_year = {
             month: 0,
-            prev_month: null,
-            next_month: "https://dsm-pick/activity/months/1",
             data: [
                 {
                     date: getLastDateOfLastYear(),
@@ -56,8 +54,6 @@ describe('Activity Service Test', () => {
         };
         const correct_result_this_year = {
             month: 8,
-            prev_month: "https://dsm-pick/activity/months/7",
-            next_month: "https://dsm-pick/activity/months/9",
             data: [
                 {
                     date: new Date(newToday().getUTCFullYear() + '-08-11'),
@@ -84,8 +80,6 @@ describe('Activity Service Test', () => {
         };
         const correct_result_next_year = {
             month: 13,
-            prev_month: "https://dsm-pick/activity/months/12",
-            next_month: null,
             data: [
                 {
                     date: getFirstDateOfNextYear(),

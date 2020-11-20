@@ -110,14 +110,8 @@ class ActivityService {
         });
         activities = await Promise.all(activities);
 
-        const url = 'https://dsm-pick/activity/months/';
-        const prev_month_url = month > 0 ? url + (month - 1) : null;
-        const next_month_url = month < 13 ? url + (month + 1) : null;
-
         const result = {
             month: month,
-            prev_month: prev_month_url,
-            next_month: next_month_url,
             data: activities
         }
 
