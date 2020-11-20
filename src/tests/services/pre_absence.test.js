@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { newToday, newDateNDayAwayFromToday } = require('../../utils');
 
 const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
@@ -19,16 +20,16 @@ describe('pre absence test', () => {
                 id: 1,
                 stdnum: 2411,
                 name: '손정우',
-                start_date: new Date("2020-08-24"),
+                start_date: newToday(),
                 start_period: 7,
-                end_date: new Date("2020-08-24"),
+                end_date: newToday(),
                 end_period: 10,
                 state: "현체"
             }
         ];
         it('valid result', async () => {
             try {
-                const result = await pre_absence_service.getPreAbsenceByDate(new Date('2020-08-24'));
+                const result = await pre_absence_service.getPreAbsenceByDate(newToday());
                 assert.deepEqual(result, correct_result);
             }
             catch (e) {
@@ -37,7 +38,7 @@ describe('pre absence test', () => {
         });
         it('valid result, no datas', async () => {
             try {
-                const result = await pre_absence_service.getPreAbsenceByDate(new Date('2020-08-25'));
+                const result = await pre_absence_service.getPreAbsenceByDate(newDateNDayAwayFromToday(5));
                 assert.deepEqual(result, []);
             }
             catch (e) {
@@ -48,13 +49,25 @@ describe('pre absence test', () => {
 
     describe('create new pre absence test', () => {
         const teacher = 'Kim';
-        const student = 1111;
+        const student = 2411;
         const term = {
             start_date: new Date('2020-08-24'),
             start_period: 7,
             end_date: new Date('2020-08-25'),
             end_period: 10
         };
+        const term_today = {
+            start_date: newToday(),
+            start_period: 7,
+            end_date: newToday(),
+            end_period: 10
+        }
+        const term_contained_today = {
+            start_date: newDateNDayAwayFromToday(-1),
+            start_period: 7,
+            end_date: newDateNDayAwayFromToday(1),
+            end_period: 10
+        }
         const state = '현체';
 
         describe('success', () => {
@@ -66,6 +79,25 @@ describe('pre absence test', () => {
                     assert.fail(e.message);
                 }
             });
+
+            it('term is today', async () => {
+                try {
+                    await pre_absence_service.createPreAbsence(teacher, student, term_today, state);
+                }
+                catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+
+            it('term is contained today', async () => {
+                try {
+                    await pre_absence_service.createPreAbsence(teacher, student, term_contained_today, state);
+                }
+                catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+
         });
 
 
@@ -98,7 +130,7 @@ describe('pre absence test', () => {
 
     describe('delete pre-absence', () => {
         describe('success', () => {
-            it('do well', async () => {
+            it('the pre-absence contained today', async () => {
                 try {
                     await pre_absence_service.deletePreAbsenceById(1)
                     assert.ok(true);
@@ -106,7 +138,19 @@ describe('pre absence test', () => {
                     assert.fail(e.message);
                 }
             });
+
+            it('the pre-absence not contained today', async () => {
+                try {
+                    await pre_absence_service.deletePreAbsenceById(2)
+                    assert.ok(true);
+                } catch (e) {
+                    assert.fail(e.message);
+                }
+            });
         });
+
+
+
         describe('fail', () => {
             it('couldn\'t found tht pre-absence that have the id', async () => {
                 await assert.rejects(pre_absence_service.deletePreAbsenceById(-1), Exceptions.NotFoundDataException);
