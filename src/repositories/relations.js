@@ -1,4 +1,4 @@
-const { Activity, Teacher, Student, ChangedTeacher, PreAbsence, Attendance } = require('./definitions');
+const { Activity, Teacher, Student, ChangedTeacher, PreAbsence, Attendance, CheckedPreAbsence } = require('./definitions');
 
 
 // Activity - Teacher
@@ -26,6 +26,9 @@ Attendance.belongsTo(Teacher, {foreignKey: 'teacher_id', sourceKey: 'id'});
 Student.hasMany(PreAbsence, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
 PreAbsence.belongsTo(Student, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
 
+//PreAbsence - CheckedPreAbsence
+PreAbsence.hasOne(CheckedPreAbsence, {as: 'check_pre_absence', foreignKey: 'id', sourceKey: 'id'});
+CheckedPreAbsence.belongsTo(PreAbsence, {as: 'check_pre_absence', foreignKey: 'id', sourceKey: 'id'});
 
 
 const { Op } = require("sequelize");
