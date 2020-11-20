@@ -5,6 +5,8 @@ const Response = require('../fakes/fakeResponse');
 const Repository = require('../fakes/fakePreAbsenceRepository');
 const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence } = require('../../apis/routes/pre_absence')(Repository);
 
+const { newToday, dateToString } = require('../../utils');
+
 const Exceptins = require('../../errors');
 
 const exceptionThrower = (e) => {
@@ -16,17 +18,17 @@ describe('pre_absence api test', () => {
     describe('getPreAbsenceByDate', () => {
         describe('success', () => {
             it('find data', async () => {
-
-                const req = new Request({ params: { date: '2020-08-24' } });
+                const today = dateToString(newToday());
+                const req = new Request({ params: { date: today } });
                 const expected_res = new Response(
                     [
                         {
                             id: 1,
                             stdnum: 2411,
                             name: '손정우',
-                            start_date: '2020-08-24',
+                            start_date: today,
                             start_period: 7,
-                            end_date: '2020-08-24',
+                            end_date: today,
                             end_period: 10,
                             state: '현체'
                         }
