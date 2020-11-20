@@ -241,6 +241,14 @@ describe('Working Teacher Service Test', () => {
                     1
                 );
             });
+
+            it('no work progress date', async () => {
+                const teacher_id = 'Son';
+                const date = new Date('2020-12-31');
+                assert.deepStrictEqual(
+                    await working_teacher_service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, date),
+                    -1);
+            });
         });
     });
 
