@@ -86,7 +86,7 @@ class WorkingTeacherService {
         try {
             activities = await this.activity_repository.findByTeacherAfterTheDateChronologicalOrder(teacher_id, date);
         } catch (e) {
-            throw new Exceptions.NotFoundDataException;
+            return -1;
         }
 
         const diff_time = activities[0].date.getTime() - date.getTime();
