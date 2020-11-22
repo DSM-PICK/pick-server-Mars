@@ -58,6 +58,14 @@ function makeTestAttendance() {
             teacher_id: 'Ahn',
             state: '출석',
         },
+        {
+            id: 4,
+            date: newToday(),
+            student_num: 3415,
+            period: 9,
+            teacher_id: 'Kim',
+            student_num: '출석'
+        }
     ];
     return datas;
 }

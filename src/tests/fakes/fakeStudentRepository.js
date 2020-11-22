@@ -66,6 +66,12 @@ function makeTestStudents() {
         name: '이진혁',
         club_name: 'UP',
         class_name: '2-4',
+    },
+    {
+        num: 3415,
+        name: '유시온',
+        club_name: 'DOWN',
+        class_name: '3-4',
     }];
 }
 
