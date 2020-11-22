@@ -57,7 +57,9 @@ function isBetweenDate(a_date, b_date, target_date) {
 }
 
 function newToday() {
-    return new Date(dateToString(new Date()));
+    let today = new Date();
+    today = new Date(today.getTime() - (-540 - today.getTimezoneOffset()) * 60 *1000); // 타임존 맞추기, 서울 시간(+9:00)으로 맞춘다
+    return new Date(dateToString(today));
 }
 
 function isConflictRange(range1, range2) {
