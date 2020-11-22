@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { newToday, newDateNDayAwayFromToday } = require('../../utils');
+const { newToday, newDateNDayAwayFromToday, getFirstDateOfNextYear } = require('../../utils');
 
 const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
@@ -44,6 +44,33 @@ describe('pre absence test', () => {
             catch (e) {
                 assert.fail(e.message);
             }
+        });
+    });
+
+    describe('get employments', () => {
+        describe('success', () => {
+            const correct_result = [
+                {
+                    id: 3,
+                    teacher_id: 'Kim',
+                    start_date: newToday(),
+                    end_date: getFirstDateOfNextYear(),
+                    student_num: 3411,
+                    name: '손정우',
+                    start_period: 7,
+                    end_period: 10,
+                    state: "취업"
+                },
+            ]
+            it('get employments', async () => {
+                try {
+                    const result = await pre_absence_service.getEmployments();
+                    assert.deepStrictEqual(result, correct_result);
+                }
+                catch (e) {
+                    assert.fail(e.message);
+                }
+            });
         });
     });
 
