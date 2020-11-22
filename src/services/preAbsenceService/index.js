@@ -1,6 +1,6 @@
 const RepoExceptions = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
-const { isBetweenDate, dateToString, newToday } = require('../../utils');
+const { isBetweenDate, dateToString, newToday, newTermWithPeriod, getFirstDateOfNextYear } = require('../../utils');
 
 class PreAbsenceService {
     constructor(pre_absence_repo, attendance_repo) {
@@ -86,14 +86,20 @@ class PreAbsenceService {
                 try {
                     await this.attendance_repo.updateAttendance(today, student_num, period, state);
                 } catch (e) {
-                    console.log(this.attendance_repo);
-                    console.log(e);
+                    // console.log(this.attendance_repo);
+                    // console.log(e);
                 }
             }
         }
 
     }
 
+    async createEmployment(teacher_id, student_num) {
+        
+        const term = newTermWithPeriod(newToday(), 1, getFirstDateOfNextYear(), 10);
+
+        await this.createPreAbsence(teacher_id, student_num, term, '취업');
+    }
 
     async deletePreAbsenceById(id) {
         let pre_absence;
@@ -127,8 +133,8 @@ class PreAbsenceService {
                 try {
                     await this.attendance_repo.updateAttendance(today, student_num, period, '출석');
                 } catch (e) {
-                    console.log(this.attendance_repo);
-                    console.log(e);
+                    // console.log(this.attendance_repo);
+                    // console.log(e);
                 }
             }
         }
