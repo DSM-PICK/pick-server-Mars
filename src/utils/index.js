@@ -8,6 +8,15 @@ function newTerm(date1, date2) {
     }
 }
 
+function newTermWithPeriod(start_date, start_period, end_date, end_period) {
+    return {
+        start_date,
+        start_period,
+        end_date,
+        end_period,
+    };
+}
+
 function isBetweenInTerm(term, date) {
     return isBetweenDate(term.start, term.end, date);
 }
@@ -87,6 +96,7 @@ function getLastDateOfLastYear() {
 
 module.exports = {
     newTerm,
+    newTermWithPeriod,
     isBetweenInTerm,
     validDateString,
     dateToString,
