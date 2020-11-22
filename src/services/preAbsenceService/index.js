@@ -112,6 +112,7 @@ class PreAbsenceService {
             start_period: pre_absence.start_period,
             end_period: pre_absence.end_period,
         };
+        const student_num = pre_absence.student_num;
         if(isBetweenDate(term.start_date, term.end_date, today)) {
             let start_period = 7;
             if(dateToString(term.start_date) == dateToString(today)) {
