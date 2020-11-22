@@ -3,7 +3,7 @@ const assert = require('assert');
 const Request = require('../fakes/fakeRequest');
 const Response = require('../fakes/fakeResponse');
 const Repository = require('../fakes/fakePreAbsenceRepository');
-const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence } = require('../../apis/routes/pre_absence')(Repository);
+const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence, getEmployments } = require('../../apis/routes/pre_absence')(Repository);
 
 const { newToday, dateToString } = require('../../utils');
 
@@ -69,6 +69,31 @@ describe('pre_absence api test', () => {
                     else {
                         assert.fail(e);
                     }
+                }
+            });
+        });
+    });
+
+    describe('getEmployments', () => {
+        describe('success', () => {
+            it('get employments', async () => {
+                const expected_res = new Response(
+                    [
+                        {
+                            id: 3,
+                            stdnum: 3411,
+                            name: '손정우',
+                            state: '취업'
+                        }
+                    ]);
+                const req = new Request({});
+                const res = new Response();
+                try {
+                    await getEmployments(req, res, exceptionThrower);
+                    
+                    assert.deepStrictEqual(expected_res, res);
+                } catch (e) {
+                    assert.fail(e);
                 }
             });
         });

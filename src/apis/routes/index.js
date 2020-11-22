@@ -17,6 +17,7 @@ router_passed_middleware.patch('/working-teacher', working_teacher.exchangeTeach
 router_passed_middleware.get('/working-teacher/user/remaining-date',working_teacher.GetRemainingDateForUser);
 
 router_passed_middleware.get('/pre-absence/date/:date', pre_absence.getPreAbsenceByDate);
+router_passed_middleware.get('/pre-absence/employments', pre_absence.getEmployments);
 router_passed_middleware.post('/pre-absence', pre_absence.createPreAbsence);
 router_passed_middleware.delete('/pre-absence/:id', pre_absence.deletePreAbsence);
 

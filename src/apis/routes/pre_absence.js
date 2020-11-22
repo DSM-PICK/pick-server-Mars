@@ -39,6 +39,21 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
 
 };
 
+controllers.getEmployments = async (req, res, next) => {
+    let results = await service.getEmployments();
+
+    results = results.map((result) => {
+        return {
+            id: result.id,
+            stdnum: result.student_num,
+            name: result.name,
+            state: result.state,
+        };
+    });
+
+    res.send(results);
+};
+
 controllers.createPreAbsence = async (req, res, next) => {
 
     if (validDateString(req.body.start_date) == false ||
