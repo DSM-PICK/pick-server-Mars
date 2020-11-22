@@ -93,7 +93,8 @@ controllers.createPreAbsence = async (req, res, next) => {
 controllers.createEmployment = async (req, res, next) => {
     const teacher = req.auth;
     const student = req.body.stdnum;
-
+    
+    console.log(`[create employment] student: ${student} teacher: ${teacher}`);
 
     try {
         await service.createEmployment(teacher, student);
