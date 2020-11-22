@@ -69,6 +69,17 @@ function makeTestPreAbsences() {
             end_period: 10,
             state: "현체"
         },
+        {
+            id: 3,
+            teacher_id: 'Kim',
+            start_date: new Date('2020-09-24'),
+            end_date: new Date('2021-01-01'),
+            student_num: 3411,
+            name: '손정우',
+            start_period: 7,
+            end_period: 10,
+            state: "취업"
+        },
     ];
 
 }
