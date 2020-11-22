@@ -20,6 +20,7 @@ class PreAbsenceService {
 
         }
 
+        absences = absences.filter((absences) => absences.state != '취업');
 
         absences = absences.map((absence) => {
             return {
