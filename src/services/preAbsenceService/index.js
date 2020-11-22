@@ -39,6 +39,21 @@ class PreAbsenceService {
         return absences;
     }
 
+    async getEmployments() {
+        let absences;
+        
+        try {
+            absences = await this.pre_absence_repo.findPreAbsenceByDate(newToday());
+        }
+        catch(e) {
+            absences = [];
+        }
+        
+        absences = absences.filter((absences) => absences.state == '취업');
+
+        return absences;
+    }
+
     async createPreAbsence(teacher_id, student_num, term, state) {
 
         if(term.start_date.getTime() > term.end_date.getTime()) {
