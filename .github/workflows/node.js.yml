@@ -17,7 +17,6 @@ jobs:
       DB_DATABASE: ${{ secrets.DB_DATABASE }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     runs-on: ubuntu-latest
 
@@ -41,6 +40,9 @@ jobs:
 
   CD:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
     needs: CI
 
     steps:
