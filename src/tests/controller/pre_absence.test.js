@@ -3,7 +3,7 @@ const assert = require('assert');
 const Request = require('../fakes/fakeRequest');
 const Response = require('../fakes/fakeResponse');
 const Repository = require('../fakes/fakePreAbsenceRepository');
-const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence, getEmployments } = require('../../apis/routes/pre_absence')(Repository);
+const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence, getEmployments, createEmployment } = require('../../apis/routes/pre_absence')(Repository);
 
 const { newToday, dateToString } = require('../../utils');
 
@@ -245,6 +245,25 @@ describe('pre_absence api test', () => {
                     else {
                         assert.fail(e);
                     }
+                }
+            });
+        });
+    });
+
+    describe('createEmployment', () => {
+        describe('success', () => {
+            it('createEmployment', async () => {
+                const req = new Request({ body: {
+                    stdnum: 3415,
+                },
+                    auth: 'Jwa'
+                });
+                
+                try {
+                    await createEmployment(req, new Response, exceptionThrower);
+                    assert.ok(true);
+                } catch (e) {
+                    assert.fail(e);
                 }
             });
         });

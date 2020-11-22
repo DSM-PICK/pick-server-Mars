@@ -90,6 +90,25 @@ controllers.createPreAbsence = async (req, res, next) => {
     res.send();
 };
 
+controllers.createEmployment = async (req, res, next) => {
+    const teacher = req.auth;
+    const student = req.body.stdnum;
+
+
+    try {
+        await service.createEmployment(teacher, student);
+    } catch (e) {
+        if(e instanceof ServiceExceptions.ConflictData) {
+            next(HttpErrors.Conflict);
+        }
+        else {
+            next(HttpErrors.NotFound);
+        }
+        return;
+    }
+
+    res.send();
+};
 
 controllers.deletePreAbsence = async (req, res, next) => {
     const id = req.params.id * 1;
