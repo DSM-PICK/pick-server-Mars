@@ -72,8 +72,8 @@ function makeTestPreAbsences() {
         {
             id: 3,
             teacher_id: 'Kim',
-            start_date: new Date('2020-09-24'),
-            end_date: new Date('2021-01-01'),
+            start_date: utils.newToday(),
+            end_date: utils.getFirstDateOfNextYear(),
             student_num: 3411,
             name: '손정우',
             start_period: 7,
