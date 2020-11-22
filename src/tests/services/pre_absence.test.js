@@ -155,6 +155,21 @@ describe('pre absence test', () => {
 
     });
 
+    describe('create new employment', () => {
+        describe('success', () => {
+            const teacher = 'Jwa';
+            const student = '3415';
+            it('create new employment', async () => {
+                try {
+                    await pre_absence_service.createEmployment(teacher, student);
+                }
+                catch (e) {
+                    assert.fail(e.message);
+                }
+            });
+        });
+    });
+
     describe('delete pre-absence', () => {
         describe('success', () => {
             it('the pre-absence contained today', async () => {
