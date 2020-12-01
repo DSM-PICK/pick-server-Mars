@@ -109,17 +109,12 @@ class WorkingTeacherService {
             activity2_repo_read = await this.activity_repository.findByDate(working_teacher_identifier2.date);
         }
         catch(e) {
-            
             throw new Exceptions.NotFoundDataException;
-            
-            // throw e;
         }
-        const activity1 = activity1_repo_read;
-        const activity2 = activity2_repo_read;
+        let activity1 = activity1_repo_read;
+        let activity2 = activity2_repo_read;
         
 
-        // const input_teacher1_name = working_teacher_identifier1.teacher_name;
-        // const input_teacher2_name = working_teacher_identifier2.teacher_name;
         
         const stored_teacher1_id = getTeacherByFloorInActivity(activity1, input_floor_teacher1);
         const stored_teacher2_id = getTeacherByFloorInActivity(activity2, input_floor_teacher2);
@@ -128,13 +123,11 @@ class WorkingTeacherService {
             throw new Exceptions.ConflictData;
         }
 
-        // const stored_teacher1_name = await getTeacherNameById(this.teacher_repository, stored_teacher1_id);
-        // const stored_teacher2_name = await getTeacherNameById(this.teacher_repository, stored_teacher2_id);
-        
-        // if(input_teacher1_name != stored_teacher1_name || input_teacher2_name != stored_teacher2_name) {
-        //     throw new Exceptions.MismatchToRelationDatas;
-        // }
 
+
+        if(activity1.date == activity2.date) {
+            activity1 = activity2;
+        }
         
         if(input_floor_teacher1 == 2) {
             activity1.second_floor_teacher_id = stored_teacher2_id;
@@ -155,7 +148,8 @@ class WorkingTeacherService {
         else {
             activity2.forth_floor_teacher_id = stored_teacher1_id;
         }
-       
+
+
         await this.activity_repository.updateAutoDetect(activity1);
         await this.activity_repository.updateAutoDetect(activity2);
      
