@@ -60,7 +60,7 @@ controllers.createPreAbsence = async (req, res, next) => {
         validDateString(req.body.end_date) == false ||
         !req.body.start_period||
         !req.body.end_period||
-        req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출' && req.body.state != '병결' && req.body.state != '이동' && req.body.state != '취업') {
+        req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출' && req.body.state != '병결' && req.body.state != '이동' && req.body.state != '취업' && req.body.state != '귀가') {
         next(HttpErrors.BadRequest);
         return;
     }
