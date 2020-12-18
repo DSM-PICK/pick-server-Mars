@@ -29,9 +29,9 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             id: result.id,
             stdnum: result.stdnum,
             name: result.name,
-            start_date: dateToString(result.start_date),
+            start_date: result.start_date.toString(),
             start_period: result.start_period,
-            end_date: dateToString(result.end_date),
+            end_date: result.end_date.toString(),
             end_period: result.end_period,
             state: result.state,
         };
