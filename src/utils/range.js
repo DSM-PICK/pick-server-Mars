@@ -14,6 +14,8 @@ class DateRange extends Range{
         if (date1 > date2) {
             throw InvalidRange(`${date1} is not faster than ${date2}`);
         }
+        this.start = date1;
+        this.end = date2;
     }
 }
 
