@@ -7,6 +7,12 @@ class Attendance extends Model {
             where: { date: date, student_num: student, period: period }
         });
     }
+
+    static async updateAttendanceToMoving(date, student, period, memo) {
+        return await Attendance.update({state: '이동', memo: memo}, {
+            where: { date: date, student_num: student, period: period }
+        });
+    }
 }
 
 Attendance.init({
@@ -34,6 +40,10 @@ Attendance.init({
         type: DataTypes.CHAR(4),
         allowNull: false,
     },
+    memo: {
+        type: DataTypes.STRING(80)
+    },
+
 },
     {
         sequelize,

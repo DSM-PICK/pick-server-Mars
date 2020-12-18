@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const route = Router();
 
+const ServiceDate = require('../../utils/time');
+
 const ActivityRepository  = require('../../repositories').Activity;
 const Teacher = require('../../repositories').Teacher;
 const ActivityService = require('../../services/activityService');
@@ -11,11 +13,12 @@ const { NotFound, BadRequest } = require('../../errors');
 
 const service = new ActivityService(ActivityRepository, Teacher);  
 
+
 const controllers = {};
 
 controllers.getActivityByDate = async (req, res, next) => {
     try {
-        const result = await service.getThisDateActivity(new Date(req.params.date));    
+        const result = await service.getThisDateActivity(new ServiceDate(req.params.date));    
         res.send(result);
     } catch (e) {
         if(e instanceof Exceptions.InvalidDateException) {
