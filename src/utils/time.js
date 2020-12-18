@@ -19,6 +19,9 @@ module.exports = class ServiceDate {
     isSame(date) {
         return equal(this, date);
     }
+    valueOf() {
+        return this.date.valueOf();
+    }
     static newDateEndOfSchoolYear() {
         const today = newToday();
         let next_school_year = getDatesSchoolYear(today) + 1;
