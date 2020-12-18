@@ -128,6 +128,27 @@ class PreAbsence extends Model {
         }
     }
 
+    static async createPreAbsenceToMoving(teacher_id, student_num, term, remarks) {
+        try {
+            await PreAbsence.create({
+                teacher_id: teacher_id,
+                start_date: term.start_date,
+                end_date: term.end_date,
+                student_num: student_num,
+                start_period: term.start_period,
+                end_period: term.end_period,
+                state: '이동',
+                remarks: remarks,
+            });
+        }
+        catch (e) {
+            console.log(e);
+            if (e instanceof ForeignKeyConstraintError) {
+                throw new Exceptions.NotFoundDataException;
+            }
+        }
+    }
+
     static async deletePreAbsenceById(id) {
         let num_of_destroyed;
         try {

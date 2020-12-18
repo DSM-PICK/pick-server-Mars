@@ -73,26 +73,35 @@ class PreAbsenceService {
 
         const today = newToday();
         if(isBetweenDate(term.start_date, term.end_date, today)) {
-            let start_period = 7;
-            if(dateToString(term.start_date) == dateToString(today)) {
-                start_period = term.start_period;
-            }
+            let { start_period, end_period } = getPeriodRangeToReflect(term);
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
+        }
+    }
 
-            let end_period = 10;
-            if(dateToString(term.end_date) == dateToString(today)) {
-                end_period = term.end_period;
-            }
-            for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
-                try {
-                    await this.attendance_repo.updateAttendance(today, student_num, period, state);
-                } catch (e) {
-                    // console.log(this.attendance_repo);
-                    // console.log(e);
-                }
-            }
+    async createPreAbsenceToMoving(teacher_id, student_num, term, memo) {
+
+        if(term.start_date.getTime() > term.end_date.getTime()) {
+            throw new Exceptions.InvalidTermException;
         }
 
+        if(await checkTermConflict(this.pre_absence_repo, student_num, term)) {
+            throw new Exceptions.ConflictData;
+        }
+
+        try {
+            await this.pre_absence_repo.createPreAbsenceToMoving(teacher_id, student_num, term, memo);
+        }
+        catch(e) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const today = newToday();
+        if(isBetweenDate(term.start_date, term.end_date, today)) {
+            let { start_period, end_period } = getPeriodRangeToReflect(term);
+            reflectToAttendanceToMoving(this.attendance_repo, today, student_num, start_period, end_period, '이동');
+        }
     }
+
 
     async createEmployment(teacher_id, student_num) {
         
@@ -143,6 +152,37 @@ class PreAbsenceService {
     }
 }
 
+function getPeriodRangeToReflect(term) {
+    const today = newToday();
+    let start_period = 7;
+    if(dateToString(term.start_date) == dateToString(today)) {
+        start_period = term.start_period;
+    }
+
+    let end_period = 10;
+    if(dateToString(term.end_date) == dateToString(today)) {
+        end_period = term.end_period;
+    }
+
+    return {start_period, end_period};
+}
+
+async function reflectToAttendance(repo, date, student_num, start_period, end_period, state) {
+    for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
+        try {
+            await this.attendance_repo.updateAttendance(today, student_num, period, state);
+        } catch (e) {
+        }
+    }
+}
+async function reflectToAttendanceToMoving(repo, date, student_num, start_period, end_period, memo) {
+    for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
+        try {
+            await this.attendance_repo.updateAttendanceToMoving(today, student_num, period, memo);
+        } catch (e) {
+        }
+    }
+}
 
 async function checkTermConflict(repo, student_num, new_term) {
     let preabsences;
