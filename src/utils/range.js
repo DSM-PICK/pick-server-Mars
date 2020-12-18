@@ -1,6 +1,10 @@
 const { InvalidRange } = require('../errors/utils');
 
 class Range {
+    constructor(start, end) {
+        this.start = start;
+        this.end = end;
+    }
     static isConflict(range1, range2) {
         return (range1.start <= range2.end && range1.start >= range2.start)
         || (range1.end <= range2.end && range1.end >= range2.start)
@@ -10,12 +14,16 @@ class Range {
 }
 
 class DateRange extends Range{
-    constructor(date1, date2) {
-        if (date1 > date2) {
-            throw InvalidRange(`${date1} is not faster than ${date2}`);
+    static newRange(start, end) {
+        if(start > end) {
+            throw new InvalidRange(`${start} is not faster than ${end}`);
         }
-        this.start = date1;
-        this.end = date2;
+
+        const new_range = new DateRange(start, end);
+        new_range.start = start;
+        new_range.end = end;
+        
+        return new_range;
     }
 }
 
