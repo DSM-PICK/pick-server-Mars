@@ -1,5 +1,6 @@
 const assert = require('assert');
 const { newToday, newDateNDayAwayFromToday, getFirstDateOfNextYear } = require('../../utils');
+const ServiceDate = require('../../utils/time');
 
 const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
@@ -20,16 +21,16 @@ describe('pre absence test', () => {
                 id: 1,
                 stdnum: 2411,
                 name: '손정우',
-                start_date: newToday(),
+                start_date: new ServiceDate(),
                 start_period: 7,
-                end_date: newToday(),
+                end_date: new ServiceDate(),
                 end_period: 10,
                 state: "현체"
             }
         ];
         it('valid result', async () => {
             try {
-                const result = await pre_absence_service.getPreAbsenceByDate(newToday());
+                const result = await pre_absence_service.getPreAbsenceByDate(new ServiceDate());
                 assert.deepEqual(result, correct_result);
             }
             catch (e) {
@@ -38,7 +39,7 @@ describe('pre absence test', () => {
         });
         it('valid result, no datas', async () => {
             try {
-                const result = await pre_absence_service.getPreAbsenceByDate(newDateNDayAwayFromToday(5));
+                const result = await pre_absence_service.getPreAbsenceByDate(new ServiceDate().addDays(5));
                 assert.deepEqual(result, []);
             }
             catch (e) {
@@ -53,8 +54,8 @@ describe('pre absence test', () => {
                 {
                     id: 3,
                     teacher_id: 'Kim',
-                    start_date: newToday(),
-                    end_date: getFirstDateOfNextYear(),
+                    start_date: new ServiceDate(),
+                    end_date: ServiceDate.newDateEndOfSchoolYear(),
                     student_num: 3411,
                     name: '손정우',
                     start_period: 7,
@@ -78,21 +79,21 @@ describe('pre absence test', () => {
         const teacher = 'Kim';
         const student = 2411;
         const term = {
-            start_date: new Date('2020-08-24'),
+            start_date: new ServiceDate('2020-08-24'),
             start_period: 7,
-            end_date: new Date('2020-08-25'),
+            end_date: new ServiceDate('2020-08-25'),
             end_period: 10
         };
         const term_today = {
-            start_date: newToday(),
+            start_date: new ServiceDate(),
             start_period: 7,
-            end_date: newToday(),
+            end_date: new ServiceDate(),
             end_period: 10
         }
         const term_contained_today = {
-            start_date: newDateNDayAwayFromToday(-1),
+            start_date: new ServiceDate().addDays(-1),
             start_period: 7,
-            end_date: newDateNDayAwayFromToday(1),
+            end_date: new ServiceDate().addDays(1),
             end_period: 10
         }
         const state = '현체';
@@ -131,9 +132,9 @@ describe('pre absence test', () => {
         const invalid_teacher = 'Abc';
         const invalid_student = 4213;
         const invalid_term = {
-            start_date: new Date('2020-08-25'),
+            start_date: new ServiceDate('2020-08-25'),
             start_period: 7,
-            end_date: new Date('2020-08-24'),
+            end_date: new ServiceDate('2020-08-24'),
             end_period: 10
         };
         describe('fail', () => {

@@ -1,3 +1,5 @@
+const ServiceDate = require('../../utils/time');
+
 const PreAbsenceService = require('../../services/preAbsenceService');
 const { validDateString, dateToString } = require('../../utils');
 
@@ -16,7 +18,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
     }
 
 
-    const date = new Date(req.params.date);
+    const date = new ServiceDate(req.params.date);
 
     let results = await service.getPreAbsenceByDate(date);
   
@@ -68,9 +70,9 @@ controllers.createPreAbsence = async (req, res, next) => {
     const teacher = req.auth;
     const student = req.body.stdnum;
     const term = {
-        start_date: new Date(req.body.start_date),
+        start_date: new ServiceDate(req.body.start_date),
         start_period: req.body.start_period,
-        end_date: new Date(req.body.end_date),
+        end_date: new ServiceDate(req.body.end_date),
         end_period: req.body.end_period,
     };
     const state = req.body.state;

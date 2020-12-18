@@ -23,7 +23,7 @@ module.exports = class ServiceDate {
         return this.date.valueOf();
     }
     addDays(days) {
-        return this.date.plus({days: days});
+        return new ServiceDate(this.date.plus({days: days}));
     }
     static newDateEndOfSchoolYear() {
         const today = newToday();

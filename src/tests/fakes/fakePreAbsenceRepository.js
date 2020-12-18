@@ -1,5 +1,7 @@
 const Exceptions = require('../../errors/repositoriesExceptions');
 const utils = require('../../utils');
+const ServiceDate = require('../../utils/time');
+const { DateRange } = require('../../utils/range');
 
 let datas = makeTestPreAbsences();
 
@@ -15,7 +17,10 @@ class FakePreAbsenceRepository {
         return datas.filter((data) => data.id == id);
     }
     static async findPreAbsenceByDate(date) {
-        const results = datas.filter((data) => utils.isBetweenDate(data.start_date, data.end_date, date));
+        const results = datas.filter((data) => {
+            const range = DateRange.newRange(data.start_date, data.end_date);
+            return range.isInclude(date);
+        });
         if (results.length <= 0) {
             throw new Exceptions.NotFoundDataException;
         }
@@ -50,8 +55,8 @@ function makeTestPreAbsences() {
         {
             id: 1,
             teacher_id: 'Kim',
-            start_date: utils.newToday(),
-            end_date: utils.newToday(),
+            start_date: new ServiceDate(),
+            end_date: new ServiceDate(),
             student_num: 2411,
             name: '손정우',
             start_period: 7,
@@ -61,8 +66,8 @@ function makeTestPreAbsences() {
         {
             id: 2,
             teacher_id: 'Kim',
-            start_date: new Date('2020-09-24'),
-            end_date: new Date('2020-09-24'),
+            start_date: new ServiceDate('2020-09-24'),
+            end_date: new ServiceDate('2020-09-24'),
             student_num: 1111,
             name: '손정우',
             start_period: 7,
@@ -72,8 +77,8 @@ function makeTestPreAbsences() {
         {
             id: 3,
             teacher_id: 'Kim',
-            start_date: utils.newToday(),
-            end_date: utils.getFirstDateOfNextYear(),
+            start_date: new ServiceDate(),
+            end_date: ServiceDate.newDateEndOfSchoolYear(),
             student_num: 3411,
             name: '손정우',
             start_period: 7,
