@@ -191,27 +191,6 @@ async function checkTermConflict(repo, student_num, new_term) {
     return conflicteds.length > 0;
 }
 
-function convertClassInToNumber(date, period) {
-    return Math.floor(date / 1000) * 1000 + period;
-}
 
-function isConflictRange(range1, range2) {
-    return (range1.start <= range2.end && range1.start >= range2.start)
-        || (range1.end <= range2.end && range1.end >= range2.start)
-        || (range1.start >= range2.start && range1.end <= range2.start)
-        || (range1.start >= range2.end && range1.end <= range2.end);
-}
-
-function newRange(start, end) {
-    return {
-        start: start,
-        end: end
-    };
-}
-
-function getRangeByTerm(term) {
-    return newRange(convertClassInToNumber(term.start_date, term.start_period),
-        convertClassInToNumber(term.end_date, term.end_period));
-}
 
 module.exports = PreAbsenceService;
