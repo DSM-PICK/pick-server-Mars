@@ -9,7 +9,8 @@
     "start-dev": "node src/index.js",
     "cover": "nyc npm run test-all",
     "test-db": "mocha src/db_tests/**/*.test.js",
-    "test-all": "mocha src/**/*.test.js"
+    "test-all": "mocha src/**/*.test.js",
+    "test-service": "mocha src/tests/services/**/*.test.js"
   },
   "author": "손정우",
   "license": "ISC",
