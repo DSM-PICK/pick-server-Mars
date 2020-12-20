@@ -6,6 +6,8 @@ const Teacher = require('../../repositories/definitions/teacher');
 
 class Activity extends Model {
     static async findByDate(date) {
+        console.log(date);
+        console.log(date.toString());
         const activity_entity = await Activity.findOne({ where: { date: date } });
         if (!activity_entity) {
             throw new Errors.NotFoundDataException;
