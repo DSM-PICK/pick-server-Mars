@@ -45,7 +45,7 @@ class PreAbsenceService {
         let absences;
         
         try {
-            absences = await this.pre_absence_repo.findPreAbsenceByDate(newToday());
+            absences = await this.pre_absence_repo.findPreAbsenceByDate(new ServiceDate());
         }
         catch(e) {
             absences = [];

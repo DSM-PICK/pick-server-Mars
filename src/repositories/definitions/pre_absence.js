@@ -36,22 +36,22 @@ class PreAbsence extends Model {
             where: Sequelize.or(
                 Sequelize.or(
                     Sequelize.and(
-                        { start_date: { [Op.lte]: term.end_date } },
-                        { start_date: { [Op.gte]: term.start_date } }
+                        { start_date: { [Op.lte]: term.end_date.toJSDate() } },
+                        { start_date: { [Op.gte]: term.start_date.toJSDate() } }
                     ),
                     Sequelize.and(
-                        { end_date: { [Op.lte]: term.end_date } },
-                        { end_date: { [Op.gte]: term.start_date } }
+                        { end_date: { [Op.lte]: term.end_date.toJSDate() } },
+                        { end_date: { [Op.gte]: term.start_date.toJSDate() } }
                     ),
                 ),
                 Sequelize.or(
                     Sequelize.and(
-                        { start_date: { [Op.gte]: term.start_date } },
-                        { end_date: { [Op.lte]: term.start_date } }
+                        { start_date: { [Op.gte]: term.start_date.toJSDate() } },
+                        { end_date: { [Op.lte]: term.start_date.toJSDate() } }
                     ),
                     Sequelize.and(
-                        { start_date: { [Op.gte]: term.end_date } },
-                        { end_date: { [Op.lte]: term.end_date } }
+                        { start_date: { [Op.gte]: term.end_date.toJSDate() } },
+                        { end_date: { [Op.lte]: term.end_date.toJSDate() } }
                     ),
                 ),
             )
@@ -81,10 +81,10 @@ class PreAbsence extends Model {
             include: [{model: Student, as: 'student'}],
             where: {
                 start_date: {
-                    [Op.lte]: date,
+                    [Op.lte]: date.toJSDate(),
                 },
                 end_date: {
-                    [Op.gte]: date,
+                    [Op.gte]: date.toJSDate(),
                 },
             }
         });
@@ -112,8 +112,8 @@ class PreAbsence extends Model {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
-                start_date: term.start_date,
-                end_date: term.end_date,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
                 student_num: student_num,
                 start_period: term.start_period,
                 end_period: term.end_period,
@@ -132,8 +132,8 @@ class PreAbsence extends Model {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
-                start_date: term.start_date,
-                end_date: term.end_date,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
                 student_num: student_num,
                 start_period: term.start_period,
                 end_period: term.end_period,
