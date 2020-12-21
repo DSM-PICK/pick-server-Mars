@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
-
+const ServiceDate = require('../../utils/time');
 const Student = require('./student');
 
 class PreAbsence extends Model {
@@ -69,8 +69,8 @@ class PreAbsence extends Model {
             result.end_period = pre_absence.end_period;
             result.state = pre_absence.state;
             result.name = pre_absence.student.name;
-            result.start_date = new Date(pre_absence.start_date);
-            result.end_date = new Date(pre_absence.end_date);
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
         });
         return result;
@@ -101,8 +101,8 @@ class PreAbsence extends Model {
             result.end_period = pre_absence.end_period;
             result.state = pre_absence.state;
             result.name = pre_absence.student.name;
-            result.start_date = new Date(pre_absence.start_date);
-            result.end_date = new Date(pre_absence.end_date);
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
         });
         return result;
@@ -177,8 +177,8 @@ class PreAbsence extends Model {
 
         const result = absence_entities.map((entity) => {
             const pre_absence = entity.dataValues;
-            pre_absence.start_date = new Date(pre_absence.start_date);
-            pre_absence.end_date = new Date(pre_absence.end_date);
+            pre_absence.start_date = new ServiceDate(pre_absence.start_date);
+            pre_absence.end_date = new ServiceDate(pre_absence.end_date);
             return pre_absence;
         });
         return result;
