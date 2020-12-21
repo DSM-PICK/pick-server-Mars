@@ -16,6 +16,9 @@ module.exports = class ServiceDate {
     toString() {
         return this.date.toISODate();
     }
+    toJSDate() {
+        return new Date(this.toString());
+    }
     isSame(date) {
         return equal(this, date);
     }
