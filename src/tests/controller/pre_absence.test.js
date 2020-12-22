@@ -32,7 +32,8 @@ describe('pre_absence api test', () => {
                             start_period: 7,
                             end_date: today,
                             end_period: 10,
-                            state: '현체'
+                            state: '현체',
+                            memo: '샘플 메모'
                         }
                     ]);
                 const res = new Response();

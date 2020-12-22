@@ -71,6 +71,7 @@ class PreAbsence extends Model {
             const pre_absence = entity.dataValues;
             let result = pre_absence;
             result.name = pre_absence.student.name;
+            result.memo = pre_absence.remarks;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
@@ -78,7 +79,7 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term, state) {
+    static async createPreAbsence(teacher_id, student_num, term, state, remarks) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
@@ -88,6 +89,7 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
+                remarks: remarks
             });
         }
         catch (e) {

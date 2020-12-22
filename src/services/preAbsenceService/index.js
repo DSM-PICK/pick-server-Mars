@@ -22,7 +22,6 @@ class PreAbsenceService {
             absences = [];
 
         }
-
         absences = absences.filter((absences) => absences.state != '취업');
 
         absences = absences.map(async (absence) => {
@@ -36,11 +35,12 @@ class PreAbsenceService {
                 end_date: absence.end_date,
                 end_period: absence.end_period,
                 state: absence.state,
+                memo: absence.memo,
             }
         });
 
         absences = await Promise.all(absences);
-
+      
         return absences;
     }
 
@@ -59,7 +59,7 @@ class PreAbsenceService {
         return absences;
     }
 
-    async createPreAbsence(teacher_id, student_num, term, state) {
+    async createPreAbsence(teacher_id, student_num, term, state, memo) {
         if(term.start_date > term.end_date) {
             throw new Exceptions.InvalidTermException;
         }
@@ -69,7 +69,7 @@ class PreAbsenceService {
         }
 
         try {
-            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state);
+            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state, memo);
         }
         catch(e) {
             throw new Exceptions.NotFoundDataException;

@@ -28,13 +28,14 @@ describe('pre absence test', () => {
                 start_period: 7,
                 end_date: new ServiceDate(),
                 end_period: 10,
-                state: "현체"
+                state: "현체",
+                memo: '샘플 메모'
             }
         ];
         it('valid result', async () => {
             try {
                 const result = await pre_absence_service.getPreAbsenceByDate(new ServiceDate());
-                assert.deepEqual(result, correct_result);
+                assert.deepStrictEqual(result, correct_result);
             }
             catch (e) {
                 assert.fail(e.message);
@@ -63,7 +64,8 @@ describe('pre absence test', () => {
                     name: '손정우',
                     start_period: 7,
                     end_period: 10,
-                    state: "취업"
+                    state: "취업",
+                    memo: '샘플 메모'
                 },
             ]
             it('get employments', async () => {

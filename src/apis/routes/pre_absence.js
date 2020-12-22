@@ -35,6 +35,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             end_period: result.end_period,
             state: result.state,
             teacher: result.teacher,
+            memo: result.memo,
         };
     });
 
@@ -77,10 +78,11 @@ controllers.createPreAbsence = async (req, res, next) => {
         end_period: req.body.end_period,
     };
     const state = req.body.state;
+    const memo = req.body.memo;
 
     try {
         if (state != '이동') {
-            await service.createPreAbsence(teacher, student, term, state);
+            await service.createPreAbsence(teacher, student, term, state, memo);
         }
         else {
             await service.createPreAbsenceToMoving(teacher, student, term, req.body.memo);

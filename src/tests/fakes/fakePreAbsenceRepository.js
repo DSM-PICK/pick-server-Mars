@@ -24,6 +24,7 @@ class FakePreAbsenceRepository {
         if (results.length <= 0) {
             throw new Exceptions.NotFoundDataException;
         }
+        
         return results;
     }
 
@@ -61,7 +62,8 @@ function makeTestPreAbsences() {
             name: '손정우',
             start_period: 7,
             end_period: 10,
-            state: "현체"
+            state: "현체",
+            memo: "샘플 메모",
         },
         {
             id: 2,
@@ -72,7 +74,8 @@ function makeTestPreAbsences() {
             name: '손정우',
             start_period: 7,
             end_period: 10,
-            state: "현체"
+            state: "현체",
+            memo: "샘플 메모",
         },
         {
             id: 3,
@@ -83,7 +86,8 @@ function makeTestPreAbsences() {
             name: '손정우',
             start_period: 7,
             end_period: 10,
-            state: "취업"
+            state: "취업",
+            memo: "샘플 메모",
         },
     ];
 
