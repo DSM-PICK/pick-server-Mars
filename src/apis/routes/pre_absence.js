@@ -34,6 +34,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             end_date: result.end_date.toString(),
             end_period: result.end_period,
             state: result.state,
+            teacher: result.teacher,
         };
     });
 
@@ -138,8 +139,8 @@ controllers.deletePreAbsence = async (req, res, next) => {
 
 
 
-module.exports = (pre_absence_repo, attendance_repo) => {
-    service = new PreAbsenceService(pre_absence_repo, attendance_repo);
+module.exports = (pre_absence_repo, attendance_repo, teacher_repo) => {
+    service = new PreAbsenceService(pre_absence_repo, attendance_repo, teacher_repo);
 
     return controllers;
 };

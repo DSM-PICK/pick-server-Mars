@@ -69,12 +69,7 @@ class PreAbsence extends Model {
 
         const result = absence_entities.map((entity) => {
             const pre_absence = entity.dataValues;
-            let result = {};
-            result.id = pre_absence.id;
-            result.student_num = pre_absence.student_num;
-            result.start_period = pre_absence.start_period;
-            result.end_period = pre_absence.end_period;
-            result.state = pre_absence.state;
+            let result = pre_absence;
             result.name = pre_absence.student.name;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);

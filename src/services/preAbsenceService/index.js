@@ -5,9 +5,10 @@ const { DateRange, PeriodRange } = require('../../utils/range');
 const ServiceDate = require('../../utils/time');
 
 class PreAbsenceService {
-    constructor(pre_absence_repo, attendance_repo) {
+    constructor(pre_absence_repo, attendance_repo, teacher_repo) {
         this.pre_absence_repo = pre_absence_repo;
         this.attendance_repo = attendance_repo;
+        this.teacher_repo = teacher_repo;
     }
 
     
@@ -24,9 +25,10 @@ class PreAbsenceService {
 
         absences = absences.filter((absences) => absences.state != '취업');
 
-        absences = absences.map((absence) => {
+        absences = absences.map(async (absence) => {
             return {
                 id: absence.id,
+                teacher: await getTeacherNameById(this.teacher_repo, absence.teacher_id),
                 stdnum: absence.student_num,
                 name: absence.name,
                 start_date: absence.start_date,
@@ -37,6 +39,7 @@ class PreAbsenceService {
             }
         });
 
+        absences = await Promise.all(absences);
 
         return absences;
     }
@@ -191,6 +194,9 @@ async function checkTermConflict(repo, student_num, new_term) {
     return conflicteds.length > 0;
 }
 
+async function getTeacherNameById(repository, teacher_id) {
+    return (await repository.findById(teacher_id)).name;
+}
 
 
 module.exports = PreAbsenceService;

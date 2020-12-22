@@ -6,9 +6,11 @@ const PreAbsenceService = require('../../services/preAbsenceService');
 const Exceptions = require('../../errors/servicesExceptions');
 const PreAbsenceRepository = require('../fakes/fakePreAbsenceRepository');
 const AttendanceRepostiory = require('../fakes/fakeAttendanceRepository');
+const TeacherRepostiory = require('../fakes/fakeTeacherRepository');
+
 
 describe('pre absence test', () => {
-    const pre_absence_service = new PreAbsenceService(PreAbsenceRepository, AttendanceRepostiory);
+    const pre_absence_service = new PreAbsenceService(PreAbsenceRepository, AttendanceRepostiory, TeacherRepostiory);
     
     beforeEach(() => {
         PreAbsenceRepository.init();
@@ -19,6 +21,7 @@ describe('pre absence test', () => {
         const correct_result = [
             {
                 id: 1,
+                teacher: "김정은",
                 stdnum: 2411,
                 name: '손정우',
                 start_date: new ServiceDate(),

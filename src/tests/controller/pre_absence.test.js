@@ -3,7 +3,8 @@ const assert = require('assert');
 const Request = require('../fakes/fakeRequest');
 const Response = require('../fakes/fakeResponse');
 const Repository = require('../fakes/fakePreAbsenceRepository');
-const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence, getEmployments, createEmployment } = require('../../apis/routes/pre_absence')(Repository);
+const TeacherRepository = require('../fakes/fakeTeacherRepository');
+const { getPreAbsenceByDate, createPreAbsence, deletePreAbsence, getEmployments, createEmployment } = require('../../apis/routes/pre_absence')(Repository, undefined, TeacherRepository);
 
 const { newToday, dateToString } = require('../../utils');
 
@@ -24,6 +25,7 @@ describe('pre_absence api test', () => {
                     [
                         {
                             id: 1,
+                            teacher: '김정은',
                             stdnum: 2411,
                             name: '손정우',
                             start_date: today,
