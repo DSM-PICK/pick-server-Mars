@@ -5,31 +5,6 @@ const ServiceDate = require('../../utils/time');
 const Student = require('./student');
 
 class PreAbsence extends Model {
-
-    // static async findPreAbsenceByDate(date) {
-    //     const absence_entities = await PreAbsence.findAll({
-    //         where: {
-    //             start_date: {
-    //                 [Op.gte]: date,
-    //             },
-    //             end_date: {
-    //                 [Op.lte]: date,
-    //             },
-    //         }
-    //     });
-    //     if (!absence_entities) {
-    //         throw new Exceptions.NotFoundDataException;
-    //     }
-
-    //     const result = absence_entities.map((entity) => {
-    //         const pre_absence = entity.dataValues;
-    //         pre_absence.start_date = new Date(pre_absence.start_date);
-    //         pre_absence.end_date = new Date(pre_absence.end_date);
-    //         return pre_absence;
-    //     });
-    //     return result;
-    // }
-
     static async findByTerm(term) {
         const absence_entities = await PreAbsence.findAll({
             include: [{model: Student, as: 'student'}],
