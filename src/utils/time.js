@@ -37,6 +37,16 @@ module.exports = class ServiceDate {
     static newDateOrdernal(order) {
         return new ServiceDate(newDateOrdernal(order));
     }
+    static newDateStartOfMonth(month) {
+        const today = newToday();
+        const year = today.year;
+        return new ServiceDate(newDate(year, month, 1));
+    }
+    static newDateEndOfMonth(month) {
+        const today = newToday();
+        const year = today.year;
+        return new ServiceDate(newDate(year, month + 1, 1).plus({days: -1}));
+    }
 }
 
 
