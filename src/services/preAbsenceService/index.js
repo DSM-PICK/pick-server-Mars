@@ -72,6 +72,7 @@ class PreAbsenceService {
         }
 
         const today = newToday();
+        console.log(isBetweenDate(term.start_date, term.end_date, today));
         if(isBetweenDate(term.start_date, term.end_date, today)) {
             let { start_period, end_period } = getPeriodRangeToReflect(term);
             reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
