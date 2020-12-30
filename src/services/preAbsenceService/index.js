@@ -161,10 +161,12 @@ function getPeriodRangeToTerm(term) {
 }
 
 async function reflectToAttendance(repo, date, student_num, start_period, end_period, state) {
+    console.log(date);
     for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
         try {
-            await this.attendance_repo.updateAttendance(today, student_num, period, state);
+            await repo.updateAttendance(date.toJSDate(), student_num, period, state);
         } catch (e) {
+            console.log(e);
         }
     }
 }
