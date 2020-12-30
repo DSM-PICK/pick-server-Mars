@@ -173,7 +173,7 @@ async function reflectToAttendance(repo, date, student_num, start_period, end_pe
 async function reflectToAttendanceToMoving(repo, date, student_num, start_period, end_period, memo) {
     for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
         try {
-            await this.attendance_repo.updateAttendanceToMoving(today, student_num, period, memo);
+            await repo.updateAttendanceToMoving(date, student_num, period, memo);
         } catch (e) {
         }
     }
