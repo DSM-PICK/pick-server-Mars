@@ -81,12 +81,7 @@ controllers.createPreAbsence = async (req, res, next) => {
     const memo = req.body.memo;
 
     try {
-        if (state != '이동') {
-            await service.createPreAbsence(teacher, student, term, state, memo);
-        }
-        else {
-            await service.createPreAbsenceToMoving(teacher, student, term, req.body.memo);
-        }
+        await service.createPreAbsence(teacher, student, term, state, memo);
     } catch (e) {
         if(e instanceof ServiceExceptions.ConflictData) {
             next(HttpErrors.Conflict);

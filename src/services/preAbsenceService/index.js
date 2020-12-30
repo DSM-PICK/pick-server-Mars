@@ -82,31 +82,6 @@ class PreAbsenceService {
         }
     }
 
-    async createPreAbsenceToMoving(teacher_id, student_num, term, memo) {
-
-        if(term.start_date > term.end_date) {
-            throw new Exceptions.InvalidTermException;
-        }
-
-        if(await checkTermConflict(this.pre_absence_repo, student_num, term)) {
-            throw new Exceptions.ConflictData;
-        }
-
-        try {
-            await this.pre_absence_repo.createPreAbsenceToMoving(teacher_id, student_num, term, memo);
-        }
-        catch(e) {
-            throw new Exceptions.NotFoundDataException;
-        }
-
-        const today = new ServiceDate();
-        const date_range = DateRange.newRange(term.start_date, term.end_date);
-        if(date_range.isInclude(today)) {
-            let { start_period, end_period } = getPeriodRangeToTerm(term);
-            reflectToAttendanceToMoving(this.attendance_repo, today, student_num, start_period, end_period, '이동');
-        }
-    }
-
 
     async createEmployment(teacher_id, student_num) {
         
