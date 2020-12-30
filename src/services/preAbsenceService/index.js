@@ -122,13 +122,11 @@ function getPeriodRangeToTerm(term) {
     const today = new ServiceDate();
     let start_period = 7;
     if(term.start_date.isSame(today)) {
-    //if(dateToString(term.start_date) == dateToString(today)) {
         start_period = term.start_period;
     }
 
     let end_period = 10;
     if(term.end_date.isSame(today)) {
-    //if(dateToString(term.end_date) == dateToString(today)) {
         end_period = term.end_period;
     }
 
@@ -145,14 +143,7 @@ async function reflectToAttendance(repo, date, student_num, start_period, end_pe
         }
     }
 }
-async function reflectToAttendanceToMoving(repo, date, student_num, start_period, end_period, memo) {
-    for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
-        try {
-            await repo.updateAttendanceToMoving(date, student_num, period, memo);
-        } catch (e) {
-        }
-    }
-}
+
 
 async function checkTermConflict(repo, student_num, new_term) {
     let preabsences;
