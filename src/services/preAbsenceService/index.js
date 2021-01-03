@@ -224,4 +224,8 @@ function getRangeByTerm(term) {
         convertClassInToNumber(term.end_date, term.end_period));
 }
 
+async function getTeacherNameById(repository, teacher_id) {
+    return (await repository.findById(teacher_id)).name;
+}
+
 module.exports = PreAbsenceService;
