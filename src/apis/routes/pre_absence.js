@@ -138,8 +138,8 @@ controllers.deletePreAbsence = async (req, res, next) => {
 
 
 
-module.exports = (pre_absence_repo, attendance_repo) => {
-    service = new PreAbsenceService(pre_absence_repo, attendance_repo);
+module.exports = (pre_absence_repo, attendance_repo, teacher_repo) => {
+    service = new PreAbsenceService(pre_absence_repo, attendance_repo, teacher_repo);
 
     return controllers;
 };
