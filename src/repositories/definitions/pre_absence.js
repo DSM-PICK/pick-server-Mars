@@ -69,6 +69,8 @@ class PreAbsence extends Model {
             result.end_period = pre_absence.end_period;
             result.state = pre_absence.state;
             result.name = pre_absence.student.name;
+            result.memo = pre_absence.remarks;
+            result.teacher_id = pre_absence.teacher_id;
             result.start_date = new Date(pre_absence.start_date);
             result.end_date = new Date(pre_absence.end_date);
             return result;
