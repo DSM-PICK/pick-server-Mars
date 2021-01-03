@@ -32,6 +32,8 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             end_date: dateToString(result.end_date),
             end_period: result.end_period,
             state: result.state,
+            teacher: result.teacher,
+            memo: result.memo,
         };
     });
 
