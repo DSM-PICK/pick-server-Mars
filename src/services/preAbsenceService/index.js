@@ -3,9 +3,10 @@ const Exceptions = require('../../errors/servicesExceptions');
 const { isBetweenDate, dateToString, newToday, newTermWithPeriod, getFirstDateOfNextYear } = require('../../utils');
 
 class PreAbsenceService {
-    constructor(pre_absence_repo, attendance_repo) {
+    constructor(pre_absence_repo, attendance_repo, teacher_repo) {
         this.pre_absence_repo = pre_absence_repo;
         this.attendance_repo = attendance_repo;
+        this.teacher_repo = teacher_repo;
     }
 
     
