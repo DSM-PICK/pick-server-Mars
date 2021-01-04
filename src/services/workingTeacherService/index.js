@@ -125,7 +125,7 @@ class WorkingTeacherService {
 
 
 
-        if(activity1.date == activity2.date) {
+        if(activity1.date.isSame(activity2.date)) {
             activity1 = activity2;
         }
         
