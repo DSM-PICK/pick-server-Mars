@@ -16,8 +16,17 @@ module.exports = class ServiceDate {
     toString() {
         return this.date.toISODate();
     }
+    toJSDate() {
+        return new Date(this.toString());
+    }
     isSame(date) {
         return equal(this, date);
+    }
+    valueOf() {
+        return this.date.valueOf();
+    }
+    addDays(days) {
+        return new ServiceDate(this.date.plus({days: days}));
     }
     static newDateEndOfSchoolYear() {
         const today = newToday();

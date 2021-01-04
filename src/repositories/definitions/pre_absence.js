@@ -1,57 +1,32 @@
 const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/repositoriesExceptions');
-
+const ServiceDate = require('../../utils/time');
 const Student = require('./student');
 
 class PreAbsence extends Model {
-
-    // static async findPreAbsenceByDate(date) {
-    //     const absence_entities = await PreAbsence.findAll({
-    //         where: {
-    //             start_date: {
-    //                 [Op.gte]: date,
-    //             },
-    //             end_date: {
-    //                 [Op.lte]: date,
-    //             },
-    //         }
-    //     });
-    //     if (!absence_entities) {
-    //         throw new Exceptions.NotFoundDataException;
-    //     }
-
-    //     const result = absence_entities.map((entity) => {
-    //         const pre_absence = entity.dataValues;
-    //         pre_absence.start_date = new Date(pre_absence.start_date);
-    //         pre_absence.end_date = new Date(pre_absence.end_date);
-    //         return pre_absence;
-    //     });
-    //     return result;
-    // }
-
     static async findByTerm(term) {
         const absence_entities = await PreAbsence.findAll({
             include: [{model: Student, as: 'student'}],
             where: Sequelize.or(
                 Sequelize.or(
                     Sequelize.and(
-                        { start_date: { [Op.lte]: term.end_date } },
-                        { start_date: { [Op.gte]: term.start_date } }
+                        { start_date: { [Op.lte]: term.end_date.toJSDate() } },
+                        { start_date: { [Op.gte]: term.start_date.toJSDate() } }
                     ),
                     Sequelize.and(
-                        { end_date: { [Op.lte]: term.end_date } },
-                        { end_date: { [Op.gte]: term.start_date } }
+                        { end_date: { [Op.lte]: term.end_date.toJSDate() } },
+                        { end_date: { [Op.gte]: term.start_date.toJSDate() } }
                     ),
                 ),
                 Sequelize.or(
                     Sequelize.and(
-                        { start_date: { [Op.gte]: term.start_date } },
-                        { end_date: { [Op.lte]: term.start_date } }
+                        { start_date: { [Op.gte]: term.start_date.toJSDate() } },
+                        { end_date: { [Op.lte]: term.start_date.toJSDate() } }
                     ),
                     Sequelize.and(
-                        { start_date: { [Op.gte]: term.end_date } },
-                        { end_date: { [Op.lte]: term.end_date } }
+                        { start_date: { [Op.gte]: term.end_date.toJSDate() } },
+                        { end_date: { [Op.lte]: term.end_date.toJSDate() } }
                     ),
                 ),
             )
@@ -69,10 +44,9 @@ class PreAbsence extends Model {
             result.end_period = pre_absence.end_period;
             result.state = pre_absence.state;
             result.name = pre_absence.student.name;
-            result.memo = pre_absence.remarks;
-            result.teacher_id = pre_absence.teacher_id;
-            result.start_date = new Date(pre_absence.start_date);
-            result.end_date = new Date(pre_absence.end_date);
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
+
             return result;
         });
         return result;
@@ -83,10 +57,10 @@ class PreAbsence extends Model {
             include: [{model: Student, as: 'student'}],
             where: {
                 start_date: {
-                    [Op.lte]: date,
+                    [Op.lte]: date.toJSDate(),
                 },
                 end_date: {
-                    [Op.gte]: date,
+                    [Op.gte]: date.toJSDate(),
                 },
             }
         });
@@ -96,32 +70,27 @@ class PreAbsence extends Model {
 
         const result = absence_entities.map((entity) => {
             const pre_absence = entity.dataValues;
-            let result = {};
-            result.id = pre_absence.id;
-            result.student_num = pre_absence.student_num;
-            result.start_period = pre_absence.start_period;
-            result.end_period = pre_absence.end_period;
-            result.state = pre_absence.state;
+            let result = pre_absence;
             result.name = pre_absence.student.name;
-            result.start_date = new Date(pre_absence.start_date);
-            result.end_date = new Date(pre_absence.end_date);
             result.memo = pre_absence.remarks;
-            result.teacher_id = pre_absence.teacher_id;
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
         });
         return result;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term, state) {
+    static async createPreAbsence(teacher_id, student_num, term, state, remarks) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
-                start_date: term.start_date,
-                end_date: term.end_date,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
                 student_num: student_num,
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
+                remarks: remarks
             });
         }
         catch (e) {
@@ -136,8 +105,8 @@ class PreAbsence extends Model {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
-                start_date: term.start_date,
-                end_date: term.end_date,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
                 student_num: student_num,
                 start_period: term.start_period,
                 end_period: term.end_period,
@@ -181,8 +150,8 @@ class PreAbsence extends Model {
 
         const result = absence_entities.map((entity) => {
             const pre_absence = entity.dataValues;
-            pre_absence.start_date = new Date(pre_absence.start_date);
-            pre_absence.end_date = new Date(pre_absence.end_date);
+            pre_absence.start_date = new ServiceDate(pre_absence.start_date);
+            pre_absence.end_date = new ServiceDate(pre_absence.end_date);
             return pre_absence;
         });
         return result;

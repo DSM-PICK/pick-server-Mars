@@ -1,6 +1,8 @@
 const RepoExceptions = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 const { isBetweenDate, dateToString, newToday, newTermWithPeriod, getFirstDateOfNextYear } = require('../../utils');
+const { DateRange, PeriodRange } = require('../../utils/range');
+const ServiceDate = require('../../utils/time');
 
 class PreAbsenceService {
     constructor(pre_absence_repo, attendance_repo, teacher_repo) {
@@ -20,7 +22,6 @@ class PreAbsenceService {
             absences = [];
 
         }
-
         absences = absences.filter((absences) => absences.state != '취업');
 
         absences = absences.map(async (absence) => {
@@ -39,8 +40,6 @@ class PreAbsenceService {
         });
 
         absences = await Promise.all(absences);
-
-
         return absences;
     }
 
@@ -48,7 +47,7 @@ class PreAbsenceService {
         let absences;
         
         try {
-            absences = await this.pre_absence_repo.findPreAbsenceByDate(newToday());
+            absences = await this.pre_absence_repo.findPreAbsenceByDate(new ServiceDate());
         }
         catch(e) {
             absences = [];
@@ -59,9 +58,8 @@ class PreAbsenceService {
         return absences;
     }
 
-    async createPreAbsence(teacher_id, student_num, term, state) {
-
-        if(term.start_date.getTime() > term.end_date.getTime()) {
+    async createPreAbsence(teacher_id, student_num, term, state, memo) {
+        if(term.start_date > term.end_date) {
             throw new Exceptions.InvalidTermException;
         }
 
@@ -70,23 +68,22 @@ class PreAbsenceService {
         }
 
         try {
-            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state);
+            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state, memo);
         }
         catch(e) {
             throw new Exceptions.NotFoundDataException;
         }
-
-        const today = newToday();
-        console.log(isBetweenDate(term.start_date, term.end_date, today));
-        if(isBetweenDate(term.start_date, term.end_date, today)) {
-            let { start_period, end_period } = getPeriodRangeToReflect(term);
+        const today = new ServiceDate();
+        const date_range = DateRange.newRange(term.start_date, term.end_date);
+        if(date_range.isInclude(today)) {
+            let { start_period, end_period } = getPeriodRangeToTerm(term);
             reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
         }
     }
 
     async createPreAbsenceToMoving(teacher_id, student_num, term, memo) {
 
-        if(term.start_date.getTime() > term.end_date.getTime()) {
+        if(term.start_date > term.end_date) {
             throw new Exceptions.InvalidTermException;
         }
 
@@ -101,9 +98,10 @@ class PreAbsenceService {
             throw new Exceptions.NotFoundDataException;
         }
 
-        const today = newToday();
-        if(isBetweenDate(term.start_date, term.end_date, today)) {
-            let { start_period, end_period } = getPeriodRangeToReflect(term);
+        const today = new ServiceDate();
+        const date_range = DateRange.newRange(term.start_date, term.end_date);
+        if(date_range.isInclude(today)) {
+            let { start_period, end_period } = getPeriodRangeToTerm(term);
             reflectToAttendanceToMoving(this.attendance_repo, today, student_num, start_period, end_period, '이동');
         }
     }
@@ -111,7 +109,7 @@ class PreAbsenceService {
 
     async createEmployment(teacher_id, student_num) {
         
-        const term = newTermWithPeriod(newToday(), 1, getFirstDateOfNextYear(), 10);
+        const term = newTermWithPeriod(new ServiceDate(), 1, ServiceDate.newDateEndOfSchoolYear(), 10);
 
         await this.createPreAbsence(teacher_id, student_num, term, '취업');
     }
@@ -126,7 +124,7 @@ class PreAbsenceService {
         }
 
         pre_absence = pre_absence[0];
-        const today = newToday();
+        const today = new ServiceDate();
         const term = {
             start_date: pre_absence.start_date,
             end_date: pre_absence.end_date,
@@ -134,39 +132,27 @@ class PreAbsenceService {
             end_period: pre_absence.end_period,
         };
         const student_num = pre_absence.student_num;
-        if(isBetweenDate(term.start_date, term.end_date, today)) {
-            let start_period = 7;
-            if(dateToString(term.start_date) == dateToString(today)) {
-                start_period = term.start_period;
-            }
-
-            let end_period = 10;
-            if(dateToString(term.end_date) == dateToString(today)) {
-                end_period = term.end_period;
-            }
-            for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
-                try {
-                    await this.attendance_repo.updateAttendance(today, student_num, period, '출석');
-                } catch (e) {
-                    // console.log(this.attendance_repo);
-                    // console.log(e);
-                }
-            }
+        const range = DateRange.newRange(term.start_date, term.end_date);
+        if(range.isInclude(today)){
+            let { start_period, end_period } = getPeriodRangeToTerm(term);
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, '출석');
         }
 
 
     }
 }
 
-function getPeriodRangeToReflect(term) {
-    const today = newToday();
+function getPeriodRangeToTerm(term) {
+    const today = new ServiceDate();
     let start_period = 7;
-    if(dateToString(term.start_date) == dateToString(today)) {
+    if(term.start_date.isSame(today)) {
+    //if(dateToString(term.start_date) == dateToString(today)) {
         start_period = term.start_period;
     }
 
     let end_period = 10;
-    if(dateToString(term.end_date) == dateToString(today)) {
+    if(term.end_date.isSame(today)) {
+    //if(dateToString(term.end_date) == dateToString(today)) {
         end_period = term.end_period;
     }
 
@@ -174,10 +160,12 @@ function getPeriodRangeToReflect(term) {
 }
 
 async function reflectToAttendance(repo, date, student_num, start_period, end_period, state) {
+    console.log(date);
     for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
         try {
-            await repo.updateAttendance(date, student_num, period, state);
+            await repo.updateAttendance(date.toJSDate(), student_num, period, state);
         } catch (e) {
+            console.log(e);
         }
     }
 }
@@ -198,36 +186,19 @@ async function checkTermConflict(repo, student_num, new_term) {
         return false;
     }
     const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num);
-    const range_by_new_term = getRangeByTerm(new_term);
+    const period_range = PeriodRange.newRange(new_term, new_term);
     const conflicteds = conflicteds_student.filter((preabsence) => {
-        const range_by_preabsence = getRangeByTerm(preabsences);
-        return isConflictRange(range_by_new_term, range_by_preabsence);
+        const range_by_preabsence = PeriodRange.newRange(preabsences, preabsences);
+        return PeriodRange.isConflict(period_range, range_by_preabsence);
     });
+    
     return conflicteds.length > 0;
 }
 
-function convertClassInToNumber(date, period) {
-    return Math.floor(date / 1000) * 1000 + period;
+async function getTeacherNameById(repository, teacher_id) {
+    return (await repository.findById(teacher_id)).name;
 }
 
-function isConflictRange(range1, range2) {
-    return (range1.start <= range2.end && range1.start >= range2.start)
-        || (range1.end <= range2.end && range1.end >= range2.start)
-        || (range1.start >= range2.start && range1.end <= range2.start)
-        || (range1.start >= range2.end && range1.end <= range2.end);
-}
-
-function newRange(start, end) {
-    return {
-        start: start,
-        end: end
-    };
-}
-
-function getRangeByTerm(term) {
-    return newRange(convertClassInToNumber(term.start_date, term.start_period),
-        convertClassInToNumber(term.end_date, term.end_period));
-}
 
 async function getTeacherNameById(repository, teacher_id) {
     return (await repository.findById(teacher_id)).name;

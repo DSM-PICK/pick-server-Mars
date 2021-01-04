@@ -19,7 +19,6 @@ class ActivityService {
             }
             throw e;
         }
-
         const null_name_teacher = { name: null };
         let floor2_teacher;
         try {

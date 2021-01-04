@@ -1,3 +1,5 @@
+const ServiceDate = require('../../utils/time');
+
 const PreAbsenceService = require('../../services/preAbsenceService');
 const { validDateString, dateToString } = require('../../utils');
 
@@ -16,7 +18,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
     }
 
 
-    const date = new Date(req.params.date);
+    const date = new ServiceDate(req.params.date);
 
     let results = await service.getPreAbsenceByDate(date);
   
@@ -27,9 +29,9 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             id: result.id,
             stdnum: result.stdnum,
             name: result.name,
-            start_date: dateToString(result.start_date),
+            start_date: result.start_date.toString(),
             start_period: result.start_period,
-            end_date: dateToString(result.end_date),
+            end_date: result.end_date.toString(),
             end_period: result.end_period,
             state: result.state,
             teacher: result.teacher,
@@ -70,16 +72,17 @@ controllers.createPreAbsence = async (req, res, next) => {
     const teacher = req.auth;
     const student = req.body.stdnum;
     const term = {
-        start_date: new Date(req.body.start_date),
+        start_date: new ServiceDate(req.body.start_date),
         start_period: req.body.start_period,
-        end_date: new Date(req.body.end_date),
+        end_date: new ServiceDate(req.body.end_date),
         end_period: req.body.end_period,
     };
     const state = req.body.state;
+    const memo = req.body.memo;
 
     try {
         if (state != '이동') {
-            await service.createPreAbsence(teacher, student, term, state);
+            await service.createPreAbsence(teacher, student, term, state, memo);
         }
         else {
             await service.createPreAbsenceToMoving(teacher, student, term, req.body.memo);

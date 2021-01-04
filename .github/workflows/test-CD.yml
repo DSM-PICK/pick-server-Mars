@@ -1,0 +1,65 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+
+on:
+  push:
+    branches: [ test ]
+  pull_request:
+    branches: [ test ]
+
+jobs:
+  CI:
+    env:
+      PORT: ${{ secrets.PORT }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.7.0]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Dependencies Installation
+      run: npm ci
+    
+    - name: test
+      run: npm run cover
+
+  CD:
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    needs: CI
+
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: docker image build
+        run: docker build -t yeoul/mars:test .
+    
+      - name: upload to registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: yeoul/mars:test
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: always()
