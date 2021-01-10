@@ -17,7 +17,7 @@ const ServiceDate = require('../../utils/time');
 const controllers = {};
 
 controllers.getTodayWorkingTeacher = async (req, res, next) => {
-    const today = setUTCDateLikeGMT(new Date());
+    const today = new ServiceDate();
 
     try {
         const result = await service.getWorkingTeacherByDateAndFloor(today, req.params.floor);
@@ -92,7 +92,7 @@ controllers.GetRemainingDateForUser = async (req, res, next) => {
     const teacher_id = req.auth;
     let remaining_date;
     try {
-        remaining_date = await service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, newToday());
+        remaining_date = await service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, new ServiceDate());
     } catch (e) {
         next(HttpErrors.NotFound);
     }

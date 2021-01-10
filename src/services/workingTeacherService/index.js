@@ -4,6 +4,8 @@ const Exceptions = require('../../errors/servicesExceptions');
 const ActivityService = require('../activityService');
 const { newTerm, newToday } = require('../../utils');
 
+const { DateRange } = require('../../utils/range');
+
 class WorkingTeacherService {
     constructor(activity_repository, teacher_repository) {
         this.activity_repository = activity_repository;
@@ -20,9 +22,7 @@ class WorkingTeacherService {
             throw new Exceptions.InvalidFloorException;
         }
         try {
-            // activity_by_date = await this.activity_service.getThisDateActivity(date);
-            activity_by_date = await this.activity_repository.findBetweenTermWithTeacher(newTerm(date, date));
-            // console.log(activity_by_date);
+            activity_by_date = await this.activity_repository.findBetweenTermWithTeacher(DateRange.newRange(date, date));
             activity_by_date = activity_by_date[0];
         }
         catch(e) {
@@ -45,19 +45,12 @@ class WorkingTeacherService {
     }
 
     async getWorkingTeacherByWeek(month, week) {
-        const one_date_second = 86400000;
-        const today = newToday();
-        const first_day_in_month = new Date(new Date(today.setUTCDate(1)).setUTCMonth(month - 1));
-        
-        const sunday_the_week = first_day_in_month.getTime() + ((week - 1) * 7 * one_date_second) - first_day_in_month.getUTCDay() * one_date_second;
-        const saturday_the_week = sunday_the_week + one_date_second * 6;
-
-        const monday = new Date(sunday_the_week + one_date_second);
-        const firday = new Date(saturday_the_week - one_date_second);
+        const monday_sunday_week = DateRange.newRangeWeek(month, week);
+        const week = DateRange.newRange(monday_sunday_week.start, monday_sunday_week.end.addDays(-2));
 
         let activities;
         try {
-            activities = await this.activity_repository.findBetweenTermWithTeacher(newTerm(monday, firday));    
+            activities = await this.activity_repository.findBetweenTermWithTeacher(week);    
         } catch (e) {
             throw new Exceptions.NotFoundDataException;    
         }
@@ -89,7 +82,7 @@ class WorkingTeacherService {
             return -1;
         }
 
-        const diff_time = activities[0].date.getTime() - date.getTime();
+        const diff_time = activities[0].date - date;
         const remaining_date = (diff_time / 86400000);
         return remaining_date;
     }
@@ -125,7 +118,7 @@ class WorkingTeacherService {
 
 
 
-        if(activity1.date == activity2.date) {
+        if(activity1.date.isSame(activity2.date)) {
             activity1 = activity2;
         }
         
@@ -172,7 +165,6 @@ function getTeacherByFloorInActivity(activity, floor) {
         teacher_id = activity.forth_floor_teacher_id;
     }
 
-    //const teacher_name = repository.findById(teacher_id);
     return teacher_id;
 }
 
