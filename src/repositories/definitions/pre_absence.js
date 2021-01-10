@@ -46,6 +46,7 @@ class PreAbsence extends Model {
             result.name = pre_absence.student.name;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
+
             return result;
         });
         return result;

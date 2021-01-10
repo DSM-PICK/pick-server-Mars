@@ -12,6 +12,7 @@ const { http } = require('../../loaders/logger');
 const { Http } = require('winston/lib/winston/transports');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
+const ServiceDate = require('../../utils/time');
 
 const controllers = {};
 
@@ -39,12 +40,12 @@ controllers.exchangeTeacher = async (req, res, next) => {
 
     const teacher1 = {
         floor: req.body.floor1,
-        date: new Date(req.body.date1),
+        date: new ServiceDate(req.body.date1),
         teacher_name: req.body.teacher_name1
     };
     const teacher2 = {
         floor: req.body.floor2,
-        date: new Date(req.body.date2),
+        date: new ServiceDate(req.body.date2),
         teacher_name: req.body.teacher_name2
     };
 
