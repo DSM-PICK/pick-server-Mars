@@ -1,4 +1,5 @@
 const { InvalidRange } = require('../errors/utils');
+const ServiceDate = require('./time');
 
 class Range {
     constructor(start, end) {
@@ -27,6 +28,16 @@ class DateRange extends Range{
         new_range.end = end;
         
         return new_range;
+    }
+    static newRangeWeek(month, week) { // monday ~ sumday
+        const someday_in_week = ServiceDate.newDateStartOfMonth(month).addDays(7 * week - 1);
+        const diff_to_monday = someday_in_week.getWeekday() - 1;
+        const diff_to_firday = 7 - someday_in_week.getWeekday();
+
+        const monday = someday_in_week.addDays(diff_to_monday * -1);
+        const sunday = someday_in_week.addDays(diff_to_firday);
+
+        return DateRange.newRange(monday, sunday);
     }
 }
 

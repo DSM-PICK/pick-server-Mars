@@ -28,6 +28,9 @@ module.exports = class ServiceDate {
     addDays(days) {
         return new ServiceDate(this.date.plus({days: days}));
     }
+    getWeekday() {// weekday -> 1 monday ~ 7 sunday
+        return this.date.weekday;
+    }
     static newDateEndOfSchoolYear() {
         const today = newToday();
         let next_school_year = getDatesSchoolYear(today) + 1;
