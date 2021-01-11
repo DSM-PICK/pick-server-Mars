@@ -46,7 +46,7 @@ class WorkingTeacherService {
 
     async getWorkingTeacherByWeek(month, week) {
         const monday_sunday_week = DateRange.newRangeWeek(month, week);
-        const week = DateRange.newRange(monday_sunday_week.start, monday_sunday_week.end.addDays(-2));
+        week = DateRange.newRange(monday_sunday_week.start, monday_sunday_week.end.addDays(-2));
 
         let activities;
         try {
