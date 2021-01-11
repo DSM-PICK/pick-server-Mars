@@ -11,6 +11,7 @@ class Activity extends Model {
         if (!activity_entity) {
             throw new Errors.NotFoundDataException;
         }
+        activity_entity.dataValues.date = new ServiceDate(date);
         return activity_entity.dataValues;
     }
 
