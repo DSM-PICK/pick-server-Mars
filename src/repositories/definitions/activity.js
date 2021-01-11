@@ -69,9 +69,10 @@ class Activity extends Model {
     }
 
     static async updateAutoDetect(activity) {
+        activity.date = activity.date.toJSDate();
         return await Activity.update(activity, {
             where: {
-                date: new Date(activity.date)
+                date: activity.date
             }
         });
     }
