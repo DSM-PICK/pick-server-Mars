@@ -42,7 +42,7 @@ class ActivityService {
         }
 
         const result = {
-            date: activity.date,
+            date: activity.date.toJSDate(),
             schedule: activity.schedule,
             floor3: floor3_teacher.name,
             floor2: floor2_teacher.name,

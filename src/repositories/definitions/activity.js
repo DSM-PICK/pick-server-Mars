@@ -3,6 +3,7 @@ const { sequelize } = require('../../loaders/database');
 const Errors = require('../../errors/repositoriesExceptions');
 
 const Teacher = require('../../repositories/definitions/teacher');
+const ServiceDate = require('../../utils/time');
 
 class Activity extends Model {
     static async findByDate(date) {
@@ -57,6 +58,7 @@ class Activity extends Model {
 
         return activity_entities.map((entity) => { 
             entity = entity.dataValues;
+            entity.date = new ServiceDate(entity.date);
             entity.floor2 = entity.floor2.dataValues;
             entity.floor3 = entity.floor3.dataValues;
             entity.floor4 = entity.floor4.dataValues;
