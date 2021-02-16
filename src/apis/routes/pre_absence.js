@@ -43,6 +43,26 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
 
 };
 
+controllers.getAllPreAbsence = async (req, res, next) => {
+    let results = await service.getAllPreAbsence();
+  
+    results = results.map((result) => {
+        return {
+            id: result.id,
+            stdnum: result.stdnum,
+            name: result.name,
+            start_date: result.start_date.toString(),
+            start_period: result.start_period,
+            end_date: result.end_date.toString(),
+            end_period: result.end_period,
+            state: result.state,
+            teacher: result.teacher,
+            memo: result.memo,
+        };
+    });
+    res.send(results);
+};
+
 controllers.getEmployments = async (req, res, next) => {
     let results = await service.getEmployments();
 

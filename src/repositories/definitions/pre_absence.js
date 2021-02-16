@@ -52,6 +52,25 @@ class PreAbsence extends Model {
         return result;
     }
 
+    static async findAllPreAbsence() {
+        const absence_entities = await PreAbsence.findAll({
+            include: [{model: Student, as: 'student'}]
+        });
+        if (!absence_entities) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const result = absence_entities.map((entity) => {
+            const pre_absence = entity.dataValues;
+            let result = pre_absence;
+            result.name = pre_absence.student.name;
+            result.memo = pre_absence.remarks;
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
+            return result;
+        });
+        return result;
+    }
     static async findPreAbsenceByDate(date) {
         const absence_entities = await PreAbsence.findAll({
             include: [{model: Student, as: 'student'}],

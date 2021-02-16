@@ -11,7 +11,37 @@ class PreAbsenceService {
         this.teacher_repo = teacher_repo;
     }
 
-    
+    async getAllPreabsence() {
+        let absences;
+        
+        try {
+            absences = await this.pre_absence_repo.findAllPreAbsence();
+        }
+        catch(e) {
+            absences = [];
+
+        }
+        absences = absences.filter((absences) => absences.state != '취업');
+
+        absences = absences.map(async (absence) => {
+            return {
+                id: absence.id,
+                teacher: await getTeacherNameById(this.teacher_repo, absence.teacher_id),
+                stdnum: absence.student_num,
+                name: absence.name,
+                start_date: absence.start_date,
+                start_period: absence.start_period,
+                end_date: absence.end_date,
+                end_period: absence.end_period,
+                state: absence.state,
+                memo: absence.memo,
+            }
+        });
+
+        absences = await Promise.all(absences);
+        return absences;
+    }
+
     async getPreAbsenceByDate(date) {
         let absences;
         
