@@ -31,3 +31,11 @@ class InvalidTermException extends BadRequestException {
         super('올바르지 않은 기간입니다.');        
     }
 }
+
+
+module.exports = {
+    BadRequestException,
+    InvalidFloorException,
+    InvalidDateException,
+    InvalidTermException,
+}
