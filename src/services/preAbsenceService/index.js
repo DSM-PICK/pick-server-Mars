@@ -11,7 +11,7 @@ class PreAbsenceService {
         this.teacher_repo = teacher_repo;
     }
 
-    async getAllPreabsence() {
+    async getAllPreAbsence() {
         let absences;
         
         try {
