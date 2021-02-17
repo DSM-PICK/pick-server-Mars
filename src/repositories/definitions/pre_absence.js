@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
-const Exceptions = require('../../errors/repositoriesExceptions');
+const Exceptions = require('../../errors/servicesExceptions');
 const ServiceDate = require('../../utils/time');
 const Student = require('./student');
 

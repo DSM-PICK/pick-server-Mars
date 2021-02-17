@@ -14,9 +14,6 @@ class ActivityService {
             activity = await this.activity_repository.findByDate(date);
         }
         catch (e) {
-            if (e instanceof RepoError.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
             throw e;
         }
         const null_name_teacher = { name: null };
@@ -65,8 +62,7 @@ class ActivityService {
         try {
             activities = await this.activity_repository.findByYearAndMonth(year_to_search, month_to_search);
         } catch (e) {
-            throw new Exceptions.NotFoundDataException;
-            //throw e;
+            throw e;
         }
         const null_name_teacher = { name: null };
         activities = activities.map(async (activity) => {

@@ -95,7 +95,7 @@ class PreAbsenceService {
             await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state, memo);
         }
         catch(e) {
-            throw new Exceptions.NotFoundDataException;
+            throw e;
         }
         const today = new ServiceDate();
         const date_range = DateRange.newRange(term.start_date, term.end_date);
@@ -120,7 +120,7 @@ class PreAbsenceService {
             pre_absence = await this.pre_absence_repo.findById(id);
             await this.pre_absence_repo.deletePreAbsenceById(id);
         } catch (e) {
-            throw new Exceptions.NotFoundDataException;
+            throw e;
         }
 
         pre_absence = pre_absence[0];

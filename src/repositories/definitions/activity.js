@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
-const Errors = require('../../errors/repositoriesExceptions');
+const Errors = require('../../errors/servicesExceptions');
 
 const Teacher = require('../../repositories/definitions/teacher');
 const ServiceDate = require('../../utils/time');

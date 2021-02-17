@@ -18,7 +18,7 @@ class WorkingTeacherService {
             activity_by_date = activity_by_date[0];
         }
         catch(e) {
-            throw new Exceptions.NotFoundDataException;
+            throw e;
         }
 
         const working_teacher = floor == 2? activity_by_date.floor2
@@ -44,7 +44,7 @@ class WorkingTeacherService {
         try {
             activities = await this.activity_repository.findBetweenTermWithTeacher(week);    
         } catch (e) {
-            throw new Exceptions.NotFoundDataException;    
+            throw e;  
         }
         
         
@@ -90,7 +90,7 @@ class WorkingTeacherService {
             activity2_repo_read = await this.activity_repository.findByDate(working_teacher_identifier2.date);
         }
         catch(e) {
-            throw new Exceptions.NotFoundDataException;
+            throw e;
         }
         let activity1 = activity1_repo_read;
         let activity2 = activity2_repo_read;
