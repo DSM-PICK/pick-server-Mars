@@ -47,8 +47,8 @@ class Activity extends Model {
             ],
             where: {
                 date: {
-                    [Op.gte]: term.start,
-                    [Op.lte]: term.end,
+                    [Op.gte]: term.start.toJSDate(),
+                    [Op.lte]: term.end.toJSDate(),
                 }
             }
         });
