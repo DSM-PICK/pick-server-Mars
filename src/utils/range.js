@@ -51,9 +51,13 @@ class PeriodRange extends Range {
             throw new InvalidRange(`${start} is not faster than ${end}`);
         }
 
-        const new_range = new DateRange(start, end);
+        const new_range = new PeriodRange(start, end);
         new_range.start = start;
         new_range.end = end;
+        new_range.start_date = start_date;
+        new_range.start_period = start_period;
+        new_range.end_date = end_date;
+        new_range.end_period = end_period;
         
         return new_range;
     }
