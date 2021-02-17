@@ -1,7 +1,5 @@
 const StudentService = require('../../services/studentService');
 
-const HttpErrors = require('../../errors');
-const ServiceExceptions = require('../../errors/servicesExceptions');
 
 const { BadRequestException } = require('../../errors/requestExceptions');
 

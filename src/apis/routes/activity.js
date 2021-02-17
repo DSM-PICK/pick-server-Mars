@@ -1,6 +1,3 @@
-const { Router } = require('express');
-const route = Router();
-
 const ServiceDate = require('../../utils/time');
 
 const ActivityRepository  = require('../../repositories').Activity;
@@ -8,7 +5,6 @@ const Teacher = require('../../repositories').Teacher;
 const ActivityService = require('../../services/activityService');
 const Exceptions = require('../../errors/servicesExceptions');
 
-const { NotFound, BadRequest } = require('../../errors');
 const { InvalidDateException, BadRequestException } = require('../../errors/requestExceptions');
 
 const service = new ActivityService(ActivityRepository, Teacher);  

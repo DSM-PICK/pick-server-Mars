@@ -1,10 +1,6 @@
 const ServiceDate = require('../../utils/time');
 
 const PreAbsenceService = require('../../services/preAbsenceService');
-const { validDateString, dateToString } = require('../../utils');
-
-const HttpErrors = require('../../errors');
-const ServiceExceptions = require('../../errors/servicesExceptions');
 
 const { InvalidDateException, BadRequestException, InvalidTermException } = require('../../errors/requestExceptions');
 

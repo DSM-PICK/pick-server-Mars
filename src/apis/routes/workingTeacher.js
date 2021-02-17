@@ -1,15 +1,6 @@
-const { Router } = require('express');
-const route = Router();
-
-
 const ActivityRepository = require('../../repositories').Activity;
 const TeacherRepository = require('../../repositories').Teacher;
 const WorkingTeacherService = require('../../services/workingTeacherService');
-const Exceptions = require('../../errors/servicesExceptions');
-const HttpErrors = require('../../errors');
-const { newToday, newTerm } = require('../../utils');
-const { http } = require('../../loaders/logger');
-const { Http } = require('winston/lib/winston/transports');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 const ServiceDate = require('../../utils/time');
@@ -92,10 +83,6 @@ controllers.GetRemainingDateForUser = async (req, res, next) => {
     }
     res.send({remaining_date});
 };
-
-function setUTCDateLikeGMT(date) {
-    return new Date(new Date(new Date().setUTCDate(date.getDate())).setUTCHours(0, 0, 0, 0));
-}
 
 function isValidFloor(floor) {
     return floor == 2 || floor == 3 || floor == 4;
