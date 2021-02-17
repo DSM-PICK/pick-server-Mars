@@ -3,7 +3,7 @@ const ErrorCodes = require('./errorCode');
 class RequestException extends Error {
     constructor(message, error_code) {
         super(message);
-        this.error_code = error_code;
+        this.status = error_code;
     }
 }
 class BadRequestException extends RequestException {
