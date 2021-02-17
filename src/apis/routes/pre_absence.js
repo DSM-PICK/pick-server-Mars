@@ -152,7 +152,7 @@ controllers.deletePreAbsence = async (req, res, next) => {
     const id = req.params.id * 1;
 
     if(Number.isInteger(id) == false) {
-        next(HttpErrors.BadRequest);
+        next(new BadRequestException);
         return;
     }
 
