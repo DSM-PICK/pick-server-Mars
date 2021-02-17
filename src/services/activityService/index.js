@@ -53,13 +53,6 @@ class ActivityService {
     }
 
     async getThisMonthActivity(month) {
-        if (month < 0) {
-            throw new Exceptions.InvalidDateException;
-        }
-        if (month > 13) {
-            throw new Exceptions.InvalidDateException;
-        }
-
         const this_year = new Date().getFullYear();
         const year_to_search = month == 0 ? this_year - 1
             : month == 13 ? this_year + 1
