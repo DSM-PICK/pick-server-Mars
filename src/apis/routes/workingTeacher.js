@@ -25,6 +25,7 @@ controllers.getTodayWorkingTeacher = async (req, res, next) => {
 
     if(floor != 2 && floor != 3 && floor != 4) {
         next(new InvalidFloorException);
+        return;
     }
 
     try {
@@ -57,10 +58,12 @@ controllers.exchangeTeacher = async (req, res, next) => {
         };
     } catch(e) {
         next(new InvalidDateException);
+        return;
     }
 
     if(isValidFloor(teacher1.floor) == false || isValidFloor(teacher2.floor) == false) {
         next(new InvalidFloorException);
+        return;
     }
 
 

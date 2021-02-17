@@ -19,6 +19,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
         date = new ServiceDate(req.params.date);   
     } catch (e) {
         next(new InvalidDateException);
+        return;
     }
     let results = await service.getPreAbsenceByDate(date);
   
@@ -94,6 +95,7 @@ controllers.createPreAbsence = async (req, res, next) => {
         end_date = new ServiceDate(req.body.end_date);
     } catch (e) {
         next(new InvalidDateException);
+        return;
     }
 
     const teacher = req.auth;
@@ -105,6 +107,7 @@ controllers.createPreAbsence = async (req, res, next) => {
         term = PeriodRange.newRange({start_date, start_period}, {end_date, end_period});
     } catch (e) {
         next(new InvalidTermException);
+        return;
     }
     const state = req.body.state;
     const memo = req.body.memo;
@@ -150,6 +153,7 @@ controllers.deletePreAbsence = async (req, res, next) => {
 
     if(Number.isInteger(id) == false) {
         next(HttpErrors.BadRequest);
+        return;
     }
 
     try {

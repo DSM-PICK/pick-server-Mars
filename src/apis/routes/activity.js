@@ -23,6 +23,7 @@ controllers.getActivityByDate = async (req, res, next) => {
         date = new ServiceDate(req.params.date);
     } catch (e) {
         next(new InvalidDateException);
+        return;
     }
 
     try {
@@ -52,6 +53,7 @@ controllers.getActivityByMonth = async (req, res, next) => {
     const month = Number.parseInt(req.params.month);
     if (month < 0 || month > 13) {
         next(new BadRequestException("유효하지 않은 달입니다."));
+        return;
     }
 
     try {
