@@ -7,17 +7,25 @@ const TeacherRepository = require('../../repositories').Teacher;
 const WorkingTeacherService = require('../../services/workingTeacherService');
 const Exceptions = require('../../errors/servicesExceptions');
 const HttpErrors = require('../../errors');
-const { newToday } = require('../../utils');
+const { newToday, newTerm } = require('../../utils');
 const { http } = require('../../loaders/logger');
 const { Http } = require('winston/lib/winston/transports');
 
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 const ServiceDate = require('../../utils/time');
 
+const { InvalidFloorException } = require('../../errors/requestExceptions');
+
 const controllers = {};
 
 controllers.getTodayWorkingTeacher = async (req, res, next) => {
     const today = new ServiceDate();
+
+    const floor = req.params.floor;
+
+    if(floor != 2 && floor != 3 && floor != 4) {
+        next(new InvalidFloorException);
+    }
 
     try {
         const result = await service.getWorkingTeacherByDateAndFloor(today, req.params.floor);
@@ -26,9 +34,6 @@ controllers.getTodayWorkingTeacher = async (req, res, next) => {
     catch (e) {
         if (e instanceof Exceptions.NotFoundDataException) {
             next(HttpErrors.NotFoundDataInThisFloor);
-        }
-        else if (e instanceof Exceptions.InvalidFloorException) {
-            next(HttpErrors.InvalidFloor);
         }
         else {
             next(e);
