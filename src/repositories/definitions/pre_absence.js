@@ -54,7 +54,8 @@ class PreAbsence extends Model {
 
     static async findAllPreAbsence() {
         const absence_entities = await PreAbsence.findAll({
-            include: [{model: Student, as: 'student'}]
+            include: [{model: Student, as: 'student'}],
+            order: ['start_date', 'DESC']
         });
         if (!absence_entities) {
             throw new Exceptions.NotFoundDataException;
