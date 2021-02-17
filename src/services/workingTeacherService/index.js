@@ -15,12 +15,6 @@ class WorkingTeacherService {
     
     async getWorkingTeacherByDateAndFloor(date, floor) {
         let activity_by_date;
-        if(floor < 2) {
-            throw new Exceptions.InvalidFloorException;
-        }
-        if(floor > 4) {
-            throw new Exceptions.InvalidFloorException;
-        }
         try {
             activity_by_date = await this.activity_repository.findBetweenTermWithTeacher(DateRange.newRange(date, date));
             activity_by_date = activity_by_date[0];
@@ -91,10 +85,6 @@ class WorkingTeacherService {
         const input_floor_teacher1 = working_teacher_identifier1.floor;
         const input_floor_teacher2 = working_teacher_identifier2.floor;
         
-        if(input_floor_teacher1 < 2 || input_floor_teacher1 > 4 
-            || input_floor_teacher2 < 2 || input_floor_teacher2 > 4) {
-                throw new Exceptions.InvalidFloorException;
-            }
         let activity1_repo_read;
         let activity2_repo_read;
         try{

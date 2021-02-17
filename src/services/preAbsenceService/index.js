@@ -89,10 +89,6 @@ class PreAbsenceService {
     }
 
     async createPreAbsence(teacher_id, student_num, term, state, memo) {
-        if(term.start_date > term.end_date) {
-            throw new Exceptions.InvalidTermException;
-        }
-
         if(await checkTermConflict(this.pre_absence_repo, student_num, term)) {
             throw new Exceptions.ConflictData;
         }
