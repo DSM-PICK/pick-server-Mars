@@ -44,8 +44,8 @@ class DateRange extends Range{
 class PeriodRange extends Range {
     static newRange({ start_date, start_period}, { end_date, end_period}) {
 
-        const start = Math.floor(start_date.valueOf / 1000) * 1000 + start_period;
-        const end = Math.floor(end_date.valueOf / 1000) * 1000 + end_period;
+        const start = Math.floor(start_date.valueOf() / 1000) * 1000 + Number(start_period);
+        const end = Math.floor(end_date.valueOf() / 1000) * 1000 + Number(end_period);
 
         if(start > end) {
             throw new InvalidRange(`${start} is not faster than ${end}`);
