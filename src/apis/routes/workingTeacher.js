@@ -14,7 +14,7 @@ const { Http } = require('winston/lib/winston/transports');
 const service = new WorkingTeacherService(ActivityRepository, TeacherRepository);
 const ServiceDate = require('../../utils/time');
 
-const { InvalidFloorException } = require('../../errors/requestExceptions');
+const { InvalidFloorException, InvalidDateException } = require('../../errors/requestExceptions');
 
 const controllers = {};
 
@@ -42,17 +42,27 @@ controllers.getTodayWorkingTeacher = async (req, res, next) => {
 };
 
 controllers.exchangeTeacher = async (req, res, next) => {
+    let teacher1;
+    let teacher2;
+    try {
+        teacher1 = {
+            floor: req.body.floor1,
+            date: new ServiceDate(req.body.date1),
+            teacher_name: req.body.teacher_name1
+        };
+        teacher2 = {
+            floor: req.body.floor2,
+            date: new ServiceDate(req.body.date2),
+            teacher_name: req.body.teacher_name2
+        };
+    } catch(e) {
+        next(new InvalidDateException);
+    }
 
-    const teacher1 = {
-        floor: req.body.floor1,
-        date: new ServiceDate(req.body.date1),
-        teacher_name: req.body.teacher_name1
-    };
-    const teacher2 = {
-        floor: req.body.floor2,
-        date: new ServiceDate(req.body.date2),
-        teacher_name: req.body.teacher_name2
-    };
+    if(isValidFloor(teacher1.floor) == false || isValidFloor(teacher2.floor) == false) {
+        next(new InvalidFloorException);
+    }
+
 
     try {
         await service.exchangeTeacher(teacher1, teacher2);
@@ -62,9 +72,6 @@ controllers.exchangeTeacher = async (req, res, next) => {
         console.log(e);
         if (e instanceof Exceptions.NotFoundDataException) {
             next(HttpErrors.NotFoundTeacher);
-        }
-        else if (e instanceof Exceptions.InvalidFloorException) {
-            next(HttpErrors.InvalidFloor);
         }
         else if(e instanceof Exceptions.MismatchToRelationDatas) {
             next(HttpErrors.NotFoundTeacher);
@@ -108,4 +115,7 @@ function setUTCDateLikeGMT(date) {
     return new Date(new Date(new Date().setUTCDate(date.getDate())).setUTCHours(0, 0, 0, 0));
 }
 
+function isValidFloor(floor) {
+    return floor == 2 || floor == 3 || floor == 4;
+}
 module.exports = controllers;
