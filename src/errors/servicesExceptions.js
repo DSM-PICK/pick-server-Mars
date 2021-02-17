@@ -13,7 +13,7 @@ class NotFoundDataException extends ServiceException{
     }
 }
 
-class ConflictData extends Error {
+class ConflictData extends ServiceException {
     constructor() {
         super('데이터에 충돌이 있습니다.', ErrorCodes.CONFLICT);
     }    

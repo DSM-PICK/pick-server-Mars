@@ -35,9 +35,17 @@ module.exports = (app) => {
         );
         console.log(err);
         res.status(err.status || 500);
+        
+        let message;
+        if(status == 500) {
+            message = '서버에 오류가 발생했습니다.';
+        }
+        else {
+            message = err.message;
+        }
         res.json({
-            message: err.message,
-            status: err.status
+            message,
+            status
         });
     });
 
