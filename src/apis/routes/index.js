@@ -21,6 +21,7 @@ router_passed_middleware.get('/pre-absence/date/:date', pre_absence.getPreAbsenc
 router_passed_middleware.get('/pre-absence/employments', pre_absence.getEmployments);
 router_passed_middleware.post('/pre-absence/employment', pre_absence.createEmployment);
 router_passed_middleware.post('/pre-absence', pre_absence.createPreAbsence);
+router_passed_middleware.put('/pre-absence/:id', pre_absence.modifyPreAbsence);
 router_passed_middleware.delete('/pre-absence/:id', pre_absence.deletePreAbsence);
 
 router_passed_middleware.get('/student/autocomplete/:incomplete', student.getAutoCompleteStudent);

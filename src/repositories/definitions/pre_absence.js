@@ -120,6 +120,33 @@ class PreAbsence extends Model {
             }
         }
     }
+    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, remarks) {
+        try {
+            await PreAbsence.update({
+                teacher_id: teacher_id,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
+                student_num: student_num,
+                start_period: term.start_period,
+                end_period: term.end_period,
+                state: state,
+                remarks: remarks
+            }, {
+                where: {
+                    id: pre_absence_id
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+            if (e instanceof ForeignKeyConstraintError) {
+                throw new Exceptions.NotFoundDataException;
+            }
+            else {
+                throw e;
+            }
+        }
+    }
 
     static async createPreAbsenceToMoving(teacher_id, student_num, term, remarks) {
         try {

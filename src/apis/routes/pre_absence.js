@@ -118,6 +118,49 @@ controllers.createPreAbsence = async (req, res, next) => {
     res.send();
 };
 
+controllers.modifyPreAbsence = async (req, res, next) => {
+    const pre_absence_id = Number(req.params.id);
+    if (!req.body.start_period||
+        !req.body.end_period||
+        req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출' && req.body.state != '병결' && req.body.state != '이동' && req.body.state != '취업' && req.body.state != '귀가') {
+        next(new BadRequestException);
+        return;
+    }
+
+    let start_date;
+    let end_date;
+    try {
+        start_date = new ServiceDate(req.body.start_date);
+        end_date = new ServiceDate(req.body.end_date);
+    } catch (e) {
+        next(new InvalidDateException);
+        return;
+    }
+
+    const teacher = req.auth;
+    const student = req.body.stdnum;
+    const start_period = req.body.start_period;
+    const end_period = req.body.end_period;
+    let term;
+    try {
+        term = PeriodRange.newRange({start_date, start_period}, {end_date, end_period});
+    } catch (e) {
+        next(new InvalidTermException);
+        return;
+    }
+    const state = req.body.state;
+    const memo = req.body.memo;
+
+    try {
+        await service.modifyPreAbsence(pre_absence_id, teacher, student, term, state, memo);
+    } catch (e) {
+        next(e);
+        return;
+    }
+
+    res.send();
+};
+
 controllers.createEmployment = async (req, res, next) => {
     const teacher = req.auth;
     const student = req.body.stdnum;

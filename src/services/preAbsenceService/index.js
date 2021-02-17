@@ -105,6 +105,25 @@ class PreAbsenceService {
         }
     }
 
+    async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, memo) {
+        if(await checkTermConflictWithoutItself(this.pre_absence_repo, pre_absence_id, student_num, term)) {
+            throw new Exceptions.ConflictData;
+        }
+
+        try {
+            await this.pre_absence_repo.modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, memo);
+        }
+        catch(e) {
+            throw e;
+        }
+        const today = new ServiceDate();
+        const date_range = DateRange.newRange(term.start_date, term.end_date);
+        if(date_range.isInclude(today)) {
+            let { start_period, end_period } = getPeriodRangeToTerm(term);
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
+        }
+    }
+
 
     async createEmployment(teacher_id, student_num) {
         
@@ -176,6 +195,23 @@ async function checkTermConflict(repo, student_num, new_term) {
         return false;
     }
     const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num);
+    const period_range = PeriodRange.newRange(new_term, new_term);
+    const conflicteds = conflicteds_student.filter((preabsence) => {
+        const range_by_preabsence = PeriodRange.newRange(preabsence, preabsence);
+        return PeriodRange.isConflict(period_range, range_by_preabsence);
+    });
+    
+    return conflicteds.length > 0;
+}
+
+async function checkTermConflictWithoutItself(repo, pre_absence_id, student_num, new_term) {
+    let preabsences;
+    try {
+        preabsences= await repo.findByTerm(new_term);
+    } catch (e) {
+        return false;
+    }
+    const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num && preabsence.id != pre_absence_id);
     const period_range = PeriodRange.newRange(new_term, new_term);
     const conflicteds = conflicteds_student.filter((preabsence) => {
         const range_by_preabsence = PeriodRange.newRange(preabsence, preabsence);
