@@ -6,20 +6,20 @@ const { validDateString, dateToString } = require('../../utils');
 const HttpErrors = require('../../errors');
 const ServiceExceptions = require('../../errors/servicesExceptions');
 
+const { InvalidDateException, BadRequestException, InvalidTermException } = require('../../errors/requestExceptions');
+
+const { PeriodRange } = require('../../utils/range');
 
 let service;
 const controllers = {};
 
 controllers.getPreAbsenceByDate = async (req, res, next) => {
-
-    if (validDateString(req.params.date) == false) {
-        next(HttpErrors.BadRequest);
-        return;
+    let date;
+    try {
+        date = new ServiceDate(req.params.date);   
+    } catch (e) {
+        next(new InvalidDateException);
     }
-
-
-    const date = new ServiceDate(req.params.date);
-
     let results = await service.getPreAbsenceByDate(date);
   
 
@@ -80,23 +80,32 @@ controllers.getEmployments = async (req, res, next) => {
 
 controllers.createPreAbsence = async (req, res, next) => {
 
-    if (validDateString(req.body.start_date) == false ||
-        validDateString(req.body.end_date) == false ||
-        !req.body.start_period||
+    if (!req.body.start_period||
         !req.body.end_period||
         req.body.state != '현체' && req.body.state != '공결' && req.body.state != '외출' && req.body.state != '병결' && req.body.state != '이동' && req.body.state != '취업' && req.body.state != '귀가') {
-        next(HttpErrors.BadRequest);
+        next(new BadRequestException);
         return;
+    }
+
+    let start_date;
+    let end_date;
+    try {
+        start_date = new ServiceDate(req.body.start_date);
+        end_date = new ServiceDate(req.body.end_date);
+    } catch (e) {
+        next(new InvalidDateException);
     }
 
     const teacher = req.auth;
     const student = req.body.stdnum;
-    const term = {
-        start_date: new ServiceDate(req.body.start_date),
-        start_period: req.body.start_period,
-        end_date: new ServiceDate(req.body.end_date),
-        end_period: req.body.end_period,
-    };
+    const start_period = req.body.start_period;
+    const end_period = req.body.end_period;
+    let term;
+    try {
+        term = PeriodRange.newRange({start_date, start_period}, {end_date, end_period});
+    } catch (e) {
+        next(new InvalidTermException);
+    }
     const state = req.body.state;
     const memo = req.body.memo;
 
