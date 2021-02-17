@@ -38,7 +38,6 @@ controllers.getActivityByDate = async (req, res, next) => {
                 floor3: null,
                 floor4: null
             });
-            //next(NotFound);
         }
         else {
             next(e);
@@ -61,12 +60,7 @@ controllers.getActivityByMonth = async (req, res, next) => {
         res.send(result);
     }
     catch(e) {
-        if(e instanceof Exceptions.NotFoundDataException) {
-            next(NotFound);
-        }
-        else {
-            next(e);
-        }
+        next(e);
     }
 };
 

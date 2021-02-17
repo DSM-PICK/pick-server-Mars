@@ -33,12 +33,7 @@ controllers.getTodayWorkingTeacher = async (req, res, next) => {
         res.send(result);
     }
     catch (e) {
-        if (e instanceof Exceptions.NotFoundDataException) {
-            next(HttpErrors.NotFoundDataInThisFloor);
-        }
-        else {
-            next(e);
-        }
+        next(e);
     }
 };
 
@@ -72,19 +67,7 @@ controllers.exchangeTeacher = async (req, res, next) => {
         res.send();
     }
     catch(e) {
-        console.log(e);
-        if (e instanceof Exceptions.NotFoundDataException) {
-            next(HttpErrors.NotFoundTeacher);
-        }
-        else if(e instanceof Exceptions.MismatchToRelationDatas) {
-            next(HttpErrors.NotFoundTeacher);
-        }
-        else if(e instanceof Exceptions.ConflictData) {
-            next(HttpErrors.Conflict);
-        }
-        else {
-            next(e);
-        }
+        next(e);
     }
 };
 
@@ -94,12 +77,7 @@ controllers.getWorkingTeacherInTheWeek = async (req, res, next) => {
         res.send(result);
     }
     catch (e) {
-        if (e instanceof Exceptions.NotFoundDataException) {
-            next(HttpErrors.NotFoundDataInThisFloor);
-        }
-        else {
-            next(e);
-        }
+        next(e);
     }
 };
 
@@ -109,7 +87,7 @@ controllers.GetRemainingDateForUser = async (req, res, next) => {
     try {
         remaining_date = await service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, new ServiceDate());
     } catch (e) {
-        next(HttpErrors.NotFound);
+        next(e);
         return;
     }
     res.send({remaining_date});

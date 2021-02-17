@@ -115,12 +115,7 @@ controllers.createPreAbsence = async (req, res, next) => {
     try {
         await service.createPreAbsence(teacher, student, term, state, memo);
     } catch (e) {
-        if(e instanceof ServiceExceptions.ConflictData) {
-            next(HttpErrors.Conflict);
-        }
-        else {
-            next(HttpErrors.NotFound);
-        }
+        next(e);
         return;
     }
 
@@ -136,12 +131,7 @@ controllers.createEmployment = async (req, res, next) => {
     try {
         await service.createEmployment(teacher, student);
     } catch (e) {
-        if(e instanceof ServiceExceptions.ConflictData) {
-            next(HttpErrors.Conflict);
-        }
-        else {
-            next(HttpErrors.NotFound);
-        }
+        next(e);
         return;
     }
 
@@ -160,7 +150,7 @@ controllers.deletePreAbsence = async (req, res, next) => {
         await service.deletePreAbsenceById(id);
         res.send();
     } catch (e) {
-        next(HttpErrors.NotFound);
+        next(e);
     }
 };
 
