@@ -114,9 +114,11 @@ class PreAbsence extends Model {
             });
         }
         catch (e) {
-            console.log(e);
             if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
+            }
+            else{
+                throw e;
             }
         }
     }
@@ -162,9 +164,11 @@ class PreAbsence extends Model {
             });
         }
         catch (e) {
-            console.log(e);
             if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
+            }
+            else {
+                throw e;
             }
         }
     }
