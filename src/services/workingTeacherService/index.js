@@ -1,4 +1,3 @@
-const RepoError = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 
 const ActivityService = require('../activityService');
