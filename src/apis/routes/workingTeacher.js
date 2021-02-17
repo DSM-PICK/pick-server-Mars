@@ -110,6 +110,7 @@ controllers.GetRemainingDateForUser = async (req, res, next) => {
         remaining_date = await service.getRemainingDateForTheTeacehrFromTheDate(teacher_id, new ServiceDate());
     } catch (e) {
         next(HttpErrors.NotFound);
+        return;
     }
     res.send({remaining_date});
 };
