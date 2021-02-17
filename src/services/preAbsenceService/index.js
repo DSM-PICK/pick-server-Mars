@@ -191,7 +191,7 @@ async function checkTermConflict(repo, student_num, new_term) {
     const conflicteds_student = preabsences.filter((preabsence) => preabsence.student_num == student_num);
     const period_range = PeriodRange.newRange(new_term, new_term);
     const conflicteds = conflicteds_student.filter((preabsence) => {
-        const range_by_preabsence = PeriodRange.newRange(preabsences, preabsences);
+        const range_by_preabsence = PeriodRange.newRange(preabsence, preabsence);
         return PeriodRange.isConflict(period_range, range_by_preabsence);
     });
     
