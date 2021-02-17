@@ -2,7 +2,6 @@ const RepoError = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
 
 const ActivityService = require('../activityService');
-const { newTerm, newToday } = require('../../utils');
 
 const { DateRange } = require('../../utils/range');
 

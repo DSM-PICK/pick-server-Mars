@@ -1,6 +1,4 @@
-const RepoExceptions = require('../../errors/repositoriesExceptions');
 const Exceptions = require('../../errors/servicesExceptions');
-const { isBetweenDate, dateToString, newToday, newTermWithPeriod, getFirstDateOfNextYear } = require('../../utils');
 const { DateRange, PeriodRange } = require('../../utils/range');
 const ServiceDate = require('../../utils/time');
 
@@ -110,7 +108,8 @@ class PreAbsenceService {
 
     async createEmployment(teacher_id, student_num) {
         
-        const term = newTermWithPeriod(new ServiceDate(), 1, ServiceDate.newDateEndOfSchoolYear(), 10);
+        const term = PeriodRange.newRange({start_date: new ServiceDate(), start_period: 1}, 
+            {start_period: ServiceDate.newDateEndOfSchoolYear(), end_period: 10});
 
         await this.createPreAbsence(teacher_id, student_num, term, '취업');
     }
@@ -165,14 +164,6 @@ async function reflectToAttendance(repo, date, student_num, start_period, end_pe
             await repo.updateAttendance(date.toJSDate(), student_num, period, state);
         } catch (e) {
             console.log(e);
-        }
-    }
-}
-async function reflectToAttendanceToMoving(repo, date, student_num, start_period, end_period, memo) {
-    for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
-        try {
-            await repo.updateAttendanceToMoving(date, student_num, period, memo);
-        } catch (e) {
         }
     }
 }
