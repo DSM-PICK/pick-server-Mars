@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
-const Errors = require('../../errors/repositoriesExceptions');
+const Errors = require('../../errors/servicesExceptions');
 
 class Teacher extends Model {
     static async findById(id) {

@@ -28,6 +28,9 @@ module.exports = class ServiceDate {
     addDays(days) {
         return new ServiceDate(this.date.plus({days: days}));
     }
+    getWeekday() {// weekday -> 1 monday ~ 7 sunday
+        return this.date.weekday;
+    }
     static newDateEndOfSchoolYear() {
         const today = newToday();
         let next_school_year = getDatesSchoolYear(today) + 1;
@@ -36,6 +39,16 @@ module.exports = class ServiceDate {
     }
     static newDateOrdernal(order) {
         return new ServiceDate(newDateOrdernal(order));
+    }
+    static newDateStartOfMonth(month) {
+        const today = newToday();
+        const year = today.year;
+        return new ServiceDate(newDate(year, month, 1));
+    }
+    static newDateEndOfMonth(month) {
+        const today = newToday();
+        const year = today.year;
+        return new ServiceDate(newDate(year, month + 1, 1).plus({days: -1}));
     }
 }
 

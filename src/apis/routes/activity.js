@@ -1,6 +1,3 @@
-const { Router } = require('express');
-const route = Router();
-
 const ServiceDate = require('../../utils/time');
 
 const ActivityRepository  = require('../../repositories').Activity;
@@ -8,8 +5,7 @@ const Teacher = require('../../repositories').Teacher;
 const ActivityService = require('../../services/activityService');
 const Exceptions = require('../../errors/servicesExceptions');
 
-const { NotFound, BadRequest } = require('../../errors');
-
+const { InvalidDateException, BadRequestException } = require('../../errors/requestExceptions');
 
 const service = new ActivityService(ActivityRepository, Teacher);  
 
@@ -17,14 +13,20 @@ const service = new ActivityService(ActivityRepository, Teacher);
 const controllers = {};
 
 controllers.getActivityByDate = async (req, res, next) => {
+    let date;
+
     try {
-        const result = await service.getThisDateActivity(new ServiceDate(req.params.date));    
+        date = new ServiceDate(req.params.date);
+    } catch (e) {
+        next(new InvalidDateException);
+        return;
+    }
+
+    try {
+        const result = await service.getThisDateActivity(date);    
         res.send(result);
     } catch (e) {
-        if(e instanceof Exceptions.InvalidDateException) {
-            next(BadRequest);
-        }
-        else if(e instanceof Exceptions.NotFoundDataException) {
+        if(e instanceof Exceptions.NotFoundDataException) {
             res.json({
                 date: req.params.date,
                 schedule: "non-schedule",
@@ -32,7 +34,6 @@ controllers.getActivityByDate = async (req, res, next) => {
                 floor3: null,
                 floor4: null
             });
-            //next(NotFound);
         }
         else {
             next(e);
@@ -43,21 +44,19 @@ controllers.getActivityByDate = async (req, res, next) => {
 
 
 controllers.getActivityByMonth = async (req, res, next) => {
+
+    const month = Number.parseInt(req.params.month);
+    if (month < 0 || month > 13) {
+        next(new BadRequestException("유효하지 않은 달입니다."));
+        return;
+    }
+
     try {
-        const result = await service.getThisMonthActivity(Number.parseInt(req.params.month));
+        const result = await service.getThisMonthActivity(month);
         res.send(result);
     }
     catch(e) {
-        console.log(e);
-        if(e instanceof Exceptions.InvalidDateException) {
-            next(BadRequest);
-        }
-        else if(e instanceof Exceptions.NotFoundDataException) {
-            next(NotFound);
-        }
-        else {
-            next(e);
-        }
+        next(e);
     }
 };
 

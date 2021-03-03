@@ -1,8 +1,9 @@
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
-const Errors = require('../../errors/repositoriesExceptions');
+const Errors = require('../../errors/servicesExceptions');
 
 const Teacher = require('../../repositories/definitions/teacher');
+const ServiceDate = require('../../utils/time');
 
 class Activity extends Model {
     static async findByDate(date) {
@@ -10,6 +11,7 @@ class Activity extends Model {
         if (!activity_entity) {
             throw new Errors.NotFoundDataException;
         }
+        activity_entity.dataValues.date = new ServiceDate(date);
         return activity_entity.dataValues;
     }
 
@@ -45,8 +47,8 @@ class Activity extends Model {
             ],
             where: {
                 date: {
-                    [Op.gte]: term.start,
-                    [Op.lte]: term.end,
+                    [Op.gte]: term.start.toJSDate(),
+                    [Op.lte]: term.end.toJSDate(),
                 }
             }
         });
@@ -57,6 +59,7 @@ class Activity extends Model {
 
         return activity_entities.map((entity) => { 
             entity = entity.dataValues;
+            entity.date = new ServiceDate(entity.date);
             entity.floor2 = entity.floor2.dataValues;
             entity.floor3 = entity.floor3.dataValues;
             entity.floor4 = entity.floor4.dataValues;
@@ -66,9 +69,10 @@ class Activity extends Model {
     }
 
     static async updateAutoDetect(activity) {
+        activity.date = activity.date.toJSDate();
         return await Activity.update(activity, {
             where: {
-                date: new Date(activity.date)
+                date: activity.date
             }
         });
     }

@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model, ForeignKeyConstraintError, Op } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
-const Exceptions = require('../../errors/repositoriesExceptions');
+const Exceptions = require('../../errors/servicesExceptions');
 const ServiceDate = require('../../utils/time');
 const Student = require('./student');
 
@@ -52,6 +52,26 @@ class PreAbsence extends Model {
         return result;
     }
 
+    static async findAllPreAbsence() {
+        const absence_entities = await PreAbsence.findAll({
+            include: [{model: Student, as: 'student'}],
+            order: [['start_date', 'DESC']]
+        });
+        if (!absence_entities) {
+            throw new Exceptions.NotFoundDataException;
+        }
+
+        const result = absence_entities.map((entity) => {
+            const pre_absence = entity.dataValues;
+            let result = pre_absence;
+            result.name = pre_absence.student.name;
+            result.memo = pre_absence.remarks;
+            result.start_date = new ServiceDate(pre_absence.start_date);
+            result.end_date = new ServiceDate(pre_absence.end_date);
+            return result;
+        });
+        return result;
+    }
     static async findPreAbsenceByDate(date) {
         const absence_entities = await PreAbsence.findAll({
             include: [{model: Student, as: 'student'}],
@@ -94,9 +114,38 @@ class PreAbsence extends Model {
             });
         }
         catch (e) {
+            if (e instanceof ForeignKeyConstraintError) {
+                throw new Exceptions.NotFoundDataException;
+            }
+            else{
+                throw e;
+            }
+        }
+    }
+    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, remarks) {
+        try {
+            await PreAbsence.update({
+                teacher_id: teacher_id,
+                start_date: term.start_date.toJSDate(),
+                end_date: term.end_date.toJSDate(),
+                student_num: student_num,
+                start_period: term.start_period,
+                end_period: term.end_period,
+                state: state,
+                remarks: remarks
+            }, {
+                where: {
+                    id: pre_absence_id
+                }
+            });
+        }
+        catch (e) {
             console.log(e);
             if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
+            }
+            else {
+                throw e;
             }
         }
     }
@@ -115,9 +164,11 @@ class PreAbsence extends Model {
             });
         }
         catch (e) {
-            console.log(e);
             if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
+            }
+            else {
+                throw e;
             }
         }
     }

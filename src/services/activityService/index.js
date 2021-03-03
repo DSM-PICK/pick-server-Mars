@@ -14,9 +14,6 @@ class ActivityService {
             activity = await this.activity_repository.findByDate(date);
         }
         catch (e) {
-            if (e instanceof RepoError.NotFoundDataException) {
-                throw new Exceptions.NotFoundDataException;
-            }
             throw e;
         }
         const null_name_teacher = { name: null };
@@ -42,7 +39,7 @@ class ActivityService {
         }
 
         const result = {
-            date: activity.date,
+            date: activity.date.toJSDate(),
             schedule: activity.schedule,
             floor3: floor3_teacher.name,
             floor2: floor2_teacher.name,
@@ -53,13 +50,6 @@ class ActivityService {
     }
 
     async getThisMonthActivity(month) {
-        if (month < 0) {
-            throw new Exceptions.InvalidDateException;
-        }
-        if (month > 13) {
-            throw new Exceptions.InvalidDateException;
-        }
-
         const this_year = new Date().getFullYear();
         const year_to_search = month == 0 ? this_year - 1
             : month == 13 ? this_year + 1
@@ -72,8 +62,7 @@ class ActivityService {
         try {
             activities = await this.activity_repository.findByYearAndMonth(year_to_search, month_to_search);
         } catch (e) {
-            throw new Exceptions.NotFoundDataException;
-            //throw e;
+            throw e;
         }
         const null_name_teacher = { name: null };
         activities = activities.map(async (activity) => {

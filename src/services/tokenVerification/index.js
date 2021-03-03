@@ -11,7 +11,9 @@ module.exports = (token) => {
         throw new NoneToken(`Token: ${token}`);
     }
     const separated_token = separateToken(token);
-
+    if(!(separated_token.header&&separated_token.payload&&separated_token.signature)) {
+        throw new NoneToken(`Token: ${token}`);
+    }
     if(isExpired(separated_token)) {
         throw new ExpiredToken(`Token: ${token}`);
     }

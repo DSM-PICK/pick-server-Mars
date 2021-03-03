@@ -1,4 +1,5 @@
 const { InvalidRange } = require('../errors/utils');
+const ServiceDate = require('./time');
 
 class Range {
     constructor(start, end) {
@@ -28,21 +29,35 @@ class DateRange extends Range{
         
         return new_range;
     }
+    static newRangeWeek(month, week) { // monday ~ sumday
+        const someday_in_week = ServiceDate.newDateStartOfMonth(month).addDays(7 * week - 1);
+        const diff_to_monday = someday_in_week.getWeekday() - 1;
+        const diff_to_firday = 7 - someday_in_week.getWeekday();
+
+        const monday = someday_in_week.addDays(diff_to_monday * -1);
+        const sunday = someday_in_week.addDays(diff_to_firday);
+
+        return DateRange.newRange(monday, sunday);
+    }
 }
 
 class PeriodRange extends Range {
     static newRange({ start_date, start_period}, { end_date, end_period}) {
 
-        const start = Math.floor(start_date.valueOf / 1000) * 1000 + start_period;
-        const end = Math.floor(end_date.valueOf / 1000) * 1000 + end_period;
+        const start = Math.floor(start_date.valueOf() / 1000) * 1000 + Number(start_period);
+        const end = Math.floor(end_date.valueOf() / 1000) * 1000 + Number(end_period);
 
         if(start > end) {
             throw new InvalidRange(`${start} is not faster than ${end}`);
         }
 
-        const new_range = new DateRange(start, end);
+        const new_range = new PeriodRange(start, end);
         new_range.start = start;
         new_range.end = end;
+        new_range.start_date = start_date;
+        new_range.start_period = start_period;
+        new_range.end_date = end_date;
+        new_range.end_period = end_period;
         
         return new_range;
     }
