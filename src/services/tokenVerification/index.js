@@ -55,8 +55,7 @@ function isSelfContained(token_data) {
     return true;
 }
 function signToken(header, payload, secret) {
-    const binary_secrete = Buffer.from(secret, 'base64');
-    return crypto.createHmac('sha256', binary_secrete)
+    return crypto.createHmac('sha256', secret)
         .update(header + '.' + payload)
         .digest('base64')
         .replace(/=/gi, '')
