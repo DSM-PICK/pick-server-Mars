@@ -247,14 +247,8 @@ PreAbsence.init({
         type: DataTypes.CHAR(4),
         allowNull: false,
     },
-    sub_state: {
-        type: DataTypes.CHAR(4),
-    },
     remarks: {
         type: DataTypes.STRING(400),
-    },
-    arrival_time: {
-        type: DataTypes.TIME,
     },
 },
     {
