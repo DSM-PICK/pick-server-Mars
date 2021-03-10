@@ -100,7 +100,7 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term, state, remarks) {
+    static async createPreAbsence(teacher_id, student_num, term, state, reason) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
@@ -110,7 +110,7 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: remarks
+                remarks: reason
             });
         }
         catch (e) {
@@ -122,7 +122,7 @@ class PreAbsence extends Model {
             }
         }
     }
-    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, remarks) {
+    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason) {
         try {
             await PreAbsence.update({
                 teacher_id: teacher_id,
@@ -132,7 +132,7 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: remarks
+                remarks: reason
             }, {
                 where: {
                     id: pre_absence_id
@@ -150,7 +150,7 @@ class PreAbsence extends Model {
         }
     }
 
-    static async createPreAbsenceToMoving(teacher_id, student_num, term, remarks) {
+    static async createPreAbsenceToMoving(teacher_id, student_num, term, reason) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
@@ -160,7 +160,7 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: '이동',
-                remarks: remarks,
+                remarks: reason,
             });
         }
         catch (e) {
