@@ -32,7 +32,7 @@ class PreAbsenceService {
                 end_date: absence.end_date,
                 end_period: absence.end_period,
                 state: absence.state,
-                memo: absence.memo,
+                reason: absence.reason,
             }
         });
 
@@ -63,7 +63,7 @@ class PreAbsenceService {
                 end_date: absence.end_date,
                 end_period: absence.end_period,
                 state: absence.state,
-                memo: absence.memo,
+                reason: absence.reason,
             }
         });
 
@@ -86,13 +86,13 @@ class PreAbsenceService {
         return absences;
     }
 
-    async createPreAbsence(teacher_id, student_num, term, state, memo) {
+    async createPreAbsence(teacher_id, student_num, term, state, reason) {
         if(await checkTermConflict(this.pre_absence_repo, student_num, term)) {
             throw new Exceptions.ConflictData;
         }
 
         try {
-            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state, memo);
+            await this.pre_absence_repo.createPreAbsence(teacher_id, student_num, term, state, reason);
         }
         catch(e) {
             throw e;
@@ -105,13 +105,13 @@ class PreAbsenceService {
         }
     }
 
-    async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, memo) {
+    async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason) {
         if(await checkTermConflictWithoutItself(this.pre_absence_repo, pre_absence_id, student_num, term)) {
             throw new Exceptions.ConflictData;
         }
 
         try {
-            await this.pre_absence_repo.modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, memo);
+            await this.pre_absence_repo.modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason);
         }
         catch(e) {
             throw e;

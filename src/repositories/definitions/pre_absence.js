@@ -65,7 +65,7 @@ class PreAbsence extends Model {
             const pre_absence = entity.dataValues;
             let result = pre_absence;
             result.name = pre_absence.student.name;
-            result.memo = pre_absence.remarks;
+            result.reason = pre_absence.remarks;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
@@ -92,7 +92,7 @@ class PreAbsence extends Model {
             const pre_absence = entity.dataValues;
             let result = pre_absence;
             result.name = pre_absence.student.name;
-            result.memo = pre_absence.remarks;
+            result.reason = pre_absence.remarks;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
