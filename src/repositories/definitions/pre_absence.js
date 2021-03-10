@@ -100,7 +100,7 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term, state, reason) {
+    static async createPreAbsence(teacher_id, student_num, term, state, reason, memo) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
@@ -110,7 +110,8 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: reason
+                remarks: reason,
+                memo: memo
             });
         }
         catch (e) {
@@ -122,7 +123,7 @@ class PreAbsence extends Model {
             }
         }
     }
-    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason) {
+    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason, memo) {
         try {
             await PreAbsence.update({
                 teacher_id: teacher_id,
@@ -132,7 +133,8 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: reason
+                remarks: reason,
+                memo: memo
             }, {
                 where: {
                     id: pre_absence_id
@@ -250,6 +252,9 @@ PreAbsence.init({
     remarks: {
         type: DataTypes.STRING(400),
     },
+    memo: {
+        type: DataTypes.STRING(80)
+    }
 },
     {
         sequelize,

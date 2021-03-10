@@ -33,6 +33,7 @@ controllers.getPreAbsenceByDate = async (req, res, next) => {
             state: result.state,
             teacher: result.teacher,
             reason: result.reason,
+            memo: result.memo
         };
     });
 
@@ -55,6 +56,7 @@ controllers.getAllPreAbsence = async (req, res, next) => {
             state: result.state,
             teacher: result.teacher,
             reason: result.reason,
+            memo: result.memo
         };
     });
     res.send(results);
@@ -107,9 +109,10 @@ controllers.createPreAbsence = async (req, res, next) => {
     }
     const state = req.body.state;
     const reason = req.body.reason;
+    const memo = req.body.memo;
 
     try {
-        await service.createPreAbsence(teacher, student, term, state, reason);
+        await service.createPreAbsence(teacher, student, term, state, reason, memo);
     } catch (e) {
         next(e);
         return;
@@ -150,9 +153,10 @@ controllers.modifyPreAbsence = async (req, res, next) => {
     }
     const state = req.body.state;
     const reason = req.body.reason;
+    const memo = req.body.memo;
 
     try {
-        await service.modifyPreAbsence(pre_absence_id, teacher, student, term, state, reason);
+        await service.modifyPreAbsence(pre_absence_id, teacher, student, term, state, reason, memo);
     } catch (e) {
         next(e);
         return;
