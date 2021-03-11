@@ -20,24 +20,6 @@ class PreAbsenceService {
 
         }
         absences = absences.filter((absences) => absences.state != '취업');
-
-        absences = absences.map(async (absence) => {
-            return {
-                id: absence.id,
-                teacher: await getTeacherNameById(this.teacher_repo, absence.teacher_id),
-                stdnum: absence.student_num,
-                name: absence.name,
-                start_date: absence.start_date,
-                start_period: absence.start_period,
-                end_date: absence.end_date,
-                end_period: absence.end_period,
-                state: absence.state,
-                reason: absence.reason,
-                memo: absence.memo,
-            }
-        });
-
-        absences = await Promise.all(absences);
         return absences;
     }
 
@@ -53,23 +35,6 @@ class PreAbsenceService {
         }
         absences = absences.filter((absences) => absences.state != '취업');
 
-        absences = absences.map(async (absence) => {
-            return {
-                id: absence.id,
-                teacher: await getTeacherNameById(this.teacher_repo, absence.teacher_id),
-                stdnum: absence.student_num,
-                name: absence.name,
-                start_date: absence.start_date,
-                start_period: absence.start_period,
-                end_date: absence.end_date,
-                end_period: absence.end_period,
-                state: absence.state,
-                reason: absence.reason,
-                memo: absence.memo
-            }
-        });
-
-        absences = await Promise.all(absences);
         return absences;
     }
 
@@ -103,7 +68,7 @@ class PreAbsenceService {
         const date_range = DateRange.newRange(term.start_date, term.end_date);
         if(date_range.isInclude(today)) {
             let { start_period, end_period } = getPeriodRangeToTerm(term);
-            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state, reason, memo);
         }
     }
 
@@ -130,7 +95,7 @@ class PreAbsenceService {
     async createEmployment(teacher_id, student_num) {
         
         const term = PeriodRange.newRange({start_date: new ServiceDate(), start_period: 1}, 
-            {start_period: ServiceDate.newDateEndOfSchoolYear(), end_period: 10});
+            {end_date: ServiceDate.newDateEndOfSchoolYear(), end_period: 10});
 
         await this.createPreAbsence(teacher_id, student_num, term, '취업');
     }
@@ -156,7 +121,7 @@ class PreAbsenceService {
         const range = DateRange.newRange(term.start_date, term.end_date);
         if(range.isInclude(today)){
             let { start_period, end_period } = getPeriodRangeToTerm(term);
-            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, '출석');
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, '출석', null, null);
         }
 
 
@@ -178,11 +143,15 @@ function getPeriodRangeToTerm(term) {
     return {start_period, end_period};
 }
 
-async function reflectToAttendance(repo, date, student_num, start_period, end_period, state) {
-    console.log(date);
+async function reflectToAttendance(repo, date, student_num, start_period, end_period, state, reason, memo) {
     for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
         try {
-            await repo.updateAttendance(date.toJSDate(), student_num, period, state);
+            if (state == '이동'){
+                await repo.updateAttendanceToMoving(date.toJSDate(), student_num, period, state, memo);
+            }
+            else {
+                await repo.updateAttendance(date.toJSDate(), student_num, period, state, reason);
+            }
         } catch (e) {
             console.log(e);
         }
@@ -223,13 +192,5 @@ async function checkTermConflictWithoutItself(repo, pre_absence_id, student_num,
     return conflicteds.length > 0;
 }
 
-async function getTeacherNameById(repository, teacher_id) {
-    return (await repository.findById(teacher_id)).name;
-}
-
-
-async function getTeacherNameById(repository, teacher_id) {
-    return (await repository.findById(teacher_id)).name;
-}
 
 module.exports = PreAbsenceService;

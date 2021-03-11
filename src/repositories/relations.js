@@ -26,6 +26,11 @@ Attendance.belongsTo(Teacher, {foreignKey: 'teacher_id', sourceKey: 'id'});
 Student.hasMany(PreAbsence, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
 PreAbsence.belongsTo(Student, {as: 'student', foreignKey: 'student_num', sourceKey: 'num'});
 
+//PreAbsence - Teacher
+Teacher.hasMany(PreAbsence, {as: 'Teacher', foreignKey: 'teacher_id', sourceKey: 'id'});
+PreAbsence.belongsTo(Student, {as: 'Teacher', foreignKey: 'teacher_id', sourceKey: 'id'});
+
+
 //PreAbsence - CheckedPreAbsence
 PreAbsence.hasOne(CheckedPreAbsence, {as: 'check_pre_absence', foreignKey: 'id', sourceKey: 'id'});
 CheckedPreAbsence.belongsTo(PreAbsence, {as: 'check_pre_absence', foreignKey: 'id', sourceKey: 'id'});
