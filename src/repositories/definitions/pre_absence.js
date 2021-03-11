@@ -65,7 +65,7 @@ class PreAbsence extends Model {
             const pre_absence = entity.dataValues;
             let result = pre_absence;
             result.name = pre_absence.student.name;
-            result.memo = pre_absence.remarks;
+            result.reason = pre_absence.remarks;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
@@ -92,7 +92,7 @@ class PreAbsence extends Model {
             const pre_absence = entity.dataValues;
             let result = pre_absence;
             result.name = pre_absence.student.name;
-            result.memo = pre_absence.remarks;
+            result.reason = pre_absence.remarks;
             result.start_date = new ServiceDate(pre_absence.start_date);
             result.end_date = new ServiceDate(pre_absence.end_date);
             return result;
@@ -100,7 +100,7 @@ class PreAbsence extends Model {
         return result;
     }
 
-    static async createPreAbsence(teacher_id, student_num, term, state, remarks) {
+    static async createPreAbsence(teacher_id, student_num, term, state, reason, memo) {
         try {
             await PreAbsence.create({
                 teacher_id: teacher_id,
@@ -110,7 +110,8 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: remarks
+                remarks: reason,
+                memo: memo
             });
         }
         catch (e) {
@@ -122,7 +123,7 @@ class PreAbsence extends Model {
             }
         }
     }
-    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, remarks) {
+    static async modifyPreAbsence(pre_absence_id, teacher_id, student_num, term, state, reason, memo) {
         try {
             await PreAbsence.update({
                 teacher_id: teacher_id,
@@ -132,7 +133,8 @@ class PreAbsence extends Model {
                 start_period: term.start_period,
                 end_period: term.end_period,
                 state: state,
-                remarks: remarks
+                remarks: reason,
+                memo: memo
             }, {
                 where: {
                     id: pre_absence_id
@@ -141,29 +143,6 @@ class PreAbsence extends Model {
         }
         catch (e) {
             console.log(e);
-            if (e instanceof ForeignKeyConstraintError) {
-                throw new Exceptions.NotFoundDataException;
-            }
-            else {
-                throw e;
-            }
-        }
-    }
-
-    static async createPreAbsenceToMoving(teacher_id, student_num, term, remarks) {
-        try {
-            await PreAbsence.create({
-                teacher_id: teacher_id,
-                start_date: term.start_date.toJSDate(),
-                end_date: term.end_date.toJSDate(),
-                student_num: student_num,
-                start_period: term.start_period,
-                end_period: term.end_period,
-                state: '이동',
-                remarks: remarks,
-            });
-        }
-        catch (e) {
             if (e instanceof ForeignKeyConstraintError) {
                 throw new Exceptions.NotFoundDataException;
             }
@@ -250,6 +229,9 @@ PreAbsence.init({
     remarks: {
         type: DataTypes.STRING(400),
     },
+    memo: {
+        type: DataTypes.STRING(80)
+    }
 },
     {
         sequelize,
