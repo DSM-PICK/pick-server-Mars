@@ -61,15 +61,7 @@ class PreAbsence extends Model {
             throw new Exceptions.NotFoundDataException;
         }
 
-        const result = absence_entities.map((entity) => {
-            const pre_absence = entity.dataValues;
-            let result = pre_absence;
-            result.name = pre_absence.student.name;
-            result.reason = pre_absence.remarks;
-            result.start_date = new ServiceDate(pre_absence.start_date);
-            result.end_date = new ServiceDate(pre_absence.end_date);
-            return result;
-        });
+        const result = absence_entities;
         return result;
     }
     static async findPreAbsenceByDate(date) {
@@ -88,15 +80,7 @@ class PreAbsence extends Model {
             throw new Exceptions.NotFoundDataException;
         }
 
-        const result = absence_entities.map((entity) => {
-            const pre_absence = entity.dataValues;
-            let result = pre_absence;
-            result.name = pre_absence.student.name;
-            result.reason = pre_absence.remarks;
-            result.start_date = new ServiceDate(pre_absence.start_date);
-            result.end_date = new ServiceDate(pre_absence.end_date);
-            return result;
-        });
+        const result = absence_entities;
         return result;
     }
 
@@ -187,6 +171,29 @@ class PreAbsence extends Model {
         return result;
     }
 
+    toJSON() {
+        return {
+            id: this.id,
+            stdnum: this.student_num,
+            name: this.student.name,
+            start_date: this.start_date,
+            start_period: this.start_period,
+            end_date: this.end_date,
+            end_period: this.end_period,
+            state: this.state,
+            teacher: this.teacher_id.name,
+            reason: this.remarks,
+            memo: this.memo
+        }
+    }
+
+    getStartDate() {
+        return new ServiceDate(this.start_date);
+    }
+
+    getEndDate() {
+        return new ServiceDate(this.end_date);
+    }
 
 }
 
