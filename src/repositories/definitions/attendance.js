@@ -2,8 +2,8 @@ const { Sequelize, Model, DataTypes } = require('sequelize');
 const { sequelize } = require('../../loaders/database');
 
 class Attendance extends Model {
-    static async updateAttendance(date, student, period, state) {
-        return await Attendance.update({state: state}, {
+    static async updateAttendance(date, student, period, state, reason) {
+        return await Attendance.update({state: state, reason: reason}, {
             where: { date: date, student_num: student, period: period }
         });
     }
@@ -43,7 +43,9 @@ Attendance.init({
     memo: {
         type: DataTypes.STRING(80)
     },
-
+    reason: {
+        type: DataTypes.STRING(80)
+    },
 },
     {
         sequelize,
