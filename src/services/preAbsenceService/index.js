@@ -188,13 +188,5 @@ async function checkTermConflictWithoutItself(repo, pre_absence_id, student_num,
     return conflicteds.length > 0;
 }
 
-async function getTeacherNameById(repository, teacher_id) {
-    return (await repository.findById(teacher_id)).name;
-}
-
-
-async function getTeacherNameById(repository, teacher_id) {
-    return (await repository.findById(teacher_id)).name;
-}
 
 module.exports = PreAbsenceService;
