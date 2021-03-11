@@ -68,7 +68,7 @@ class PreAbsenceService {
         const date_range = DateRange.newRange(term.start_date, term.end_date);
         if(date_range.isInclude(today)) {
             let { start_period, end_period } = getPeriodRangeToTerm(term);
-            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state);
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, state, reason, memo);
         }
     }
 
@@ -121,7 +121,7 @@ class PreAbsenceService {
         const range = DateRange.newRange(term.start_date, term.end_date);
         if(range.isInclude(today)){
             let { start_period, end_period } = getPeriodRangeToTerm(term);
-            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, '출석');
+            reflectToAttendance(this.attendance_repo, today, student_num, start_period, end_period, '출석', null, null);
         }
 
 
@@ -143,11 +143,15 @@ function getPeriodRangeToTerm(term) {
     return {start_period, end_period};
 }
 
-async function reflectToAttendance(repo, date, student_num, start_period, end_period, state) {
-    console.log(date);
+async function reflectToAttendance(repo, date, student_num, start_period, end_period, state, reason, memo) {
     for(let period = parseInt(start_period); period <= parseInt(end_period); period++) {
         try {
-            await repo.updateAttendance(date.toJSDate(), student_num, period, state);
+            if (state == '이동'){
+                await repo.updateAttendanceToMoving(date.toJSDate(), student_num, period, state, memo);
+            }
+            else {
+                await repo.updateAttendance(date.toJSDate(), student_num, period, state, reason);
+            }
         } catch (e) {
             console.log(e);
         }

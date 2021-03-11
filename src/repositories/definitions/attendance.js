@@ -3,13 +3,13 @@ const { sequelize } = require('../../loaders/database');
 
 class Attendance extends Model {
     static async updateAttendance(date, student, period, state, reason) {
-        return await Attendance.update({state: state, reason: reason}, {
+        return await Attendance.update({state: state, reason: reason, memo: null}, {
             where: { date: date, student_num: student, period: period }
         });
     }
 
     static async updateAttendanceToMoving(date, student, period, memo) {
-        return await Attendance.update({state: '이동', memo: memo}, {
+        return await Attendance.update({state: '이동', memo: memo, reason: null}, {
             where: { date: date, student_num: student, period: period }
         });
     }
