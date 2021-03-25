@@ -57,6 +57,12 @@ controllers.createPreAbsence = async (req, res, next) => {
         next(new BadRequestException);
         return;
     }
+    const start_period = req.body.start_period;
+    const end_period = req.body.end_period;
+    if (end_period > 10 || start_period < 1 || start_period > end_period) {
+        next(new BadRequestException);
+        return;
+    }
 
     let start_date;
     let end_date;
@@ -70,8 +76,6 @@ controllers.createPreAbsence = async (req, res, next) => {
 
     const teacher = req.auth;
     const student = req.body.stdnum;
-    const start_period = req.body.start_period;
-    const end_period = req.body.end_period;
     let term;
     try {
         term = PeriodRange.newRange({start_date, start_period}, {end_date, end_period});
