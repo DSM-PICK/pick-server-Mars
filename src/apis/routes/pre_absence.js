@@ -57,8 +57,8 @@ controllers.createPreAbsence = async (req, res, next) => {
         next(new BadRequestException);
         return;
     }
-    const start_period = req.body.start_period;
-    const end_period = req.body.end_period;
+    const start_period = parseInt(req.body.start_period);
+    const end_period = parseInt(req.body.end_period);
     if (end_period > 10 || start_period < 1 || start_period > end_period) {
         next(new BadRequestException);
         return;
