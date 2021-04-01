@@ -3,6 +3,7 @@ const { sequelize } = require('../../loaders/database');
 const Exceptions = require('../../errors/servicesExceptions');
 const ServiceDate = require('../../utils/time');
 const Student = require('./student');
+const Teacher = require('./teacher');
 
 class PreAbsence extends Model {
     static async findByTerm(term) {
@@ -54,7 +55,7 @@ class PreAbsence extends Model {
 
     static async findAllPreAbsence() {
         const absence_entities = await PreAbsence.findAll({
-            include: [{model: Student, as: 'student'}],
+            include: [{model: Student, as: 'student'}, {model: Teacher, as: 'teacher'}],
             order: [['start_date', 'DESC']]
         });
         if (!absence_entities) {
@@ -66,7 +67,7 @@ class PreAbsence extends Model {
     }
     static async findPreAbsenceByDate(date) {
         const absence_entities = await PreAbsence.findAll({
-            include: [{model: Student, as: 'student'}],
+            include: [{model: Student, as: 'student'}, {model: Teacher, as: 'teacher'}],
             where: {
                 start_date: {
                     [Op.lte]: date.toJSDate(),
@@ -79,7 +80,6 @@ class PreAbsence extends Model {
         if (!absence_entities) {
             throw new Exceptions.NotFoundDataException;
         }
-
         const result = absence_entities;
         return result;
     }
@@ -181,7 +181,7 @@ class PreAbsence extends Model {
             end_date: this.end_date,
             end_period: this.end_period,
             state: this.state,
-            teacher: this.teacher_id.name,
+            teacher: this.teacher.name,
             reason: this.remarks,
             memo: this.memo
         }
