@@ -137,7 +137,21 @@ class WorkingTeacherService {
         return true;
         
     }
+    async changeTeacher(date, floor, teacher_id) {
+        let activity = await this.activity_repository.findByDate(date);
 
+        if(floor == 2) {
+            activity.second_floor_teacher_id = teacher_id;
+        }
+        else if(floor == 3) {
+            activity.third_floor_teacher_id = teacher_id;
+        }
+        else {
+            activity.forth_floor_teacher_id = teacher_id;
+        }
+
+        await this.activity_repository.updateAutoDetect(activity);
+    }
 }
 
 

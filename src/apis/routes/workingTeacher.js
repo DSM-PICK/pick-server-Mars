@@ -62,6 +62,31 @@ controllers.exchangeTeacher = async (req, res, next) => {
     }
 };
 
+controllers.changeTeacher = async (req, res, next) => {
+    const { floor, teacher_id} = req.body;
+    
+    let date;
+    try {
+        date = new ServiceDate(req.body.date);
+    } catch (e) {
+        next(new InvalidDateException);
+        return;
+    }
+    
+    if(isValidFloor(floor) == false) {
+        next(new InvalidFloorException);
+        return;
+    }
+
+    try {
+        await service.changeTeacher(date, floor, teacher_id);
+        res.send();
+    } catch (e) {
+        next(e);
+    }
+
+};
+
 controllers.getWorkingTeacherInTheWeek = async (req, res, next) => {
     try {
         const result = await service.getWorkingTeacherByWeek(req.params.month, req.params.week);

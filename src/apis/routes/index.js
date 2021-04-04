@@ -16,6 +16,7 @@ router.get('/working-teacher/today/:floor', working_teacher.getTodayWorkingTeach
 router.get('/working-teacher/months/:month/weeks/:week', working_teacher.getWorkingTeacherInTheWeek);
 router_passed_middleware.patch('/working-teacher', working_teacher.exchangeTeacher);
 router_passed_middleware.get('/working-teacher/user/remaining-date',working_teacher.GetRemainingDateForUser);
+router_passed_middleware.put('/working-teacher', working_teacher.changeTeacher);
 
 router_passed_middleware.get('/pre-absence', pre_absence.getAllPreAbsence);
 router_passed_middleware.get('/pre-absence/date/:date', pre_absence.getPreAbsenceByDate);
