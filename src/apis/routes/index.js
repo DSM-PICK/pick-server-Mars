@@ -3,6 +3,7 @@ const activity = require('./activity');
 const working_teacher =  require('./workingTeacher');
 const pre_absence = require('./pre_absence')(require('../../repositories').PreAbsence, require('../../repositories').Attendance, require('../../repositories').Teacher);
 const student = require('./student')(require('../../repositories').Student);
+const teacher = require('./teacher')(require('../../repositories').Teacher);
 
 const router = Router();
 const router_passed_middleware = Router();
@@ -25,6 +26,7 @@ router_passed_middleware.put('/pre-absence/:id', pre_absence.modifyPreAbsence);
 router_passed_middleware.delete('/pre-absence/:id', pre_absence.deletePreAbsence);
 
 router_passed_middleware.get('/student/autocomplete/:incomplete', student.getAutoCompleteStudent);
+router_passed_middleware.get('/teacher/autocomplete/:incomplete', teacher.getAutoCompleteTeacher);
 
 
 
