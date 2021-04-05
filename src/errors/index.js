@@ -12,7 +12,7 @@ class NoneToken extends HttpError {
 }
 class ExpiredToken extends HttpError {
     constructor(message) {
-        super(410, message);
+        super(403, message);
     }
 }
 class InvalidToken extends HttpError {
