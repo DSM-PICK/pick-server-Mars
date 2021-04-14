@@ -14,7 +14,7 @@ class ClubLocation extends Model {
         const club_locations = await ClubLocation.findAllClubLocation();
 
         const finded_club_locations = club_locations.filter( (cl) => {
-            if(cl.location.indexOf(name) != -1 && cl.short_name.indexOf(name) != -1) {
+            if(cl.location.indexOf(name) != -1 || cl.short_name.indexOf(name) != -1) {
                 return true;
             }
         });
@@ -26,7 +26,7 @@ class ClubLocation extends Model {
             club_locations.contact(finded_club_locations);
         }
 
-        return club_locations;
+        return finded_club_locations;
     }
 }
 

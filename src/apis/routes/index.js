@@ -29,7 +29,7 @@ router_passed_middleware.delete('/pre-absence/:id', pre_absence.deletePreAbsence
 
 router_passed_middleware.get('/student/autocomplete/:incomplete', student.getAutoCompleteStudent);
 router_passed_middleware.get('/teacher/autocomplete/:incomplete', teacher.getAutoCompleteTeacher);
-router_passed_middleware.get('/class', class_controller);
+router_passed_middleware.get('/class', class_controller.getAutoCompleteClass);
 
 
 module.exports = {

@@ -6,7 +6,7 @@ class ClassService {
     }
 
     async expect_by_name(name) {
-        const finded_class = await this.club_location_repository.findAllByName(name);
+        const finded_class = await this.club_location_repository.findAllByLikeName(name);
 
         const result = finded_class;
 
