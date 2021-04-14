@@ -1,4 +1,4 @@
-const { Activity, Teacher, Student, ChangedTeacher, PreAbsence, Attendance, CheckedPreAbsence } = require('./definitions');
+const { Activity, Teacher, Student, ChangedTeacher, PreAbsence, Attendance, CheckedPreAbsence, ClubLocation } = require('./definitions');
 
 
 // Activity - Teacher
@@ -44,5 +44,6 @@ module.exports = {
     Teacher,
     ChangedTeacher,
     PreAbsence,
-    Attendance
+    Attendance,
+    ClubLocation
 }

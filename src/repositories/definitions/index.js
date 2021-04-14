@@ -5,6 +5,7 @@ const ChangedTeacher = require('./changed_teacher');
 const PreAbsence = require('./pre_absence');
 const Attendance = require('./attendance');
 const CheckedPreAbsence = require('./checked_pre_absence');
+const ClubLocation = require('./club_location');
 
 module.exports = {
     Activity,
@@ -13,5 +14,6 @@ module.exports = {
     ChangedTeacher,
     PreAbsence,
     Attendance,
-    CheckedPreAbsence
+    CheckedPreAbsence,
+    ClubLocation
 }
