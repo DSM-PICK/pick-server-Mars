@@ -81,7 +81,7 @@ class Activity extends Model {
         const activity_entities = await Activity.findAll({
             where: Sequelize.and(
                 {date: {
-                    [Op.gte]: date,
+                    [Op.gte]: date.toJSDate(),
                 }},
                 Sequelize.or(
                     { second_floor_teacher_id: teacher_id },
@@ -99,7 +99,7 @@ class Activity extends Model {
             entity = entity.dataValues;
             let result = {};
             result.teacher_id = teacher_id;
-            result.date = new Date(entity.date);
+            result.date = new ServiceDate(entity.date);
             result.schedule = entity.schedule;
 
             return result;
