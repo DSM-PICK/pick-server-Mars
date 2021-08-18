@@ -14,14 +14,14 @@ class ClubLocation extends Model {
         const club_locations = await ClubLocation.findAllClubLocation();
 
         const finded_club_locations = club_locations.filter( (cl) => {
-            if(cl.location.indexOf(name) != -1 || cl.short_name.indexOf(name) != -1) {
+            if(cl.short_name.indexOf(name) != -1) {
                 return true;
             }
         });
 
         if(!finded_club_locations) {
             finded_club_locations = await ClubLocation.findAll({ where: { 
-                [Op.or]: [{location: { [Op.like]: name}}, {short_name: { [Op.like]: name}}]
+                short_name: { [Op.like]: name }
             }});
             club_locations.contact(finded_club_locations);
         }
@@ -31,11 +31,6 @@ class ClubLocation extends Model {
 }
 
 ClubLocation.init({
-    location: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-        primaryKey: true
-    },
     floor: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -47,11 +42,12 @@ ClubLocation.init({
     short_name: {
         type: DataTypes.STRING(8),
         allowNull: true,
+        field: 'name',
     }
 },
     {
         sequelize,
-        tableName: 'club_location'
+        tableName: 'class'
     });
 
 module.exports = ClubLocation;
