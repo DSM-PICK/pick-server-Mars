@@ -43,6 +43,7 @@ ClubLocation.init({
         type: DataTypes.STRING(8),
         allowNull: true,
         field: 'name',
+        primaryKey: true,
     }
 },
     {
