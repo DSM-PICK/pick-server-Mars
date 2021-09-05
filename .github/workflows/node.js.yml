@@ -54,7 +54,7 @@ jobs:
       - name: upload to registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: yeoul/mars
+          name: eungyeole/mars
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
